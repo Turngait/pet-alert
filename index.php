@@ -1,5 +1,7 @@
 <?php
+session_start();
 include "modules/main.php";
-showMain();
-
+$html = showMain();
+echo $html;
+//header("Location: index.html");
 ?>
