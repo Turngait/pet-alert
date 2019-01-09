@@ -1,0 +1,199 @@
+body .container {
+    padding: 0;
+    width: 100%;    
+}
+body {
+    background: url("pic/bcg.png") no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    background-color: #00b518;
+}
+
+header {
+    background: #00b518;
+    height: 67px;
+    width: 100%;
+    margin:0;
+    color:#fff;
+    box-shadow: 0 0 1px #fff;
+}
+
+.login {
+    float:left;
+    margin-top:20px;
+}
+
+header a {
+    color:#fff;
+    text-decoration: none;
+    display: inline-block;
+    padding: 5px 3px;
+    margin-right: 10px;
+    text-shadow: 0 1px 1px #000;
+}
+header a:hover {
+    outline: 1px #fff solid;
+    color:#fff;
+    text-decoration: none;
+}
+
+header a:focus {
+    color:inherit;
+    text-decoration: none;
+}
+
+header a:visited {
+    color:inherit;
+    text-decoration: none;
+}
+.offset-right {
+    margin-right: 0;
+}
+
+.menu {
+    float: right;
+    margin-top:20px;
+}
+
+.menu a {
+    margin-right: 0;
+    margin-left: 10px;
+}
+
+main {
+    overflow: hidden;
+}
+
+.logo {
+    display:block;
+    margin:auto;
+    margin-top:150px;
+}
+
+footer {
+    color: #fff;
+}
+.bottom_menu {
+    color:#fff;
+    margin-right: 20px;
+}
+
+.bottom_menu:hover {
+    outline: 1px #fff solid;
+    color:#fff;
+    text-decoration: none;
+}
+.navbar-fixed-bottom {
+    padding-bottom: 20px;
+    margin-left: 120px;
+    margin-right: 120px;
+}
+
+.copy {
+    float: left;
+}
+
+.links {
+    float:right;
+}
+
+.links img {
+    margin-right: 10px;
+}
+
+.auth {
+    display: block;
+    position:absolute;
+    width: 330px;
+    height: auto;
+    border: 1px #000 solid;
+    border-radius: 5px;
+    background: #fff;
+    margin-left:33%;
+    text-align: center;
+    padding: 20px;
+}
+
+.auth input {
+    margin-bottom: 10px;
+    padding-left:5px;
+    border-radius: 5px;
+    border: 1px rgb(80, 80, 80) solid;
+    background: #fff;
+}
+
+.auth input:focus {
+    border: 1px rgb(80, 80, 80) solid;
+    outline: none;
+}
+
+.auth input[type="submit"] {
+    margin-top:10px;
+    background: #eee;
+    color:#000;
+}
+
+.auth input[type="submit"]:hover {
+    background: rgb(80, 80, 80);
+    color:#fff;
+}
+
+.navbar-fixed-bottom {
+    background: none;
+}
+
+.hidden {
+    display: none;
+}
+
+.visible {
+    display: block;
+}
+
+#close {
+    float: right;
+    font-size: 18px;
+    cursor: pointer;
+    transition: all .4s ease-out;
+}
+
+#close:hover {
+    transform: scale(1.2, 1.2);
+}
+@media all and (min-width: 0) and (max-width: 990px) {
+    .auth {
+        top:-65%;
+        z-index: 1000;
+    }
+}
+
+@media all and (min-width: 0) and (max-width: 800px) {
+    .logo {
+        width: 90%;
+    }
+    .auth {
+        top:-200px;
+        z-index: 1000;
+        margin-left: 10%;
+    }
+}
+
+@media all and (min-width: 0) and (max-width: 500px) {
+    body {
+        background: #00b518;
+    }
+    .copy {
+        float: none;
+        margin: auto;
+        width: 50px;
+    }
+    .links {
+        float: none;
+        margin: auto;
+    }
+    .links img {
+        float: none;
+        margin-left:5px;
+        width: 20%;
+    }
+}

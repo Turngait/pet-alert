@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Pet-Alert</title>
+        <meta charset="UTF-8">
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="shortcut icon" type="image/png" href="public/pic/favicon.png"/>
+
+        <!-- Подключаем бутстраповские стили -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <!-- Подключаем свои стили -->
+        <link rel="stylesheet" href="public/main-index.css">
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <div class="row offset-right">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-10">
+                        <div>
+                            <nav>
+                                {% if user_id > 0 %}
+                                <div class="login">
+                                    <p>Добро пожаловать, {{user_name}}! <a href="main_controller.php?exit=1">Выйти</a></p>
+                                </div>
+                                {%endif%}
+                                <div class="menu">
+                                    <p><a href="main_controller.php?desc=1">Объявления</a> <a href="main_controller.php?about=1">О проекте</a></p>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                    <div class="col-md-1"></div>
+                </div>
+            </header>
+            <main>
+                <div class="row offset-right">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-10">
+                        <img class="logo" src="public/pic/Logo.png">
+                    </div>
+                    <div class="col-md-1"></div>
+                </div>
+            </main>
+            <footer>
+                <div class="row offset-right">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-10">
+                        <div class="navbar-fixed-bottom">
+                            <div class="copy">2018 © <a href="mailto:info@pet-alert.ru" class="bottom_menu">info@pet-alert.ru</a></div>
+                            <div class="links">
+                                <a href="https://vk.com/pet_alert" target="_blank"><img src="public/pic/Vk-icon.png"></a>
+                                <a href="https://twitter.com/PetAlertRU" target="_blank"><img src="public/pic/tweeter-icon.png"></a>
+                                <a href="https://www.facebook.com/Pet-Alert-747397372264474/" target="_blank"><img src="public/pic/fb-icon.png"></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-1"></div>
+                </div>
+            </footer>
+        </div>
+    </body>
+</html>
