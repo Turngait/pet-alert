@@ -27,8 +27,11 @@
                             <nav>
                                 {% if user_id > 0 %}
                                 <div class="login">
-                                    <p><img src="public/pic/Logo-mini.png" class="logo_mini">Добро пожаловать, {{user_name}}! <a href="main_controller.php?exit=1">Выйти</a></p>
-
+                                    <p>
+                                        <img src="public/pic/Logo-mini.png" class="logo_mini">Добро пожаловать, {{user_name}}! 
+                                        <a href="main_controller.php?user_acc=1">Личный кабинет</a> 
+                                        <a href="main_controller.php?exit=1">Выйти</a>
+                                    </p>
                                 </div>
                                 {%else%}
                                 <div class="login">

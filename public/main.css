@@ -105,8 +105,10 @@ main {
     margin:auto;
     background: #346b4f;
     padding: 30px 70px;
-    
+    min-height: 570px;
 }
+
+
 .about_miniheaders {
     margin-top:40px;
     margin-bottom: 20px;
@@ -344,26 +346,42 @@ footer a:visited {
     transform: scale(1.2, 1.2);
 }
 
+.typeDesc {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.typeDescFlex {
+    display: flex;
+    justify-content: center;
+    flex-grow: 1;
+}
+
+.typeDescElem {
+    outline: 1px solid #000;
+    margin-right: 10px;
+    margin-top:10px;
+    padding: 5px;
+    width: 300px;
+    text-align: center;
+}
+
 .add_form {
-    position: absolute;
-    width: 500px;
+    width: auto;
     height: auto;
-    border: 1px #000 solid;
-    border-radius: 5px;
-    background: #11442a;
-    margin-left: 20%;
-    top:-40px;
     padding: 20px;
     text-align: center;
 }
 
 .add_form input {
+    width: 400px;
+    height: 40px;
     margin-bottom: 10px;
     padding-left:5px;
     border-radius: 5px;
     border: 1px rgb(80, 80, 80) solid;
     background: #fff;
-    color: #535353;
+    color: #553636;
 }
 
 .add_form input:focus {
@@ -386,11 +404,16 @@ footer a:visited {
     padding: 0;
     margin:auto;
 }
+.add_form input[type="checkbox"] {
+    margin:auto;
+    width: auto;
+    height: auto;
+}
 
 .add_form textarea {
     border: 1px rgb(80, 80, 80) solid;
     outline: none;
-    width: 300px;
+    width: 400px;
     height: 300px;
     margin-bottom: 10px;
     padding-left:5px;
@@ -409,6 +432,18 @@ footer a:visited {
 
 .visible {
     display: block;
+}
+
+/* Раздел личного кабнета юзера */
+.userAccDesc {
+    margin-top:20px;
+}
+.userAccDesc textarea {
+    height:150px;
+    margin-bottom: 5px;
+}
+.userAccDesc input {
+    margin-bottom: 5px;
 }
 
 

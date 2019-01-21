@@ -10,8 +10,18 @@ if(isset($_GET[desc])) {
     echo $html;
 }
 
+if(isset($_GET[new_post])) {
+    $html = newPost();
+    echo $html;
+}
+
 if(isset($_GET[about])) {
     $html = showAbout();
+    echo $html;
+}
+
+if(isset($_GET[user_acc])) {
+    $html = userAcc($_SESSION[id]);
     echo $html;
 }
 
@@ -48,17 +58,20 @@ if(isset($_GET[auth])) {
     }
 }
 
-
-
 if(isset($_GET['exit'])) {
     $user->exitUser();
 }
 
+//CRUD по постам обычных юзеров
 if(isset($_GET['addPost'])) {
     $answer = $user->addPost($_SESSION[id]);
     if($answer) {
         echo "<script>window.location='main_controller.php?desc=1';</script>";
 
+    }
+    else if ($answer == 2) {
+        echo "<script>alert('Ошибка загрузки изображения!');</script>";
+        echo "<script>window.location='main_controller.php?desc=1';</script>";
     }
     else {
         echo "<script>alert('Ошибка добавления записи!');</script>";
@@ -66,4 +79,27 @@ if(isset($_GET['addPost'])) {
     }
 }
 
+if(isset($_GET['editPost'])) {
+    $answer = $user->editPost($_SESSION[id]);
+    if($answer) {
+        echo "<script>window.location='main_controller.php?user_acc=1';</script>";
+
+    }
+    else {
+        echo "<script>alert('Ошибка редактирования записи!');</script>";
+        echo "<script>window.location='main_controller.php?user_acc=1';</script>";
+    }
+}
+
+if(isset($_GET['deletePost'])) {
+    $answer = $user->deletePost();
+    if($answer) {
+        echo "<script>window.location='main_controller.php?user_acc=1';</script>";
+
+    }
+    else {
+        echo "<script>alert('Ошибка редактирования записи!');</script>";
+        echo "<script>window.location='main_controller.php?user_acc=1';</script>";
+    }
+}
 ?>

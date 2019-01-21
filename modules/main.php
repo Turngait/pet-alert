@@ -4,6 +4,7 @@
 */
 session_start();
 
+//Отрисовывает стартовую страницу
 function showMain() {
     //открываем буфферизацию
     ob_start();
@@ -31,6 +32,7 @@ function showMain() {
     return ob_get_clean();
 }
 
+//Отрисовывает страницу с объявлениями
 function showDesc() {
         include "config/pdo.php";
         $quary = "SELECT * FROM lost_post ORDER BY id DESC;";
@@ -62,6 +64,7 @@ function showDesc() {
         echo $template->render(array(
             'user_id' => $_SESSION[id],
             'user_name' =>$_SESSION[name],
+            'user_status' => $_SESSION[status],
             'posts' => $arr,
             'date' => $date
         ));
@@ -73,6 +76,83 @@ function showDesc() {
         return ob_get_clean();
 }
 
+
+//Отрисовывает страницу с добавлением объявления
+function newPost() {
+    //открываем буфферизацию
+    ob_start();
+    // Подгружаем и активируем автозагрузчик Twig-а
+    require_once 'Twig/Autoloader.php';
+    Twig_Autoloader::register();
+    try {
+    // папка шаблонов
+    $loader = new Twig_Loader_Filesystem('templates');
+    // Инициализируем Twig
+    $twig = new Twig_Environment($loader);
+    // Подгружаем шаблон
+    $template = $twig->loadTemplate('add_post.tmpl');
+    // Передаем в шаблон переменные и значения
+    // Выводим сформированное содержание
+    echo $template->render(array(
+        'user_id' => $_SESSION[id],
+        'user_name' =>$_SESSION[name]
+
+    ));
+    } catch (Exception $e) {
+    die ('ERROR: ' . $e->getMessage());
+    }
+
+    //возвращаем все что оказалось в буффере.
+    return ob_get_clean();
+}
+
+//Личный кабнет юзера
+function userAcc($user_id) {
+    include "config/pdo.php";
+    $quary = "SELECT * FROM lost_post WHERE user_id = $user_id ORDER BY id DESC;";
+    $posts = $db -> prepare($quary);
+    $posts->execute();
+
+    $arr = $posts->fetchAll();
+    //print_r($arr);
+
+    $date = [];
+    foreach ($arr as $post) {
+        $date_new = date_parse($post[created_at]);
+        array_push($date, $date_new);
+    }
+
+    //открываем буфферизацию
+    ob_start();
+    // Подгружаем и активируем автозагрузчик Twig-а
+    require_once 'Twig/Autoloader.php';
+    Twig_Autoloader::register();
+    try {
+    // папка шаблонов
+    $loader = new Twig_Loader_Filesystem('templates');
+    // Инициализируем Twig
+    $twig = new Twig_Environment($loader);
+    // Подгружаем шаблон
+    $template = $twig->loadTemplate('user_acc.tmpl');
+    // Передаем в шаблон переменные и значения
+    // Выводим сформированное содержание
+    echo $template->render(array(
+        'user_id' => $_SESSION[id],
+        'user_name' =>$_SESSION[name],
+        'posts' => $arr,
+        'date' => $date
+
+    ));
+    } catch (Exception $e) {
+    die ('ERROR: ' . $e->getMessage());
+    }
+
+    //возвращаем все что оказалось в буффере.
+    return ob_get_clean();
+}
+
+
+//Открывает раздел О проекте
 function showAbout() {
 
     //открываем буфферизацию
@@ -102,6 +182,8 @@ function showAbout() {
     return ob_get_clean();
 }
 
+
+//Открывает раздел с политикой конфиденциальности
 function showPolicy() {
 
     //открываем буфферизацию

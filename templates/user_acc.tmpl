@@ -43,15 +43,11 @@
                             <nav>
                                 {% if user_id > 0 %}
                                 <div class="login">
-                                    <p>
+                                   <p>
                                         <img src="public/pic/Logo-mini.png" class="logo_mini">Добро пожаловать, {{user_name}}! 
                                         <a href="main_controller.php?user_acc=1">Личный кабинет</a> 
                                         <a href="main_controller.php?exit=1">Выйти</a>
-                                        {% if user_status == 1 %}
-                                        <a href="main_controller.php?admin_intro=1">Админка</a>
-                                        {%endif%}
                                     </p>
-
                                 </div>
                                 {%else%}
                                 <div class="login">
@@ -71,66 +67,47 @@
                 <div class="row offset-right">
                     <div class="col-md-2"></div>
                     <div class="col-md-8">
-                        <div class="auth hidden" id="auth">
-                            <i  id="close" class="fas fa-times"></i>
-                            <div id="wrapper">
-                            </div>
-                        </div>
                         <div class="main_wrapper">
-                        {%if user_id is empty%}
-                            <div class="policy hidden" id="policy_div">
-                                <p>
-                                    Данный сайт pet-alert.ru использует cookies.
-                                    <br>
-                                    Это необходимо для технической работы данного сайта.
-                                    <br>
-                                    В случае, если Вы не согласны с этим, то просьба покинуть данный сайт.
-                                    <br>
-                                    Вы так же можете ознакомиться с <a href="main_controller.php?about=1" target="_blank">"Правилами сайта"</a> и <a href="main_controller.php?policy=1" target="_blank">«Политикой обработки персональных данных на Сайте»</a>.
-                                </p>
-                                <p id="policy_button" onclick = "closePolicy()">
-                                    Ок
-                                </p>
-                            </div>
-                        {%endif%}
-                                                        
-                            {% if user_id > 0 %}
-                            <p onclick="showDesc()">
-                                <a href="main_controller.php?new_post=1" id="addDesc"><i class="fas fa-plus-square"></i> Добавить объявления</a>
-                            </p>
-                            {% else %}
-                            <p>
-                                Что бы добавить объявление - <a href="#" id="login1">войдите</a>.
-                            </p>
-                            {%endif%}
+                            <h2>Личный кабнет.</h2>
 
-                            <div class="mainGrid">
-                            {% for key, post in posts %}
-                                <div class="descElement">
-                                    <h4 class="desc_header">{{ post['header'] }}</h4>
-                                    <div class="desc-wrapper">
-                                        <img src="{{post['src']}}" class="petPhoto">
-                                        <p class="chars">
-                                            Объявление №{{post['id']}}.
-                                            <br>
-                                            <br>
-                                            Дата объявления: <br>{{date[key]['day']}}.{{date[key]['month']}}.{{date[key]['year']}}.
-                                            <br>
-                                            <br>
-                                            <b>Город: {{post['city']}}</b>
-                                            <br>
-                                        </p>
-                                        <p class="desc_text">
-                                            {{post['text']|nl2br}}
-                                        </p>
-                                        <p class="contact_me">
-                                            Вы можете со мной связаться по:
-                                            <br>
-                                            <mark id="con">{{post['contact']}}</mark>
-                                        </p>
-                                    </div>
+                            <div class="userAccDesc">
+                                <h4>Ваши объявления.</h4>
+                                <div class="mainGrid">
+                                    {%if posts is empty%}
+                                        Вы еще не разместили ни одного объявления.
+                                    {%endif%}
+                                    {% for key, post in posts %}
+                                        <div class="descElement add_form">
+                                            <form action="main_controller.php?editPost=1" method="POST">
+                                                <b>Объявление №{{post['id']}}.</b>
+                                                <input type="hidden" name="post_id" value = "{{post['id']}}">
+                                                <br><br>
+                                                Дата объявления: <br>{{date[key]['day']}}.{{date[key]['month']}}.{{date[key]['year']}}.
+                                                <br><br>
+                                                Кто пропал:
+                                                
+                                                <input type="text" name="header" value="{{ post['header'] }}">
+                                                <br>
+                                                Город:
+                                                
+                                                <input type="text" name="city" value="{{post['city']}}">
+                                                <br>
+                                                Описание:
+                                                
+                                                <textarea name="main_text">{{post['text']}}</textarea>
+                                                <br>
+                                                Связяться со мной через:
+                                                <input type="text" name="user_mail" value="{{post['contact']}}">
+                                                <br><br>
+                                                <input type="submit" value="Сохранить">
+                                            </form>
+                                            <form action="main_controller.php?deletePost=1" method="POST">
+                                                <input type="hidden" name="post_id" value = "{{post['id']}}">
+                                                <input type="submit" value="Удалить">
+                                            </form>
+                                        </div>
+                                    {%endfor%}
                                 </div>
-                            {%endfor%}
                             </div>
                         </div>
                     </div>

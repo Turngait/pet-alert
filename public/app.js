@@ -58,30 +58,12 @@ function showLogin() {
     document.getElementById('wrapper').innerHTML = html;
 }
 
-function showDesc() {
-    authForm = document.getElementById('add_form');
-    authForm.classList.remove('hidden');
-    authForm.classList.remove('slideOutUp');
-    authForm.classList.add('vissible');
-    authForm.classList.add('animated');
-    authForm.classList.add('slideInDown');
-}
-
 function closeReg() {
     authForm = document.getElementById('auth');
     authForm.classList.remove('vissible');
     authForm.classList.remove('slideInDown');
     authForm.classList.add('slideOutUp');
     setTimeout(function(){document.getElementById('wrapper').innerHTML = ''; authForm.classList.add('hidden');}, 1000);
-}
-
-function closeDesc() {
-    authForm = document.getElementById('add_form');
-    authForm.classList.remove('vissible');
-    authForm.classList.remove('slideInDown');
-    authForm.classList.add('slideOutUp');
-    //authForm.classList.add('hidden');
-    document.getElementById('wrapper').innerHTML = '';
 }
 
 function closePolicy() {
@@ -99,9 +81,6 @@ function init() {
 
     closeButton = document.getElementById('close');
     closeButton.addEventListener('click', closeReg);
-
-    closeButton = document.getElementById('close2');
-    closeButton.addEventListener('click', closeDesc);
     
     regButton = document.getElementById('signup');
     regButton.addEventListener('click', showReg);

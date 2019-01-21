@@ -59,7 +59,7 @@ class User {
     
             // Отправляем
             mail($to, $subject, $message, $headers);
-            mail("wulzin.t@gmail.com", "Новый пользователь", "Новая регистрация!");
+            mail("ryzhov.is@mail.ru", "Новый пользователь", "Новая регистрация!");
             return 1;
         }
         else {
@@ -108,11 +108,11 @@ class User {
 
         //Перемещаем файл из временной папки в указанную
         if (!move_uploaded_file($uploadInfo['tmp_name'], $src)) {
-            print_r($_FILES);
-            echo 'Не удалось осуществить сохранение файла';
+            //print_r($_FILES);
+            return 2;
         }
         else {
-
+            $add_to_socio = $_POST[add_socio];
             $desc_name = $_POST[desc_name];
             $desc_city = $_POST[desc_city];
             $desc_text = $_POST[desc_text];
@@ -120,14 +120,53 @@ class User {
             
             $queryLostPost = "INSERT INTO `lost_post` VALUES(NULL, '$user_id', '$desc_name', '$src', '$desc_text', '$desc_city', '$desc_mail', NULL, 0);";
             if ($add_post = $db->exec($queryLostPost)) {
-                mail("wulzin.t@gmail.com", "Новое объявление", "Добавлен новый пост!");
+                mail("ryzhov.is@mail.ru", "Новое объявление", "Добавлен новый пост! Добавление в соц сети: $add_to_socio . Наименование: $desc_name");
                 return true;
             }
             else {
             return false;
             }
+            
         }
 
+    }
+
+    public function editPost($user_id) {
+        include "config/pdo.php";
+        /*
+        echo "<pre>";
+        print_r($_POST);
+        echo "</pre>";
+        */
+        $desc_name = $_POST[header];
+        $desc_city = $_POST[city];
+        $desc_text = $_POST[main_text];
+        $desc_mail = $_POST[user_mail];
+        $post_id = $_POST[post_id];
+
+        $queryEditPost = "UPDATE `lost_post` SET `header` = '$desc_name', `text` = '$desc_text', `city` = '$desc_city', `contact`='$desc_mail'  WHERE `id` = '$post_id'";
+
+        if ($edit_post = $db->exec($queryEditPost)) {
+            return true;
+        }
+        else {
+             return false;
+        }
+        
+    }
+
+    public function deletePost() {
+        //print_r($_POST);
+        include "config/pdo.php";
+        $post_id = $_POST[post_id];
+        $queryDelPost = "DELETE FROM `lost_post` WHERE `id` = '$post_id'";
+
+        if ($del_post = $db->exec($queryDelPost)) {
+            return true;
+        }
+        else {
+             return false;
+        }
     }
 }
 
