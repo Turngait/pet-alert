@@ -69,6 +69,58 @@
                     <div class="col-md-10">
                         <div class="main_wrapper">
                             <h2>Личный кабинет.</h2>
+                            <br>
+
+                            <div class="user_data_box">
+                                <div class="user_data">
+                                    <h4>Ваша информация.</h4>
+                                    <br>
+                                    <div class="user_data_div hidden" id="user_data">
+                                        <form action="main_controller.php?chandeUserData=1" method="POST" class="user_data_form">
+                                            <input type="hidden" name="id" value = "{{user_data[0]['id']}}">
+                                            Ваше имя:
+                                            <br>
+                                            <input type="text" name="name" value="{{user_data[0]['name']}}">
+                                            <br>
+                                            Ваш e-mail:
+                                            <br>
+                                            <input type="text" name="email" value="{{user_data[0]['email']}}">
+                                            <br><br>
+                                            <input type="submit" value="Сохранить">
+                                        </form>
+                                    </div>
+                                    <p id="user_data_text">
+                                        Ваше имя: <b>{{user_data[0]['name']}}</b>
+                                        <br><br>
+                                        Ваш email: <b>{{user_data[0]['email']}}</b>
+                                        <br><br>
+                                    </p>
+
+                                    <p class="user_desc_handler" id="user_data_handler"><i class="fas fa-plus-square"></i> Ваши личные данные.</p>
+                                    <!--/User info-->
+                                </div>
+                                
+                                <div class="user_pass">
+                                    <h4>Сменить пароль.</h4>
+                                    <br>
+                                    <p class="user_desc_handler" id="user_pass_handler"><i class="fas fa-plus-square"></i> Изменить пароль.</p>
+                                    <div class="user_data_div hidden" id="user_pass">
+                                        <h4>Сменить пороль.</h4>
+                                        <form action="main_controller.php?chandeUserPass=1" method="POST" class="user_data_form">
+                                            <input type="hidden" name="id" value = "{{user_data[0]['id']}}">
+                                            Укажите старый пароль:
+                                            <br>
+                                            <input type="password" name="old_pass">
+                                            <br>
+                                            Укажите новый пароль:
+                                            <br>
+                                            <input type="password" name="new_pass">
+                                            <br><br>
+                                            <input type="submit" value="Сохранить">
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
 
                             <div class="userAccDesc">
                                 <p class="user_desc_handler" id="user_desc_handler"><i class="fas fa-plus-square"></i> Ваши объявления.</p>
@@ -154,39 +206,6 @@
                                     </div>
                                 </div>
                                 <!--/User desc-->
-                                <p class="user_desc_handler" id="user_data_handler"><i class="fas fa-plus-square"></i> Ваши личные данные.</p>
-                                <div class="user_data_div hidden" id="user_data">
-                                    <h4>Изменить личные данные.</h4>
-                                    <form action="main_controller.php?chandeUserData=1" method="POST" class="user_data_form">
-                                        <input type="hidden" name="id" value = "{{user_data[0]['id']}}">
-                                        Ваше имя:
-                                        <br>
-                                        <input type="text" name="name" value="{{user_data[0]['name']}}">
-                                        <br>
-                                        Ваш e-mail:
-                                        <br>
-                                        <input type="text" name="email" value="{{user_data[0]['email']}}">
-                                        <br><br>
-                                        <input type="submit" value="Сохранить">
-                                    </form>
-                                </div>
-                                <!--/User info-->
-                                <p class="user_desc_handler" id="user_pass_handler"><i class="fas fa-plus-square"></i> Изменить пароль.</p>
-                                <div class="user_data_div hidden" id="user_pass">
-                                    <h4>Сменить пороль.</h4>
-                                    <form action="main_controller.php?chandeUserPass=1" method="POST" class="user_data_form">
-                                        <input type="hidden" name="id" value = "{{user_data[0]['id']}}">
-                                        Укажите старый пароль:
-                                        <br>
-                                        <input type="password" name="old_pass">
-                                        <br>
-                                        Укажите новый пароль:
-                                        <br>
-                                        <input type="password" name="new_pass">
-                                        <br><br>
-                                        <input type="submit" value="Сохранить">
-                                    </form>
-                                </div>
                             </div>
                         </div>
                     </div>

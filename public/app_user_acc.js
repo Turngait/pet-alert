@@ -61,9 +61,9 @@ function changePostsHandler(event) {
 function showDataHandler() {
     var userData = document.getElementById('user_data');
     userData.classList.remove('hidden');
-    userData.classList.remove('slideOutDown');
-    userData.classList.add('animated');
-    userData.classList.add('slideInUp');
+    
+    var userDataText = document.getElementById('user_data_text')
+    userDataText.classList.add('hidden');
 
     var userDataHandler = document.getElementById('user_data_handler');
     openElement(userDataHandler);
@@ -72,9 +72,10 @@ function showDataHandler() {
 }
 function hideDataHandler() {
     var userData = document.getElementById('user_data');
-    userData.classList.remove('slideInUp');
-    userData.classList.add('slideOutDown');
-    setTimeout(()=>{userData.classList.add('hidden');}, 1000);
+    userData.classList.add('hidden');
+
+    var userDataText = document.getElementById('user_data_text')
+    userDataText.classList.remove('hidden');
 
     var userDataHandler = document.getElementById('user_data_handler');
     closeElement(userDataHandler);

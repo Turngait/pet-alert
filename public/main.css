@@ -624,6 +624,22 @@ footer a:visited {
     color:#fff;
 }
 
+.user_data_box {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: auto;
+    grid-auto-rows: auto;
+    grid-gap: 20px;
+
+}
+
+.user_data,
+.user_pass {
+    border: 1px solid #000;
+    border-radius: 15px;
+    padding: 20px 15px 5px 15px;
+}
+
 
 @media all and (min-width: 0) and (max-width: 1100px) {
     .mainGrid {
@@ -660,6 +676,9 @@ footer a:visited {
     }
     .greetings {
         clear: both;
+    }
+    .user_data_box {
+        grid-template-columns: 1fr;
     }
 }
 
@@ -700,6 +719,15 @@ footer a:visited {
     .links img {
         margin-right: 2px;
         width: 10%;
+    }
+
+    .user_data,
+    .user_pass {
+        padding: 5px;
+    }
+    
+    .user_data_form input {
+        width: 300px;
     }
 }
 
