@@ -147,6 +147,10 @@ footer {
     display: block;
 }
 
+.wrong {
+    border:1px solid red;
+}
+
 #close {
     float: right;
     font-size: 18px;

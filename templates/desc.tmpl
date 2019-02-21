@@ -44,7 +44,7 @@
                                 {% if user_id > 0 %}
                                 <div class="login">
                                     <p>
-                                        <img src="public/pic/Logo-mini.png" class="logo_mini">Добро пожаловать, {{user_name}}! 
+                                        <img src="public/pic/Logo-mini.png" class="logo_mini"><span class="greetings">Добро пожаловать, {{user_name}}! </span>
                                         <a href="main_controller.php?user_acc=1">Личный кабинет</a> 
                                         <a href="main_controller.php?exit=1">Выйти</a>
                                         {% if user_status == 1 %}
@@ -95,16 +95,103 @@
                         {%endif%}
                                                         
                             {% if user_id > 0 %}
-                            <p onclick="showDesc()">
-                                <a href="main_controller.php?new_post=1" id="addDesc"><i class="fas fa-plus-square"></i> Добавить объявления</a>
+                            <p>
+                                <a href="#" id="addDesc"><i class="fas fa-plus-square"></i> Добавить объявления</a>
                             </p>
+                            <div class="add_form hidden" id="add_post_desc">
+                                <div id="add_desc_menu">
+                                    <a href="#" class="chosen" data-param="lost">Поиск животных</a><a href="#" data-param="find">Пристройство животных</a>
+                                </div>
+                                <div id="addDeskLost">
+                                <form action="main_controller.php?addPost=1" method="POST" enctype="multipart/form-data">
+                                    <p>
+                                                Укажите кто пропал, а также его имя.
+                                                <br>
+                                                <input type="text" name="desc_name" placeholder="Кто пропал?">
+                                                <br>
+                                                Укажите Ваш город.
+                                                <br>
+                                                <input type="text" name="desc_city" placeholder="Какой город?">
+                                                <br>
+                                                Опишите Вашего питомца.
+                                                <br>
+                                                <textarea name="desc_text" placeholder="Как он выглядел, порода, рост, вес, цвет шерсти, что на нем было, какие то приметы."></textarea>
+                                                <br>
+                                                Загрузите фотографию Вашего питомца.
+                                                <br>
+                                                Загружайте фотографии в формате .jpg или .png.
+                                                <br>
+                                                <input type="hidden" name="addPost" value="1">
+                                                
+                                                <input type="file" name="pet_photo" accept="image/jpeg, image/png">
+                                                <br>
+                                                Как можно с Вами связаться? <br>Укажите телефон, e-mail или страницу в соц-сетях.
+                                                <br>
+                                                <input type="text" name="desc_mail" id="lost_contact" placeholder="Какой способ связи?">
+                                                <br><br>
+                                                <input type="checkbox" name="add_socio">
+                                                
+                                                Даю согласие на размещение моего объявления в соц-сетях.
+                                                <br><br>
+                                                Нажимая кнопку "Отправить" Вы соглашаетесь с <a href="main_controller.php?about=1" target="_blank">"Правилами сайта"</a> 
+                                                и <a href="main_controller.php?policy=1" target="_blank">"Политикой обработки персональных данных"</a>.
+                                                <br>
+                                                <input type="submit" id="lost_submit" value="Отправить">
+                                    </p>
+                                </form></div>
+
+                                <div id="addDeskFind" class="hidden">
+                                <form action="main_controller.php?addPostFind=1" method="POST" enctype="multipart/form-data">
+                                    <p>
+                                                Укажите кого хотите пристроить.
+                                                <br>
+                                                <input type="text" name="desc_name" placeholder="Кого пристроить?">
+                                                <br>
+                                                Укажите Ваш город.
+                                                <br>
+                                                <input type="text" name="desc_city" placeholder="Какой город?">
+                                                <br>
+                                                Опишите питомца наиболее подробно. 
+                                                <br>
+                                                Так же, укажите по возможности характер, привчки, приучен ли к лодку и т.д.
+                                                <br>
+                                                <textarea name="desc_text" placeholder="Как он выглядит, порода, рост, вес, цвет шерсти, какие привычки, приучен ли к лодку, что ест, чем болеет и т.д."></textarea>
+                                                <br>
+                                                Загрузите фотографию Вашего питомца.
+                                                <br>
+                                                Загружайте фотографии в формате .jpg или .png.
+                                                <br>
+                                                <input type="hidden" name="addPost" value="1">
+                                                
+                                                <input type="file" name="pet_photo" accept="image/jpeg, image/png">
+                                                <br>
+                                                Как можно с Вами связаться? <br>Укажите телефон, e-mail или страницу в соц-сетях.
+                                                <br>
+                                                <input type="text" name="desc_mail" id="find_contact" placeholder="Какой способ связи?">
+                                                <br><br>
+                                                <input type="checkbox" name="add_socio">
+                                                
+                                                Даю согласие на размещение моего объявления в соц-сетях.
+                                                <br><br>
+                                                Нажимая кнопку "Отправить" Вы соглашаетесь с <a href="main_controller.php?about=1" target="_blank">"Правилами сайта"</a> 
+                                                и <a href="main_controller.php?policy=1" target="_blank">"Политикой обработки персональных данных"</a>.
+                                                <br>
+                                                <input type="submit" id="find_submit" value="Отправить">
+                                    </p>
+                                </form></div>
+                            </div>
                             {% else %}
                             <p>
                                 Что бы добавить объявление - <a href="#" id="login1">войдите</a>.
                             </p>
                             {%endif%}
+                            
 
-                            <div class="mainGrid">
+                            <div id="showPostsMenu">
+                            <a href="#" class="chosen" data-param="lostPat">Ищу питомца</a><a href="#" data-param="findPat">Ищу дом</a>
+                            </div>
+                            <!--LOST POSTS -->
+                            <div class="mainGrid" id="lostPosts">
                             {% for key, post in posts %}
                                 <div class="descElement">
                                     <h4 class="desc_header">{{ post['header'] }}</h4>
@@ -132,6 +219,38 @@
                                 </div>
                             {%endfor%}
                             </div>
+                            <!--/LOST POSTS -->
+
+                            <!--FIND POSTS-->
+                            <div class="mainGrid hidden" id="FindPosts">
+                            {% for key, post in postsFind %}
+                                <div class="descElement">
+                                    <h4 class="desc_header">{{ post['header'] }}</h4>
+                                    <div class="desc-wrapper">
+                                        <img src="{{post['src']}}" class="petPhoto">
+                                        <p class="chars">
+                                            Объявление №{{post['id']}}.
+                                            <br>
+                                            <br>
+                                            Дата объявления: <br>{{dateFind[key]['day']}}.{{dateFind[key]['month']}}.{{dateFind[key]['year']}}.
+                                            <br>
+                                            <br>
+                                            <b>Город: {{post['city']}}</b>
+                                            <br>
+                                        </p>
+                                        <p class="desc_text">
+                                            {{post['text']|nl2br}}
+                                        </p>
+                                        <p class="contact_me">
+                                            Вы можете со мной связаться по:
+                                            <br>
+                                            <mark id="con">{{post['contact']}}</mark>
+                                        </p>
+                                    </div>
+                                </div>
+                            {%endfor%}
+                            </div>
+                            <!--/FIND POSTS-->
                         </div>
                     </div>
                     <div class="col-md-2"></div>
@@ -143,7 +262,7 @@
                     <div class="col-md-10">
 
                         <p class="copy">
-                            2018 © <a href="mailto:info@pet-alert.ru" class="bottom_menu">info@pet-alert.ru</a><br>
+                            2019 © <a href="mailto:info@pet-alert.ru" class="bottom_menu">info@pet-alert.ru</a><br>
                             <a href="main_controller.php?policy=1" target="_blank" class="bottom_menu">Политика обработки персональных данных пользователей</a>
                         </p>
                         
