@@ -2,6 +2,11 @@ console.log("Hello!");
 //Функции для страницы с объявлениями
 
 
+/*
+*
+*   РЕГИСТРАЦИЯ И ЛОГИН
+*
+*/
 //Функция показа регистрации
 function showReg() {
     var authForm = document.getElementById('auth');
@@ -37,7 +42,7 @@ function showReg() {
         </form>';
     document.getElementById('wrapper').innerHTML = html;
 
-    //Валидация
+    // Валидация
     //Login
     document.getElementById('login_user').addEventListener('keyup', (event) => {
         let keyCheck = /[a-zA-Z1-9]/;
@@ -54,8 +59,18 @@ function showReg() {
         }
     });
 
+    //Аякс запрос на существование введенного логина
     document.getElementById('login_user').addEventListener('change', (event) => {
-        let keys = event.target.value;
+        var keys = '';
+        let keyWar = event.target.value;
+        let index_t = keyWar.indexOf(';');
+        console.log(index_t);
+        if (index_t !== -1) {
+             keys = keyWar.substring(0, index_t);
+        } else {
+            keys = keyWar;
+        }
+
         fetch('lib/ajax_controller.php?check_login=' + keys)
         .then((responce) => {
             return responce.text();
@@ -168,6 +183,12 @@ function closeReg() {
     authForm.classList.add('slideOutUp');
     setTimeout(function(){document.getElementById('wrapper').innerHTML = ''; authForm.classList.add('hidden');}, 1000);
 }
+
+/*
+*
+*   ПАНЕЛЬ КОНФИДЕНЦИАЛЬНОСТИ
+*
+*/
 //Закрытие панели политики конф.
 function closePolicy() {
     var policy = document.getElementById('policy_div');
@@ -176,6 +197,11 @@ function closePolicy() {
 }
 
 
+/*
+*
+*   ПАНЕЛЬ ДОБАВЛЕНИЯ ОБЪЯВЛЕНИЙ
+*
+*/
 //Отрисовка добавления объявления
 function showAddPostHandler() {
     var addPost = document.getElementById('add_post_desc');
@@ -254,6 +280,12 @@ function addDescMenuHandler(event) {
     }
 }
 
+
+/*
+*
+*   СОРТИРОВКА ТИПОВ ПОСТОВ
+*
+*/
 //Функция переключения отрисовки типов постов
 function changePostsHandler(event) {
     var param = event.target.dataset.param;
@@ -279,6 +311,52 @@ function changePostsHandler(event) {
 }
 
 
+/*
+*
+*   ФИЛЬТРАЦИЯ ПО ГОРОДАМ
+*
+*/
+// Функции фильтрации по городам
+function filterCities (event) {
+    let chosenCity = event.target.value;
+    let collectionPost = document.getElementsByClassName('cityPost');
+
+    for (key of collectionPost) {
+        if(key.innerText !== chosenCity) {
+            let nodeHide = key.parentNode.parentNode.parentNode.parentNode;
+            nodeHide.setAttribute('style', 'display:none;');
+        }
+        else {
+            let nodeShow = key.parentNode.parentNode.parentNode.parentNode;
+            nodeShow.removeAttribute('style', 'display:none;');
+        }
+    }
+
+}
+
+function getCities() {
+    let collectionPost = document.getElementsByClassName('cityPost');
+    let citysPost = new Set;
+    for (key of collectionPost) {
+        citysPost.add(key.innerText);
+    }
+    let optionPost = '';
+    var sortPost = document.querySelector('#sortPost');
+    for (city of citysPost) {
+        optionPost =optionPost + '<option>'+city+'</option>';
+        
+    }
+    sortPost.innerHTML = optionPost;
+
+    sortPost.addEventListener('change', filterCities);
+}
+
+
+/*
+*
+*   INITIAL
+*
+*/
 // INIT
 function init() {
     //Функция работа с панелью объявления
@@ -288,6 +366,7 @@ function init() {
         addDesc.addEventListener('click', showAddPostHandler);
         var addDescHandlerMenu = document.getElementById('add_desc_menu');
         addDescHandlerMenu.addEventListener('click', addDescMenuHandler);
+        
         //Функция переключения типов объявлений
         var changePostsHandlerButtons = document.getElementById('showPostsMenu');
         changePostsHandlerButtons.addEventListener('click', changePostsHandler);
@@ -316,8 +395,11 @@ function init() {
 
         //Функция переключения типов объявлений
         var changePostsHandlerButtons = document.getElementById('showPostsMenu');
-        changePostsHandlerButtons.addEventListener('click', changePostsHandler);
+        changePostsHandlerButtons.addEventListener('click', changePostsHandler); 
     }
+
+    //Фильтрация городов
+    getCities();
 }
 
 window.onload=init;

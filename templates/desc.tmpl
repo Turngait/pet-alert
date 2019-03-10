@@ -93,10 +93,13 @@
                                 </p>
                             </div>
                         {%endif%}
-                                                        
+                                            
                             {% if user_id > 0 %}
                             <p>
+                                 <select id="sortPost">
+                                </select> 
                                 <a href="#" id="addDesc"><i class="fas fa-plus-square"></i> Добавить объявления</a>
+                               
                             </p>
                             <div class="add_form hidden" id="add_post_desc">
                                 <div id="add_desc_menu">
@@ -183,6 +186,8 @@
                             {% else %}
                             <p>
                                 Что бы добавить объявление - <a href="#" id="login1">войдите</a>.
+                                <select id="sortPost">
+                                </select> 
                             </p>
                             {%endif%}
                             
@@ -190,8 +195,11 @@
                             <div id="showPostsMenu">
                             <a href="#" class="chosen" data-param="lostPat">Ищу питомца</a><a href="#" data-param="findPat">Ищу дом</a>
                             </div>
+                            
                             <!--LOST POSTS -->
+                            
                             <div class="mainGrid" id="lostPosts">
+                            
                             {% for key, post in posts %}
                                 <div class="descElement">
                                     <h4 class="desc_header">{{ post['header'] }}</h4>
@@ -204,7 +212,7 @@
                                             Дата объявления: <br>{{date[key]['day']}}.{{date[key]['month']}}.{{date[key]['year']}}.
                                             <br>
                                             <br>
-                                            <b>Город: {{post['city']}}</b>
+                                            <b>Город: <span class="cityPost">{{post['city']}}</span></b>
                                             <br>
                                         </p>
                                         <p class="desc_text">
@@ -235,7 +243,7 @@
                                             Дата объявления: <br>{{dateFind[key]['day']}}.{{dateFind[key]['month']}}.{{dateFind[key]['year']}}.
                                             <br>
                                             <br>
-                                            <b>Город: {{post['city']}}</b>
+                                            <b>Город: <span class="cityPost">{{post['city']}}</span></b>
                                             <br>
                                         </p>
                                         <p class="desc_text">
