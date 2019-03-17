@@ -69,8 +69,8 @@
             </header>
             <main>
                 <div class="row offset-right">
-                    <div class="col-md-2"></div>
-                    <div class="col-md-8">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-10">
                         <div class="auth hidden" id="auth">
                             <i  id="close" class="fas fa-times"></i>
                             <div id="wrapper">
@@ -97,6 +97,7 @@
                             {% if user_id > 0 %}
                             <p>
                                  <select id="sortPost">
+                                    
                                 </select> 
                                 <a href="#" id="addDesc"><i class="fas fa-plus-square"></i> Добавить объявления</a>
                                
@@ -193,7 +194,7 @@
                             
 
                             <div id="showPostsMenu">
-                            <a href="#" class="chosen" data-param="lostPat">Ищу питомца</a><a href="#" data-param="findPat">Ищу дом</a>
+                                <a href="#" class="chosen" data-param="lostPat">Поиск питомца</a><a href="#" data-param="findPat">Поиск дома</a>
                             </div>
                             
                             <!--LOST POSTS -->
@@ -202,26 +203,25 @@
                             
                             {% for key, post in posts %}
                                 <div class="descElement">
-                                    <h4 class="desc_header">{{ post['header'] }}</h4>
+                                    <h4 class="desc_header">{{post['id']}}. {{ post['header'] }}</h4>
                                     <div class="desc-wrapper">
-                                        <img src="{{post['src']}}" class="petPhoto">
+                                        
                                         <p class="chars">
-                                            Объявление №{{post['id']}}.
-                                            <br>
-                                            <br>
-                                            Дата объявления: <br>{{date[key]['day']}}.{{date[key]['month']}}.{{date[key]['year']}}.
-                                            <br>
-                                            <br>
-                                            <b>Город: <span class="cityPost">{{post['city']}}</span></b>
-                                            <br>
+                                            <b><span class="cityPost">{{post['city']}}</span></b>
+                                            <span class="dataPost">{{date[key]['day']}}.{{date[key]['month']}}.{{date[key]['year']}}</span>
                                         </p>
+
+                                        <a href="{{post['src']}}" target="_blanc">
+                                            <img src="{{post['src']}}" class="petPhoto">
+                                        </a>
+                                        
                                         <p class="desc_text">
                                             {{post['text']|nl2br}}
                                         </p>
                                         <p class="contact_me">
                                             Вы можете со мной связаться по:
                                             <br>
-                                            <mark id="con">{{post['contact']}}</mark>
+                                            <b>{{post['contact']}}</b>
                                         </p>
                                     </div>
                                 </div>
@@ -233,26 +233,22 @@
                             <div class="mainGrid hidden" id="FindPosts">
                             {% for key, post in postsFind %}
                                 <div class="descElement">
-                                    <h4 class="desc_header">{{ post['header'] }}</h4>
+                                    <h4 class="desc_header">{{post['id']}}. {{ post['header'] }}</h4>
                                     <div class="desc-wrapper">
-                                        <img src="{{post['src']}}" class="petPhoto">
                                         <p class="chars">
-                                            Объявление №{{post['id']}}.
-                                            <br>
-                                            <br>
-                                            Дата объявления: <br>{{dateFind[key]['day']}}.{{dateFind[key]['month']}}.{{dateFind[key]['year']}}.
-                                            <br>
-                                            <br>
-                                            <b>Город: <span class="cityPost">{{post['city']}}</span></b>
-                                            <br>
+                                            <b><span class="cityPost">{{post['city']}}</span></b>
+                                            <span class="dataPost">{{dateFind[key]['day']}}.{{dateFind[key]['month']}}.{{dateFind[key]['year']}}</span>
                                         </p>
+                                        <a href="{{post['src']}}" target="_blanc">
+                                            <img src="{{post['src']}}" class="petPhoto">
+                                        </a>
                                         <p class="desc_text">
                                             {{post['text']|nl2br}}
                                         </p>
                                         <p class="contact_me">
                                             Вы можете со мной связаться по:
                                             <br>
-                                            <mark id="con">{{post['contact']}}</mark>
+                                            <b>{{post['contact']}}</b>
                                         </p>
                                     </div>
                                 </div>
@@ -261,7 +257,7 @@
                             <!--/FIND POSTS-->
                         </div>
                     </div>
-                    <div class="col-md-2"></div>
+                    <div class="col-md-1"></div>
                 </div>
             </main>
             <footer>

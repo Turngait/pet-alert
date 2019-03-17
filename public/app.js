@@ -28,12 +28,13 @@ function showReg() {
             Введите логин\
             <br>\
             <input id="login_user" type="text" name="user_login" placeholder="Введите логин"><br>\
+            Введите ваш e-mail\
+            <br>\
+            <input id="email_user" type="text" name="user_mail" placeholder="Введите ваш e-mail"><br>\
             Введите пароль\
             <br>\
             <input id="password_user" type="text" name="user_pass" placeholder="Введите пароль"><br>\
-            Введите ваш e-mail\
             <br>\
-            <input id="email_user" type="text" name="user_mail" placeholder="Введите ваш e-mail"><br><br>\
             Нажимая кнопку "Регистрация" Вы соглашаетесь с <a href="main_controller.php?about=1" target="_blank">"Правилами сайта"</a> \
             и <a href="main_controller.php?policy=1" target="_blank">"Политикой обработки персональных данных"</a>.<br>\
             <input id="button_submit" type="submit" value="Регистрация">\
@@ -322,13 +323,19 @@ function filterCities (event) {
     let collectionPost = document.getElementsByClassName('cityPost');
 
     for (key of collectionPost) {
+        if (chosenCity === 'Все города') {
+            let nodeShow = key.parentNode.parentNode.parentNode.parentNode;
+            nodeShow.style.display = 'block';
+            continue;
+        } 
+        
         if(key.innerText !== chosenCity) {
             let nodeHide = key.parentNode.parentNode.parentNode.parentNode;
             nodeHide.setAttribute('style', 'display:none;');
         }
         else {
             let nodeShow = key.parentNode.parentNode.parentNode.parentNode;
-            nodeShow.removeAttribute('style', 'display:none;');
+            nodeShow.style.display = 'block';
         }
     }
 
@@ -340,7 +347,7 @@ function getCities() {
     for (key of collectionPost) {
         citysPost.add(key.innerText);
     }
-    let optionPost = '';
+    let optionPost = '<option id="allCity">Все города</option>';
     var sortPost = document.querySelector('#sortPost');
     for (city of citysPost) {
         optionPost =optionPost + '<option>'+city+'</option>';

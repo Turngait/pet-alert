@@ -5,6 +5,8 @@ include "modules/user.class.php";
 
 $user = new User($_SESSION[id], $_SESSION[name]);
 
+
+//Рендер страниц
 if(isset($_GET[desc])) {
     $html = showDesc();
     echo $html;
@@ -30,6 +32,12 @@ if(isset($_GET[policy])) {
     echo $html;
 }
 
+if(isset($_GET['get_info'])) {
+    $html = renderInfo("Hello", 'main_controller.php?desc=1');
+    echo $html;
+}
+
+//Функционал
 if(isset($_GET[reg])) {
     $answer = $user->reg();
     if($answer > 1) {
@@ -41,12 +49,12 @@ if(isset($_GET[reg])) {
         echo "<script>window.location='main_controller.php?desc=1';</script>";
     }
     if($answer) {
-        echo "<script>alert('Вы зарегестрировались!');</script>";
-        echo "<script>window.location='main_controller.php?desc=1';</script>";
+        $html = renderInfo("Регистрация прошла успешно!", 'main_controller.php?desc=1');
+        echo $html;
     }
     else {
-        echo "<script>alert('Ошибка! Обратитесь к администратору!');</script>";
-        echo "<script>window.location='main_controller.php?desc=1';</script>";
+        $html = renderInfo("Ошибка! Обратитесь к администратору!", 'main_controller.php?desc=1');
+        echo $html;
     }
 }
 
@@ -66,8 +74,10 @@ if(isset($_GET['exit'])) {
     $user->exitUser();
 }
 
+
 //CRUD по постам обычных юзеров
 
+//Добавление постов
 if(isset($_GET['addPost'])) {
     $answer = $user->addPost($_SESSION[id]);
     if($answer) {
@@ -100,7 +110,7 @@ if(isset($_GET['addPostFind'])) {
     }
 }
 
-
+//Редактирование постов
 if(isset($_GET['editPost'])) {
     $answer = $user->editPost($_SESSION[id]);
     if($answer) {
@@ -125,6 +135,7 @@ if(isset($_GET['editFindPost'])) {
     }
 }
 
+//Удаление постов
 if(isset($_GET['deletePost'])) {
     $answer = $user->deletePost();
     if($answer) {
@@ -132,7 +143,7 @@ if(isset($_GET['deletePost'])) {
 
     }
     else {
-        echo "<script>alert('Ошибка редактирования записи!');</script>";
+        echo "<script>alert('Ошибка удаления записи!');</script>";
         echo "<script>window.location='main_controller.php?user_acc=1';</script>";
     }
 }
@@ -145,11 +156,12 @@ if(isset($_GET['deleteFindPost'])) {
 
     }
     else {
-        echo "<script>alert('Ошибка редактирования записи!');</script>";
+        echo "<script>alert('Ошибка удаления записи!');</script>";
         echo "<script>window.location='main_controller.php?user_acc=1';</script>";
     }
 }
 
+//Смена данных пользователем в ЛК
 if(isset($_GET['chandeUserData'])) {
     $answer = $user->changeUserData();
 
@@ -163,6 +175,7 @@ if(isset($_GET['chandeUserData'])) {
     }
 }
 
+//Смена пароля в ЛК
 if(isset($_GET['chandeUserPass'])){
     $answer = $user->changePassword();
 
@@ -176,6 +189,8 @@ if(isset($_GET['chandeUserPass'])){
     }
 }
 
+
+//Восстановление пароля
 if(isset($_GET['retrivePass'])) {
     $html = retrivePass();
     echo $html;

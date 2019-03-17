@@ -18,6 +18,7 @@ class User {
 
         $queryNU = "INSERT INTO `users` VALUES(NULL, '$name', '$email', '$login', '$pass', NULL, 0);";
         
+        //Проверяем занят ли логин и мэил на стороне сервера
         $check = $db -> prepare("SELECT * FROM users WHERE login='$login';");
         $check_email = $db -> prepare("SELECT * FROM users WHERE email='$email';");
         $check->execute();
@@ -25,7 +26,7 @@ class User {
         $check_email->execute();
         $user_email = $check_email->fetch();
         
-        //Если что то в user[id] находится, то присваиваем сессии элементы пользователя
+        //Если что то в user[id] находится, то такой логин и мэил заняты
         if (isset($user[id])) {
             if(isset($user_email[id])){
                 return 'email';
