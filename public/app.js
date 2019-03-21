@@ -407,6 +407,9 @@ function init() {
 
     //Фильтрация городов
     getCities();
+
+
+    document.querySelector('.preloader').style.display= 'none';
 }
 
 window.onload=init;

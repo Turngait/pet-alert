@@ -137,6 +137,7 @@ function init () {
             var userPassHandler = document.getElementById('user_pass_handler');
             userPassHandler.addEventListener('click', showPassChanger);
         }
+        document.querySelector('.preloader').style.display= 'none';
 }
 
 window.onload=init;

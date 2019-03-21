@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
     <head>
         <title>Pet-Alert</title>
-        <meta charset="UTF-8">
+        
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,25 +17,26 @@
         <!-- Подключаем свои стили -->
         <link rel="stylesheet" href="public/main.css">
 
-        <!-- Yandex.Metrika counter -->
-<script type="text/javascript" >
-   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-   m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-
-   ym(51632531, "init", {
-        id:51632531,
-        clickmap:true,
-        trackLinks:true,
-        accurateTrackBounce:true
-   });
-</script>
-<noscript><div><img src="https://mc.yandex.ru/watch/51632531" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-<!-- /Yandex.Metrika counter -->
     </head>
     <body>
         <div class="container">
             <header>
+            <!--preloader-->
+                <div class="row offset-right">
+                    <div class="col-md-12">
+                        <div class="preloader">
+                            <h2>Я почти загрузился :)</h2>
+                            <div class="preload_container">
+                            	<div class="pre_box"></div>
+                                <div class="pre_box"></div>
+                                <div class="pre_box"></div>
+                                <div class="pre_box"></div>
+                                <div class="pre_box"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <!--/preloader -->
                 <div class="row offset-right">
                     <div class="col-md-1"></div>
                     <div class="col-md-10">
@@ -44,7 +45,7 @@
                                 {% if user_id > 0 %}
                                 <div class="login">
                                     <p>
-                                        <img src="public/pic/Logo-mini.png" class="logo_mini"><span class="greetings">Добро пожаловать, {{user_name}}! </span>
+                                        <img src="public/pic/Logo-mini.png" class="logo_mini" alt="mini logo"><span class="greetings">Добро пожаловать, {{user_name}}! </span>
                                         <a href="main_controller.php?user_acc=1">Личный кабинет</a> 
                                         <a href="main_controller.php?exit=1">Выйти</a>
                                         {% if user_status == 1 %}
@@ -55,7 +56,7 @@
                                 </div>
                                 {%else%}
                                 <div class="login">
-                                    <p><img src="public/pic/Logo-mini.png" class="logo_mini"><a href="#" id="login">Войти</a> <a href="#" id="signup">Регистрация</a></p>
+                                    <p><img src="public/pic/Logo-mini.png" class="logo_mini" alt="mini logo"><a href="#" id="login">Войти</a> <a href="#" id="signup">Регистрация</a></p>
                                 </div>
                                 {%endif%}
                                 <div class="menu">
@@ -211,8 +212,8 @@
                                             <span class="dataPost">{{date[key]['day']}}.{{date[key]['month']}}.{{date[key]['year']}}</span>
                                         </p>
 
-                                        <a href="{{post['src']}}" target="_blanc">
-                                            <img src="{{post['src']}}" class="petPhoto">
+                                        <a href="{{post['src']}}" target="_blank">
+                                            <img src="{{post['src']}}" class="petPhoto" alt="Pet photo">
                                         </a>
                                         
                                         <p class="desc_text">
@@ -239,8 +240,8 @@
                                             <b><span class="cityPost">{{post['city']}}</span></b>
                                             <span class="dataPost">{{dateFind[key]['day']}}.{{dateFind[key]['month']}}.{{dateFind[key]['year']}}</span>
                                         </p>
-                                        <a href="{{post['src']}}" target="_blanc">
-                                            <img src="{{post['src']}}" class="petPhoto">
+                                        <a href="{{post['src']}}" target="_blank">
+                                            <img src="{{post['src']}}" class="petPhoto" alt="Pet photo">
                                         </a>
                                         <p class="desc_text">
                                             {{post['text']|nl2br}}
@@ -273,10 +274,10 @@
                         <div class="links">
                                 <p>
                                     <a href="main_controller.php?desc=1" class="bottom_menu">Объявления</a> <a href="main_controller.php?about=1" class="bottom_menu">О проекте</a>
-                                    <a href="https://vk.com/pet_alert" class="smm_links" target="_blank"><img src="public/pic/Vk-icon.png"></a>
-                                    <a href="https://www.instagram.com/petalert_ru/" class="smm_links" target="_blank"><img src="public/pic/ins-icon.png"></a>
-                                    <a href="https://twitter.com/PetAlertRU" class="smm_links" target="_blank"><img src="public/pic/tweeter-icon.png"></a>
-                                    <a href="https://www.facebook.com/Pet-Alert-747397372264474/" class="smm_links" target="_blank"><img src="public/pic/fb-icon.png"></a>
+                                    <a href="https://vk.com/pet_alert" class="smm_links" target="_blank"><img src="public/pic/Vk-icon.png" alt="VK link"></a>
+                                    <a href="https://www.instagram.com/petalert_ru/" class="smm_links" target="_blank"><img src="public/pic/ins-icon.png" alt="Instagram link"></a>
+                                    <a href="https://twitter.com/PetAlertRU" class="smm_links" target="_blank"><img src="public/pic/tweeter-icon.png" alt="tweeter link"></a>
+                                    <a href="https://www.facebook.com/Pet-Alert-747397372264474/" class="smm_links" target="_blank"><img src="public/pic/fb-icon.png" alt="FB link"></a>
                                 </p>
                         </div>
                     </div>
@@ -284,6 +285,21 @@
                 </div>
             </footer>
         </div>
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript" >
+   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+   m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+   ym(51632531, "init", {
+        id:51632531,
+        clickmap:true,
+        trackLinks:true,
+        accurateTrackBounce:true
+   });
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/51632531" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
         <script src="public/app.js"></script>
     </body>
 </html>
