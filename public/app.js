@@ -21,24 +21,13 @@ function showReg() {
         <h4>Регистрация</h4>\
         <p>\
             <span id="showInfoReg"></span>\
-            <br>\
-            Введите Ваше имя\
-            <br>\
-            <input type="text" name="user_name" placeholder="Введите Ваше имя"><br>\
-            Введите логин\
-            <br>\
-            <input id="login_user" type="text" name="user_login" placeholder="Введите логин"><br>\
-            Введите ваш e-mail\
-            <br>\
-            <input id="email_user" type="text" name="user_mail" placeholder="Введите ваш e-mail"><br>\
-            Введите пароль\
-            <br>\
-            <input id="password_user" type="text" name="user_pass" placeholder="Введите пароль"><br>\
-            <br>\
+            <input type="text" name="user_name" class="inp" placeholder="Введите Ваше имя">\
+            <input id="email_user" class="inp" type="text" name="user_mail" placeholder="Введите ваш e-mail">\
+            <input id="login_user" type="text" class="inp" name="user_login" placeholder="Введите логин">\
+            <input id="password_user" type="text" class="inp" name="user_pass" placeholder="Введите пароль">\
             Нажимая кнопку "Регистрация" Вы соглашаетесь с <a href="main_controller.php?about=1" target="_blank">"Правилами сайта"</a> \
             и <a href="main_controller.php?policy=1" target="_blank">"Политикой обработки персональных данных"</a>.<br>\
-            <input id="button_submit" type="submit" value="Регистрация">\
-            <br>\
+            <button id="button_submit" type="submit" class="butn popup_butn">Регистрация</button>\
         </p>\
         </form>';
     document.getElementById('wrapper').innerHTML = html;
@@ -157,19 +146,12 @@ function showLogin() {
     authForm.classList.add('slideInDown');
 
     html = '<form action="main_controller.php?auth=1" method="POST" class="auth_form">\
-            <h4>Вход в систему</h4>\
+            <h4>Войти</h4>\
             <p>\
-                Введите Ваш логин\
-                <br>\
-                <input type="text" name="login" placeholder="Введите Ваш логин">\
-                <br>\
-                Введите Ваш пароль\
-                <br>\
-                <input type="password" name="pass" placeholder="Введите Ваш пароль">\
-                <br>\
+                <input type="text" class="inp" name="login" placeholder="Введите Ваш логин">\
+                <input type="password" class="inp" name="pass" placeholder="Введите Ваш пароль">\
                 <a href="main_controller.php?retrivePass=1">Забыли пароль?</a>\
-                <br>\
-                <input type="submit" value="Войти">\
+                <button type="submit" class="butn popup_butn">Войти</button>\
             </p>\
         </form>';
     document.getElementById('wrapper').innerHTML = html;
@@ -320,21 +302,21 @@ function changePostsHandler(event) {
 // Функции фильтрации по городам
 function filterCities (event) {
     let chosenCity = event.target.value;
-    let collectionPost = document.getElementsByClassName('cityPost');
+    let collectionPost = document.getElementsByClassName('post_city');
 
     for (key of collectionPost) {
         if (chosenCity === 'Все города') {
-            let nodeShow = key.parentNode.parentNode.parentNode.parentNode;
+            let nodeShow = key.parentNode.parentNode;
             nodeShow.style.display = 'block';
             continue;
         } 
         
         if(key.innerText !== chosenCity) {
-            let nodeHide = key.parentNode.parentNode.parentNode.parentNode;
+            let nodeHide = key.parentNode.parentNode;
             nodeHide.setAttribute('style', 'display:none;');
         }
         else {
-            let nodeShow = key.parentNode.parentNode.parentNode.parentNode;
+            let nodeShow = key.parentNode.parentNode;
             nodeShow.style.display = 'block';
         }
     }
@@ -342,7 +324,7 @@ function filterCities (event) {
 }
 
 function getCities() {
-    let collectionPost = document.getElementsByClassName('cityPost');
+    let collectionPost = document.getElementsByClassName('post_city');
     let citysPost = new Set;
     for (key of collectionPost) {
         citysPost.add(key.innerText);
@@ -387,16 +369,16 @@ function init() {
             policy.classList.remove('hidden');
             policy.classList.add('vissible');
         }, 1000);
-    
+    }
+    var loginButton = document.getElementById('login');
+    if (loginButton) {
+        loginButton.addEventListener('click', showLogin);
         var closeButton = document.getElementById('close');
         closeButton.addEventListener('click', closeReg);
         
         var regButton = document.getElementById('signup');
         regButton.addEventListener('click', showReg);
-    
-        var loginButton = document.getElementById('login');
-        loginButton.addEventListener('click', showLogin);
-    
+
         var loginButton = document.getElementById('login1');
         loginButton.addEventListener('click', showLogin);
 
@@ -404,10 +386,8 @@ function init() {
         var changePostsHandlerButtons = document.getElementById('showPostsMenu');
         changePostsHandlerButtons.addEventListener('click', changePostsHandler); 
     }
-
     //Фильтрация городов
     getCities();
-
 
     document.querySelector('.preloader').style.display= 'none';
 }

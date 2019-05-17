@@ -3,7 +3,7 @@ console.log("Hello!");
 //Функции информационных страниц
 
 function showReg() {
-    authForm = document.getElementById('auth');
+    var authForm = document.getElementById('auth');
     authForm.classList.remove('hidden');
     authForm.classList.remove('slideOutUp');
     //authForm.classList.add('vissible');
@@ -11,57 +11,150 @@ function showReg() {
     authForm.classList.add('slideInDown');
 
 
-    html = '<form action="main_controller.php?reg=1" method="POST">\
+    html = '<form action="main_controller.php?reg=1" method="POST" class="auth_form">\
         <h4>Регистрация</h4>\
         <p>\
-            Введите Ваше имя\
-            <br>\
-            <input type="text" name="user_name" placeholder="Введите Ваше имя"><br>\
-            Введите логин\
-            <br>\
-            <input type="text" name="user_login" placeholder="Введите логин"><br>\
-            Введите пароль\
-            <br>\
-            <input type="text" name="user_pass" placeholder="Введите пароль"><br>\
-            Введите ваш e-mail\
-            <br>\
-            <input type="text" name="user_mail" placeholder="Введите ваш e-mail"><br><br>\
+            <span id="showInfoReg"></span>\
+            <input type="text" name="user_name" class="inp" placeholder="Введите Ваше имя">\
+            <input id="email_user" class="inp" type="text" name="user_mail" placeholder="Введите ваш e-mail">\
+            <input id="login_user" type="text" class="inp" name="user_login" placeholder="Введите логин">\
+            <input id="password_user" type="text" class="inp" name="user_pass" placeholder="Введите пароль">\
             Нажимая кнопку "Регистрация" Вы соглашаетесь с <a href="main_controller.php?about=1" target="_blank">"Правилами сайта"</a> \
             и <a href="main_controller.php?policy=1" target="_blank">"Политикой обработки персональных данных"</a>.<br>\
-            <input type="submit" value="Регистрация">\
-            <br>\
+            <button id="button_submit" type="submit" class="butn popup_butn">Регистрация</button>\
         </p>\
         </form>';
     document.getElementById('wrapper').innerHTML = html;
+
+    // Валидация
+    //Login
+    document.getElementById('login_user').addEventListener('keyup', (event) => {
+        let keyCheck = /[a-zA-Z1-9]/;
+        let keys = event.target.value;
+        
+        if(keyCheck.test(keys) == false) {
+            event.target.classList.add('wrong');
+            document.getElementById('showInfoReg').innerText='Логин должен содержать только буквы латинского алфавита и цифры.';
+            document.getElementById('button_submit').setAttribute('disabled', 'disabled');
+        } else {
+            event.target.classList.remove('wrong');
+            document.getElementById('showInfoReg').innerText='';
+            document.getElementById('button_submit').removeAttribute('disabled');
+        }
+    });
+
+    //Аякс запрос на существование введенного логина
+    document.getElementById('login_user').addEventListener('change', (event) => {
+        var keys = '';
+        let keyWar = event.target.value;
+        let index_t = keyWar.indexOf(';');
+        console.log(index_t);
+        if (index_t !== -1) {
+             keys = keyWar.substring(0, index_t);
+        } else {
+            keys = keyWar;
+        }
+
+        fetch('lib/ajax_controller.php?check_login=' + keys)
+        .then((responce) => {
+            return responce.text();
+        })
+        .then((answer) =>{
+            console.log(answer);
+            let check = Number(answer);
+            if (check === 1) {
+                event.target.classList.add('wrong');
+                document.getElementById('showInfoReg').innerText='Логин уже существует.';
+                document.getElementById('button_submit').setAttribute('disabled', 'disabled');
+            }
+            else if (check === 0) {
+                event.target.classList.remove('wrong');
+                document.getElementById('showInfoReg').innerText='';
+                document.getElementById('button_submit').removeAttribute('disabled');
+            };
+            
+        });
+    });
+
+    //Password
+    document.getElementById('password_user').addEventListener('keyup', (event) => {
+        let keyCheck = /[a-zA-Z1-9]/;
+        let keys = event.target.value;
+        
+        if(keyCheck.test(keys) == false) {
+            event.target.classList.add('wrong');
+            document.getElementById('showInfoReg').innerText = 'Пароль должен содержать только буквы латинского алфавита и цифры.';
+            document.getElementById('button_submit').setAttribute('disabled', 'disabled');
+        } else {
+            event.target.classList.remove('wrong');
+            document.getElementById('showInfoReg').innerText = '';
+            document.getElementById('button_submit').removeAttribute('disabled');
+        }
+    });
+
+    //Email
+    document.getElementById('email_user').addEventListener('change', (event) => {
+        let keyCheck = /[0-9a-z-\.\_]+\@[0-9a-z-\_]{2,}\.[a-z]{2,}/i;
+        let keys = event.target.value;
+        
+        if(keyCheck.test(keys) == false) {
+            event.target.classList.add('wrong');
+            document.getElementById('showInfoReg').innerText = 'Формат e-mail\'а указан не верно.';
+            document.getElementById('button_submit').setAttribute('disabled', 'disabled');
+        } else {
+            event.target.classList.remove('wrong');
+            document.getElementById('showInfoReg').innerText = '';
+            document.getElementById('button_submit').removeAttribute('disabled');
+
+            fetch('lib/ajax_controller.php?check_email=' + keys)
+            .then((responce) => {
+                return responce.text();
+            })
+            .then((answer) =>{
+                console.log(answer);
+                let check = Number(answer);
+                if (check === 1) {
+                    event.target.classList.add('wrong');
+                    document.getElementById('showInfoReg').innerText='Email уже существует.';
+                    document.getElementById('button_submit').setAttribute('disabled', 'disabled');
+                }
+                else if (check === 0) {
+                    event.target.classList.remove('wrong');
+                    document.getElementById('showInfoReg').innerText='';
+                    document.getElementById('button_submit').removeAttribute('disabled');
+                };
+                
+            });
+        }
+    });
 }
 
+
+//Отрисовка панели входа
 function showLogin() {
-    authForm = document.getElementById('auth');
+    var authForm = document.getElementById('auth');
     authForm.classList.remove('hidden');
     authForm.classList.remove('slideOutUp');
     authForm.classList.add('vissible');
     authForm.classList.add('animated');
     authForm.classList.add('slideInDown');
 
-    html = '<form action="main_controller.php?auth=1" method="POST">\
-            <h4>Вход в систему</h4>\
+    html = '<form action="main_controller.php?auth=1" method="POST" class="auth_form">\
+            <h4>Войти</h4>\
             <p>\
-                Введите Ваш логин\
-                <br>\
-                <input type="text" name="login" placeholder="Введите Ваш логин">\
-                <br>\
-                Введите Ваш пароль\
-                <br>\
-                <input type="password" name="pass" placeholder="Введите Ваш пароль">\
-                <br>\
-                <input type="submit" value="Войти">\
+                <input type="text" class="inp" name="login" placeholder="Введите Ваш логин">\
+                <input type="password" class="inp" name="pass" placeholder="Введите Ваш пароль">\
+                <a href="main_controller.php?retrivePass=1">Забыли пароль?</a>\
+                <button type="submit" class="butn popup_butn">Войти</button>\
             </p>\
         </form>';
     document.getElementById('wrapper').innerHTML = html;
 }
 
+
+//Закрытие регистрации
 function closeReg() {
-    authForm = document.getElementById('auth');
+    var authForm = document.getElementById('auth');
     authForm.classList.remove('vissible');
     authForm.classList.remove('slideInDown');
     authForm.classList.add('slideOutUp');

@@ -17,21 +17,6 @@
         <!-- Подключаем свои стили -->
         <link rel="stylesheet" href="public/main.css">
 
-        <!-- Yandex.Metrika counter -->
-<script type="text/javascript" >
-   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-   m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-
-   ym(51632531, "init", {
-        id:51632531,
-        clickmap:true,
-        trackLinks:true,
-        accurateTrackBounce:true
-   });
-</script>
-<noscript><div><img src="https://mc.yandex.ru/watch/51632531" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-<!-- /Yandex.Metrika counter -->
     </head>
     <body>
         <div class="container">
@@ -63,11 +48,9 @@
                             <h2>Восстановление пароля.</h2>
                             <div class="add_form">
                                 <form action="main_controller.php?getPassbyEmail=1" method="POST">
-                                    Укажите ваш e-mail
-                                    <br>
-                                    <input type="text" name="email">
-                                    <br>
-                                    <input type="submit">
+                                    <input class="inp inp_main_form" type="text" name="email" placeholder="Укажите ваш e-mail">
+                                    
+                                    <button type="submit" class="butn popup_butn">Отправить</button>
                                 </form>
                             </div>
                         </div>
@@ -81,24 +64,24 @@
                     <div class="col-md-10">
 
                         <p class="copy">
-                            2018 © <a href="mailto:info@pet-alert.ru" class="bottom_menu">info@pet-alert.ru</a><br>
-                            <a href="main_controller.php?policy=1" target="_blank" class="bottom_menu">Политика обработки персональных данных пользователей</a>
+                            2019 © <a class="menu_link" href="mailto:info@pet-alert.ru" class="bottom_menu">info@pet-alert.ru</a><br>
+                            <a class="menu_link" href="main_controller.php?policy=1" target="_blank" class="bottom_menu">Политика обработки персональных данных пользователей</a>
                         </p>
+                        <div class="socio_links">
+                                    <a href="https://vk.com/pet_alert" class="smm_links" target="_blank"><img src="public/pic/Vk-icon.png" alt="VK link"></a>
+                                    <a href="https://www.instagram.com/petalert_ru/" class="smm_links" target="_blank"><img src="public/pic/ins-icon.png" alt="Instagram link"></a>
+                                    <a href="https://twitter.com/PetAlertRU" class="smm_links" target="_blank"><img src="public/pic/tweeter-icon.png" alt="tweeter link"></a>
+                                    <a href="https://www.facebook.com/Pet-Alert-747397372264474/" class="smm_links" target="_blank"><img src="public/pic/fb-icon.png" alt="FB link"></a>
+                        </div>
                         
                         <div class="links">
-                                <p>
-                                    <a href="main_controller.php?desc=1" class="bottom_menu">Объявления</a> <a href="main_controller.php?about=1" class="bottom_menu">О проекте</a>
-                                    <a href="https://vk.com/pet_alert" class="smm_links" target="_blank"><img src="public/pic/Vk-icon.png"></a>
-                                    <a href="https://www.instagram.com/petalert_ru/" class="smm_links" target="_blank"><img src="public/pic/ins-icon.png"></a>
-                                    <a href="https://twitter.com/PetAlertRU" class="smm_links" target="_blank"><img src="public/pic/tweeter-icon.png"></a>
-                                    <a href="https://www.facebook.com/Pet-Alert-747397372264474/" class="smm_links" target="_blank"><img src="public/pic/fb-icon.png"></a>
-                                </p>
+                                    <a class="menu_link" href="main_controller.php?desc=1" class="bottom_menu">Объявления</a> 
+                                    <a class="menu_link" href="main_controller.php?about=1" class="bottom_menu">О проекте</a>
                         </div>
                     </div>
                     <div class="col-md-1"></div>
                 </div>
             </footer>
         </div>
-        <script src="public/app.js"></script>
     </body>
 </html>

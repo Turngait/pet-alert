@@ -7,27 +7,27 @@ $user = new User($_SESSION[id], $_SESSION[name]);
 
 
 //Рендер страниц
-if(isset($_GET[desc])) {
+if(isset($_GET['desc'])) {
     $html = showDesc();
     echo $html;
 }
 
-if(isset($_GET[new_post])) {
+if(isset($_GET['new_post'])) {
     $html = newPost();
     echo $html;
 }
 
-if(isset($_GET[about])) {
+if(isset($_GET['about'])) {
     $html = showAbout();
     echo $html;
 }
 
-if(isset($_GET[user_acc])) {
+if(isset($_GET['user_acc'])) {
     $html = userAcc($_SESSION[id]);
     echo $html;
 }
 
-if(isset($_GET[policy])) {
+if(isset($_GET['policy'])) {
     $html = showPolicy();
     echo $html;
 }
@@ -37,8 +37,13 @@ if(isset($_GET['get_info'])) {
     echo $html;
 }
 
+if(isset($_GET['get_login'])) {
+    $html = renderLogin("Login page");
+    echo $html;
+}
+
 //Функционал
-if(isset($_GET[reg])) {
+if(isset($_GET['reg'])) {
     $answer = $user->reg();
     if($answer > 1) {
         echo "<script>alert('Такой логин уже существует!');</script>";
@@ -49,11 +54,11 @@ if(isset($_GET[reg])) {
         echo "<script>window.location='main_controller.php?desc=1';</script>";
     }
     if($answer) {
-        $html = renderInfo("Регистрация прошла успешно!", 'main_controller.php?desc=1');
+        $html = renderInfo("Вы успешно зарегестрировались!", 'main_controller.php?desc=1');
         echo $html;
     }
     else {
-        $html = renderInfo("Ошибка! Обратитесь к администратору!", 'main_controller.php?desc=1');
+        $html = renderInfo("Ошибка регистрации! Обратитесь к администратору!", 'main_controller.php?desc=1');
         echo $html;
     }
 }
@@ -65,8 +70,8 @@ if(isset($_GET[auth])) {
         echo "<script>window.location='main_controller.php?desc=1';</script>";
     }
     else {
-        echo "<script>alert('Неверный логин или пароль!');</script>";
-        echo "<script>window.location='main_controller.php?desc=1';</script>";
+        $html = renderLogin("Неверный логин или пароль!");
+        echo $html;
     }
 }
 
@@ -85,12 +90,12 @@ if(isset($_GET['addPost'])) {
 
     }
     else if ($answer == 2) {
-        echo "<script>alert('Ошибка загрузки изображения!');</script>";
-        echo "<script>window.location='main_controller.php?desc=1';</script>";
+        $html = renderInfo("Ошибка загрузки изображения! Обратитесь к администратору!", 'main_controller.php?desc=1');
+        echo $html;
     }
     else {
-        echo "<script>alert('Ошибка добавления записи!');</script>";
-        echo "<script>window.location='main_controller.php?desc=1';</script>";
+        $html = renderInfo("Ошибка добавления записи! Обратитесь к администратору!", 'main_controller.php?desc=1');
+        echo $html;
     }
 }
 
@@ -101,12 +106,12 @@ if(isset($_GET['addPostFind'])) {
 
     }
     else if ($answer === 2) {
-        echo "<script>alert('Ошибка загрузки изображения!');</script>";
-        echo "<script>window.location='main_controller.php?desc=1';</script>";
+        $html = renderInfo("Ошибка загрузки изображения! Обратитесь к администратору!", 'main_controller.php?desc=1');
+        echo $html;
     }
     else {
-        echo "<script>alert('Ошибка добавления записи!');</script>";
-        echo "<script>window.location='main_controller.php?desc=1';</script>";
+        $html = renderInfo("Ошибка добавления записи! Обратитесь к администратору!", 'main_controller.php?desc=1');
+        echo $html;
     }
 }
 
@@ -118,8 +123,8 @@ if(isset($_GET['editPost'])) {
 
     }
     else {
-        echo "<script>alert('Ошибка редактирования записи!');</script>";
-        echo "<script>window.location='main_controller.php?user_acc=1';</script>";
+        $html = renderInfo("Ошибка редактирования записи! Обратитесь к администратору!", 'main_controller.php?user_acc=1');
+        echo $html;
     }
 }
 
@@ -130,8 +135,8 @@ if(isset($_GET['editFindPost'])) {
 
     }
     else {
-        echo "<script>alert('Ошибка редактирования записи!');</script>";
-        echo "<script>window.location='main_controller.php?user_acc=1';</script>";
+        $html = renderInfo("Ошибка редактирования записи! Обратитесь к администратору!", 'main_controller.php?user_acc=1');
+        echo $html;
     }
 }
 
@@ -140,11 +145,10 @@ if(isset($_GET['deletePost'])) {
     $answer = $user->deletePost();
     if($answer) {
         echo "<script>window.location='main_controller.php?user_acc=1';</script>";
-
     }
     else {
-        echo "<script>alert('Ошибка удаления записи!');</script>";
-        echo "<script>window.location='main_controller.php?user_acc=1';</script>";
+        $html = renderInfo("Ошибка удаления записи! Обратитесь к администратору!", 'main_controller.php?user_acc=1');
+        echo $html;
     }
 }
 
@@ -156,8 +160,8 @@ if(isset($_GET['deleteFindPost'])) {
 
     }
     else {
-        echo "<script>alert('Ошибка удаления записи!');</script>";
-        echo "<script>window.location='main_controller.php?user_acc=1';</script>";
+        $html = renderInfo("Ошибка удаления записи! Обратитесь к администратору!", 'main_controller.php?user_acc=1');
+        echo $html;
     }
 }
 
@@ -170,8 +174,8 @@ if(isset($_GET['chandeUserData'])) {
 
     }
     else {
-        echo "<script>alert('Ошибка редактирования!');</script>";
-        echo "<script>window.location='main_controller.php?user_acc=1';</script>";
+        $html = renderInfo("Ошибка редактирования личных данных! Обратитесь к администратору!", 'main_controller.php?user_acc=1');
+        echo $html;
     }
 }
 
@@ -184,8 +188,8 @@ if(isset($_GET['chandeUserPass'])){
 
     }
     else {
-        echo "<script>alert('Пароль указан не верно!');</script>";
-        echo "<script>window.location='main_controller.php?user_acc=1';</script>";
+        $html = renderInfo("Старый пароль указан не верно!", 'main_controller.php?user_acc=1');
+        echo $html;
     }
 }
 
@@ -200,13 +204,12 @@ if(isset($_GET['getPassbyEmail'])) {
     $answer = $user->retrivePass();
     
     if($answer) {
-        echo "<script>alert('Вам отправлено письмо на почту!');</script>";
-        echo "<script>window.location='main_controller.php?desc=1';</script>";
-
+        $html = renderInfo("Вам отправлено письмо на почту!", 'main_controller.php?desc=1');
+        echo $html;
     }
     else {
-        echo "<script>alert('Email указан не верно!');</script>";
-        echo "<script>window.location='main_controller.php?desc=1';</script>";
+        $html = renderInfo("Email указан не верно!", 'main_controller.php?retrivePass=1');
+        echo $html;
     }
 }
 
@@ -216,20 +219,22 @@ if(isset($_GET['setNewPass'])) {
 }
 
 if(isset($_GET['setNewPassEnd'])) {
+    $url = $_SERVER['HTTP_REFERER'];
     $answer = $user->setNewUserPass();
+    
 
-    if($answer) {
-        echo "<script>alert('Пароль изменен!');</script>";
-        echo "<script>window.location='main_controller.php?desc=1';</script>";
-
+    if($answer ==='not equal') {
+        $html = renderInfo("Проверочное число указано не верно!", $url);
+        echo $html;
     }
-    else if ($answer ==='not equal') {
-        echo "<script>alert('Проверочное число указано не верно!');</script>";
-        echo "<script>window.location='main_controller.php?desc=1';</script>";
+    else if ($answer) {
+        $html = renderInfo("Пароль изменен!", 'main_controller.php?desc=1');
+        echo $html;
+        
     }
     else {
-        echo "<script>alert('Ошибка! Обратитесь к администратору сайта.');</script>";
-        echo "<script>window.location='main_controller.php?desc=1';</script>";
+        $html = renderInfo("Ошибка! Обратитесь к администратору сайта.", 'main_controller.php?desc=1');
+        echo $html;
     }
 }
 ?>

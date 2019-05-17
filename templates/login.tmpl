@@ -57,10 +57,20 @@
                             </div>
                         </div>
                         <div class="main_wrapper">
-                            <p class="get_info_text">
-                            {{info}}
-                            </p>
-                            <a href="{{link}}" class="get_info_link"><< Назад</a>
+                            <div class="add_form main_form" id="add_post_desc">
+                                <h4 class="form_header">Войти</h4>
+                                <span class="login_info">{{info}}</span>
+                                <form action="main_controller.php?auth=1" method="POST" class="auth_form">
+                                    <p>
+                                        <input type="text" class="inp inp_main_form" name="login" placeholder="Введите Ваш логин">
+                                        <input type="password" class="inp inp_main_form" name="pass" placeholder="Введите Ваш пароль">
+                                        <p>
+                                            <a class="main_form_link" href="main_controller.php?retrivePass=1">Забыли пароль?</a>
+                                        </p>
+                                        <button type="submit" class="butn popup_butn">Войти</button>
+                                    </p>
+                                </form>
+                            </div>
                             
                             
                         </div>

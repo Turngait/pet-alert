@@ -21,8 +21,8 @@ function showMain() {
     // Передаем в шаблон переменные и значения
     // Выводим сформированное содержание
     echo $template->render(array(
-        'user_id' => $_SESSION[id],
-        'user_name' =>$_SESSION[name]
+        'user_id' => $_SESSION['id'],
+        'user_name' =>$_SESSION['name']
     ));
     } catch (Exception $e) {
     die ('ERROR: ' . $e->getMessage());
@@ -35,6 +35,17 @@ function showMain() {
 //Отрисовывает страницу с объявлениями
 function showDesc() {
         include "config/pdo.php";
+
+        //$_COOKIE['policy_check'] - кукисы для проверки, видел ли пользователь
+        //предупреждение про исп кукисов на сайте. хранятся - 1 неделя
+        if(isset($_COOKIE['policy_check'])) {
+            $policy_check = 1;
+        }
+        else {
+            setcookie('policy_check', 'checked', time()+3600*24);
+            $policy_check = 0;
+        }
+
         $quary = "SELECT * FROM lost_post ORDER BY id DESC;";
         $posts = $db -> prepare($quary);
         $posts->execute();
@@ -51,11 +62,11 @@ function showDesc() {
         $date = [];
         $dateFind=[];
         foreach ($arr as $post) {
-            $date_new = date_parse($post[created_at]);
+            $date_new = date_parse($post['created_at']);
             array_push($date, $date_new);
         }
         foreach ($arrFind as $post) {
-            $date_new = date_parse($post[created_at]);
+            $date_new = date_parse($post['created_at']);
             array_push($dateFind, $date_new);
         }
         //открываем буфферизацию
@@ -73,13 +84,14 @@ function showDesc() {
         // Передаем в шаблон переменные и значения
         // Выводим сформированное содержание
         echo $template->render(array(
-            'user_id' => $_SESSION[id],
-            'user_name' =>$_SESSION[name],
-            'user_status' => $_SESSION[status],
+            'user_id' => $_SESSION['id'],
+            'user_name' =>$_SESSION['name'],
+            'user_status' => $_SESSION['status'],
             'posts' => $arr,
             'date' => $date,
             'postsFind' => $arrFind,
-            'dateFind' => $dateFind
+            'dateFind' => $dateFind,
+            'policy_check' => $policy_check
         ));
         } catch (Exception $e) {
         die ('ERROR: ' . $e->getMessage());
@@ -107,8 +119,8 @@ function newPost() {
     // Передаем в шаблон переменные и значения
     // Выводим сформированное содержание
     echo $template->render(array(
-        'user_id' => $_SESSION[id],
-        'user_name' =>$_SESSION[name]
+        'user_id' => $_SESSION['id'],
+        'user_name' =>$_SESSION['name']
 
     ));
     } catch (Exception $e) {
@@ -139,7 +151,7 @@ function userAcc($user_id) {
 
     $date = [];
     foreach ($arr as $post) {
-        $date_new = date_parse($post[created_at]);
+        $date_new = date_parse($post['created_at']);
         array_push($date, $date_new);
     }
 
@@ -153,7 +165,7 @@ function userAcc($user_id) {
 
     $dateFind = [];
     foreach ($arrFind as $postFind) {
-        $date_newFind = date_parse($postFind[created_at]);
+        $date_newFind = date_parse($postFind['created_at']);
         array_push($dateFind, $date_newFind);
     }
 
@@ -172,8 +184,8 @@ function userAcc($user_id) {
     // Передаем в шаблон переменные и значения
     // Выводим сформированное содержание
     echo $template->render(array(
-        'user_id' => $_SESSION[id],
-        'user_name' =>$_SESSION[name],
+        'user_id' => $_SESSION['id'],
+        'user_name' =>$_SESSION['name'],
         'posts' => $arr,
         'date' => $date,
         'dateFind' => $dateFind,
@@ -207,8 +219,8 @@ function showAbout() {
     // Передаем в шаблон переменные и значения
     // Выводим сформированное содержание
     echo $template->render(array(
-        'user_id' => $_SESSION[id],
-        'user_name' =>$_SESSION[name]
+        'user_id' => $_SESSION['id'],
+        'user_name' =>$_SESSION['name']
 
     ));
     } catch (Exception $e) {
@@ -238,8 +250,8 @@ function showPolicy() {
     // Передаем в шаблон переменные и значения
     // Выводим сформированное содержание
     echo $template->render(array(
-        'user_id' => $_SESSION[id],
-        'user_name' =>$_SESSION[name]
+        'user_id' => $_SESSION['id'],
+        'user_name' =>$_SESSION['name']
 
     ));
     } catch (Exception $e) {
@@ -268,11 +280,40 @@ function renderInfo($info, $link) {
     // Передаем в шаблон переменные и значения
     // Выводим сформированное содержание
     echo $template->render(array(
-        'user_id' => $_SESSION[id],
-        'user_name' =>$_SESSION[name],
+        'user_id' => $_SESSION['id'],
+        'user_name' =>$_SESSION['name'],
         'info' => $info,
         'link' => $link
 
+    ));
+    } catch (Exception $e) {
+    die ('ERROR: ' . $e->getMessage());
+    }
+
+    //возвращаем все что оказалось в буффере.
+    return ob_get_clean();
+}
+
+
+function renderLogin($info) {
+    //открываем буфферизацию
+    ob_start();
+    // Подгружаем и активируем автозагрузчик Twig-а
+    require_once 'Twig/Autoloader.php';
+    Twig_Autoloader::register();
+    try {
+    // папка шаблонов
+    $loader = new Twig_Loader_Filesystem('templates');
+    // Инициализируем Twig
+    $twig = new Twig_Environment($loader);
+    // Подгружаем шаблон
+    $template = $twig->loadTemplate('login.tmpl');
+    // Передаем в шаблон переменные и значения
+    // Выводим сформированное содержание
+    echo $template->render(array(
+        'user_id' => $_SESSION['id'],
+        'user_name' =>$_SESSION['name'],
+        'info' => $info
     ));
     } catch (Exception $e) {
     die ('ERROR: ' . $e->getMessage());
