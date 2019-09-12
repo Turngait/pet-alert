@@ -1,0 +1,21 @@
+<header class="header_box">
+  <p>
+    <img src="public/pic/Logo-mini.png" class="logo_mini" alt="mini logo"><span class="greetings">
+  </p>
+  <div class="menu">
+    <a class="menu_link" href="main_controller.php?desc=1">Объявления</a>
+    <a class="menu_link" href="main_controller.php?about=1">О проекте</a>
+  {% if user_id > 0 %}
+    {# Добро пожаловать, {{user_name}}! #}
+    <a class="menu_link" href="main_controller.php?user_acc=1">Личный кабинет</a>
+    <a class="menu_link" href="main_controller.php?exit=1">Выйти</a>
+  {% if user_status == 1 %}
+    <a class="menu_link" href="main_controller.php?admin_intro=1">Админка</a>
+  {%endif%}
+  
+  {%else%}
+    <a class="menu_link" href="#" id="login">Войти</a>
+    <a class="menu_link" href="#" id="signup">Регистрация</a>
+  {%endif%}
+  </div>
+  </header>

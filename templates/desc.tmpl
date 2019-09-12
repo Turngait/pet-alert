@@ -1,273 +1,163 @@
 <!DOCTYPE html>
 <html lang="ru">
-    <head>
-        <title>Pet-Alert</title>
-        
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="shortcut icon" type="image/png" href="public/pic/favicon.png"/>
+  {% include 'head.tmpl' %}
+  <body>
+      {% include 'preloader.tmpl' %}
+      {% include 'header.tmpl' %}
+      <main class="main_box">
+            <div class="auth hidden" id="auth">
+              <i id="close" class="fas fa-times"></i>
+              <div id="wrapper"></div>
+            </div>
+            <div class="main_wrapper">
+              {%if user_id is empty %}
+                {%if policy_check == 0 %}
+                  {% include 'cookiesInfo.tmpl' %}
+                {%endif%}
+              {%endif%}
 
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
-        <!-- Подключаем animate.css -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
-        <!-- Подключаем бутстраповские стили -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-        
-        <!-- Подключаем свои стили -->
-        <link rel="stylesheet" href="public/main.css">
+                  {% if user_id > 0 %}
+                    <p>
+                      <select id="sortPost"></select>
+                      <button id="addDesc" class="butn2">Добавить объявления</button>
 
-    </head>
-    <body>
-        <div class="container">
-            <header>
-            <!--preloader-->
-                <div class="row offset-right">
-                    <div class="col-md-12">
-                        <div class="preloader">
-                            <h2>Я почти загрузился :)</h2>
-                            <div class="preload_container">
-                            	<div class="pre_box"></div>
-                                <div class="pre_box"></div>
-                                <div class="pre_box"></div>
-                                <div class="pre_box"></div>
-                                <div class="pre_box"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            <!--/preloader -->
-                <div class="row offset-right">
-                    <div class="col-md-1"></div>
-                    <div class="col-md-10">
-                        <div>
-                            <nav>
-                                {% if user_id > 0 %}
-                                <div class="login">
-                                    <p>
-                                        <img src="public/pic/Logo-mini.png" class="logo_mini" alt="mini logo"><span class="greetings">Добро пожаловать, {{user_name}}! </span>
-                                        <a class="menu_link" href="main_controller.php?user_acc=1">Личный кабинет</a> 
-                                        <a class="menu_link" href="main_controller.php?exit=1">Выйти</a>
-                                        {% if user_status == 1 %}
-                                        <a class="menu_link" href="main_controller.php?admin_intro=1">Админка</a>
-                                        {%endif%}
-                                    </p>
+                    </p>
+                    <div class="add_form hidden" id="add_post_desc">
+                      <h4 class="form_header">Добавить объявление</h4>
+                      <div id="add_desc_menu" class="sweetcher">
+                        <button class="sweetcher_elem chosen" data-param="lost">Поиск животных</button>
+                        <button class="sweetcher_elem" data-param="find">Пристройство животных</button>
+                      </div>
+                      <div id="addDeskLost">
+                        <form action="main_controller.php?addPost=1" method="POST" enctype="multipart/form-data">
+                          <input class="inp inp_form" type="text" name="desc_name" placeholder="Укажите кто пропал, а так же имя.">
+                          <input class="inp inp_form right_inp" type="text" name="desc_city" placeholder="Укажите город.">
+                          <br>
+                          <input class="inp inp_form" type="text" name="desc_mail" id="lost_contact" placeholder="Как с Вами связаться?  Телефон, e-mail, соц сети.">
+                          <br>
+                          Загрузите фотографию Вашего питомца. Загружайте фотографии в формате .jpg или .png.
+                          <br>
+                          <input type="hidden" name="addPost" value="1">
+                          <input type="file" class="add_file_inp" name="pet_photo" accept="image/jpeg, image/png">
+                          <br>
+                          <textarea class="txtarea" name="desc_text" placeholder="Опишите Вашего питомца. Укажите его возраст, окрас, породу. Как он выглядел. Отличительные черты, приметы."></textarea>
+                          <div class="add_to_socio">
+                            <input type="checkbox" name="add_socio">
+                            Даю согласие на размещение моего объявления в соц-сетях.
+                          </div>
+                          Нажимая кнопку "Отправить" Вы соглашаетесь с
+                          <a class="form_link" href="main_controller.php?about=1" target="_blank">"Правилами сайта"</a>
+                          и
+                          <a class="form_link" href="main_controller.php?policy=1" target="_blank">"Политикой обработки персональных данных"</a>.
+                          <br>
+                          <button type="submit" class="butn popup_butn" id="lost_submit">Отправить</button>
+                        </form>
+                      </div>
 
-                                </div>
-                                {%else%}
-                                <div class="login">
-                                    <p><img src="public/pic/Logo-mini.png" class="logo_mini" alt="mini logo">
-                                    <a class="menu_link" href="#" id="login">Войти</a> <a class="menu_link" href="#" id="signup">Регистрация</a></p>
-                                </div>
-                                {%endif%}
-                                <div class="menu">
-                                    <p><a class="menu_link" href="main_controller.php?desc=1">Объявления</a>
-                                    <a class="menu_link" href="main_controller.php?about=1">О проекте</a></p>
-                                </div>
-                            </nav>
-                        </div>
-                    </div>
-                    <div class="col-md-1"></div>
-                </div>
-            </header>
-            <main>
-                <div class="row offset-right">
-                    <div class="col-md-1"></div>
-                    <div class="col-md-10">
-                        <div class="auth hidden" id="auth">
-                            <i  id="close" class="fas fa-times"></i>
-                            <div id="wrapper">
-                            </div>
-                        </div>
-                        <div class="main_wrapper">
-                        {%if user_id is empty%}
-                            {%if policy_check == 0 %}
-                                <div class="policy hidden" id="policy_div">
-                                    <p>
-                                        Данный сайт pet-alert.ru использует cookies.
-                                        <br>
-                                        Это необходимо для технической работы данного сайта.
-                                        <br>
-                                        В случае, если Вы не согласны с этим, то просьба покинуть данный сайт.
-                                        <br>
-                                        Вы так же можете ознакомиться с <a href="main_controller.php?about=1" target="_blank">"Правилами сайта"</a> и <a href="main_controller.php?policy=1" target="_blank">«Политикой обработки персональных данных на Сайте»</a>.
-                                        <button class="butn2" id="policy_button" onclick = "closePolicy()">Ок</button>
-                                    </p>
-                                </div>
-                            {%endif%}    
-                        {%endif%}
-                                            
-                            {% if user_id > 0 %}
-                            <p>
-                                 <select id="sortPost">
-                                    
-                                </select> 
-                                <button id="addDesc" class="butn2">Добавить объявления</button>
-                               
-                            </p>
-                            <div class="add_form hidden" id="add_post_desc">
-                                <h4 class="form_header">Добавить объявление</h4>
-                                <div id="add_desc_menu" class="sweetcher">
-                                    <button class="sweetcher_elem chosen" data-param="lost">Поиск животных</button>
-                                    <button class="sweetcher_elem" data-param="find">Пристройство животных</button>
-                                </div>
-                                <div id="addDeskLost">
-                                <form action="main_controller.php?addPost=1" method="POST" enctype="multipart/form-data">
-                                        <input class="inp inp_form" type="text" name="desc_name" placeholder="Укажите кто пропал, а так же имя.">
-                                        <input class="inp inp_form right_inp" type="text" name="desc_city" placeholder="Укажите город.">
-                                        <br>
-                                        <input class="inp inp_form" type="text" name="desc_mail" id="lost_contact" placeholder="Как с Вами связаться?  Телефон, e-mail, соц сети.">
-                                        <br>
-                                        Загрузите фотографию Вашего питомца. Загружайте фотографии в формате .jpg или .png.
-                                        <br>
-                                        <input type="hidden" name="addPost" value="1">     
-                                        <input type="file" class="add_file_inp" name="pet_photo" accept="image/jpeg, image/png">
-                                        <br>
-                                        <textarea class="txtarea" name="desc_text" placeholder="Опишите Вашего питомца. Укажите его возраст, окрас, породу. Как он выглядел. Отличительные черты, приметы."></textarea>
-                                        <div class="add_to_socio">
-                                            <input type="checkbox" name="add_socio">     
-                                            Даю согласие на размещение моего объявления в соц-сетях.
-                                        </div>
-                                        Нажимая кнопку "Отправить" Вы соглашаетесь с <a class="form_link" href="main_controller.php?about=1" target="_blank">"Правилами сайта"</a> 
-                                        и <a class="form_link" href="main_controller.php?policy=1" target="_blank">"Политикой обработки персональных данных"</a>.
-                                        <br>
-                                        <button type="submit" class="butn popup_butn" id="lost_submit">Отправить</button>
-                                </form>
-                                </div>
+                      <div id="addDeskFind" class="hidden">
 
-                                <div id="addDeskFind" class="hidden">
-                                
-                                <form action="main_controller.php?addPostFind=1" method="POST" enctype="multipart/form-data">
+                        <form action="main_controller.php?addPostFind=1" method="POST" enctype="multipart/form-data">
 
-                                    <input class="inp inp_form" type="text" name="desc_name" placeholder="Укажите кого следует пристроить, а так же имя.">
-                                    <input class="inp inp_form right_inp" type="text" name="desc_city" placeholder="Укажите город.">
-                                    <input class="inp inp_form" type="text" name="desc_mail" id="find_contact" placeholder="Как с Вами связаться? Телефон, e-mail, соц сети.">
-                                    <br>
-                                    Загрузите фотографию Вашего питомца. Загружайте фотографии в формате .jpg или .png.
-                                    <br>
-                                    <input type="hidden" name="addPost" value="1">
-                                    <input type="file" name="pet_photo" accept="image/jpeg, image/png">
-                                    <br>
-                                    <textarea class="txtarea" id="desc_text" name="desc_text" placeholder="Как он выглядит, порода, рост, вес, цвет шерсти, какие привычки, приучен ли к лодку, что ест, чем болеет и т.д."></textarea>
-                                    
-                                    <div class="add_to_socio">
-                                        <input type="checkbox" name="add_socio">
-                                        Даю согласие на размещение моего объявления в соц-сетях.
-                                    </div>
-                                    Нажимая кнопку "Отправить" Вы соглашаетесь с <a class="form_link" href="main_controller.php?about=1" target="_blank">"Правилами сайта"</a> 
-                                    и <a class="form_link" href="main_controller.php?policy=1" target="_blank">"Политикой обработки персональных данных"</a>.
-                                    <br>
-                                    <button class="butn popup_butn" type="submit" id="find_submit">Отправить</button>
-                                    </p>
-                                </form></div>
-                            </div>
-                            {% else %}
-                            <p>
-                                Что бы добавить объявление - <a href="#" id="login1">войдите</a>.
-                                <select id="sortPost">
-                                </select> 
-                            </p>
-                            {%endif%}
-                            
+                          <input class="inp inp_form" type="text" name="desc_name" placeholder="Укажите кого следует пристроить, а так же имя.">
+                          <input class="inp inp_form right_inp" type="text" name="desc_city" placeholder="Укажите город.">
+                          <input class="inp inp_form" type="text" name="desc_mail" id="find_contact" placeholder="Как с Вами связаться? Телефон, e-mail, соц сети.">
+                          <br>
+                          Загрузите фотографию Вашего питомца. Загружайте фотографии в формате .jpg или .png.
+                          <br>
+                          <input type="hidden" name="addPost" value="1">
+                          <input type="file" name="pet_photo" accept="image/jpeg, image/png">
+                          <br>
+                          <textarea class="txtarea" id="desc_text" name="desc_text" placeholder="Как он выглядит, порода, рост, вес, цвет шерсти, какие привычки, приучен ли к лодку, что ест, чем болеет и т.д."></textarea>
 
-                            <div id="showPostsMenu" class="sweetcher">
-                                <button class="sweetcher_elem chosen" data-param="lostPat">Поиск питомца</button><button class="sweetcher_elem" data-param="findPat">Поиск дома</button>
-                            </div>
-                            
-                            <!--LOST POSTS -->
-                            
-                            <div class="post_block" id="lostPosts">
-                            
-                            {% for key, post in posts %}
-                                <div class="post_element">
-                                    <h4 class="post_header">{{post['id']}}.&nbsp; {{ post['header'] }}. &nbsp;<span class="post_city">{{post['city']}}</span> <span class="dataPost">{{date[key]['day']}}.{{date[key]['month']}}.{{date[key]['year']}}</span></h4>
-                                    <div class="post_wrapper">
-
-                                        <a href="{{post['src']}}" target="_blank">
-                                            <img src="{{post['src']}}" class="petPhoto" alt="Pet photo">
-                                        </a>
-                                        <p class="post_text">
-                                            {{post['text']|nl2br}}
-                                        </p>
-                                        <p class="contact_me">
-                                            Вы можете со мной связаться по:
-                                            <b>{{post['contact']}}</b>
-                                        </p>
-                                    </div>
-                                </div>
-                            {%endfor%}
-                            </div>
-                            <!--/LOST POSTS -->
-
-                            <!--FIND POSTS-->
-                            <div class="post_block hidden" id="FindPosts">
-                            {% for key, post in postsFind %}
-                                <div class="post_element">
-                                    <h4 class="post_header">{{post['id']}}. {{ post['header'] }}. <span class="post_city">{{post['city']}}</span> <span class="dataPost">{{dateFind[key]['day']}}.{{dateFind[key]['month']}}.{{dateFind[key]['year']}}</span></h4>
-                                    <div class="post_wrapper">
-                          
-                                        <a href="{{post['src']}}" target="_blank">
-                                            <img src="{{post['src']}}" class="petPhoto" alt="Pet photo">
-                                        </a>
-                                        <p class="post_text">
-                                            {{post['text']|nl2br}}
-                                        </p>
-                                        <p class="contact_me">
-                                            Вы можете со мной связаться по:
-                                            
-                                            <b>{{post['contact']}}</b>
-                                        </p>
-                                    </div>
-                                </div>
-                            {%endfor%}
-                            </div>
-                            <!--/FIND POSTS-->
-                        </div>
-                    </div>
-                    <div class="col-md-1"></div>
-                </div>
-            </main>
-            <footer>
-                <div class="row offset-right">
-                    <div class="col-md-1"></div>
-                    <div class="col-md-10">
-
-                        <p class="copy">
-                            2019 © <a class="menu_link" href="mailto:info@pet-alert.ru" class="bottom_menu">info@pet-alert.ru</a><br>
-                            <a class="menu_link" href="main_controller.php?policy=1" target="_blank" class="bottom_menu">Политика обработки персональных данных пользователей</a>
+                          <div class="add_to_socio">
+                            <input type="checkbox" name="add_socio">
+                            Даю согласие на размещение моего объявления в соц-сетях.
+                          </div>
+                          Нажимая кнопку "Отправить" Вы соглашаетесь с
+                          <a class="form_link" href="main_controller.php?about=1" target="_blank">"Правилами сайта"</a>
+                          и
+                          <a class="form_link" href="main_controller.php?policy=1" target="_blank">"Политикой обработки персональных данных"</a>.
+                          <br>
+                          <button class="butn popup_butn" type="submit" id="find_submit">Отправить</button>
                         </p>
-                        <div class="socio_links">
-                                    <a href="https://vk.com/pet_alert" class="smm_links" target="_blank"><img src="public/pic/Vk-icon.png" alt="VK link"></a>
-                                    <a href="https://www.instagram.com/petalert_ru/" class="smm_links" target="_blank"><img src="public/pic/ins-icon.png" alt="Instagram link"></a>
-                                    <a href="https://twitter.com/PetAlertRU" class="smm_links" target="_blank"><img src="public/pic/tweeter-icon.png" alt="tweeter link"></a>
-                                    <a href="https://www.facebook.com/Pet-Alert-747397372264474/" class="smm_links" target="_blank"><img src="public/pic/fb-icon.png" alt="FB link"></a>
-                        </div>
-                        
-                        <div class="links">
-                                    <a class="menu_link" href="main_controller.php?desc=1" class="bottom_menu">Объявления</a> 
-                                    <a class="menu_link" href="main_controller.php?about=1" class="bottom_menu">О проекте</a>
-                        </div>
+                      </form>
                     </div>
-                    <div class="col-md-1"></div>
-                </div>
-            </footer>
-        </div>
-<!-- Yandex.Metrika counter -->
-<script type="text/javascript" >
-   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-   m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+                  </div>
+                {% else %}
+                  <p>
+                    Что бы добавить объявление -
+                    <a href="#" id="login1">войдите</a>.
+                    <select id="sortPost"></select>
+                  </p>
+                  {% endif %}
 
-   ym(51632531, "init", {
-        id:51632531,
-        clickmap:true,
-        trackLinks:true,
-        accurateTrackBounce:true
-   });
-</script>
-<noscript><div><img src="https://mc.yandex.ru/watch/51632531" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-<!-- /Yandex.Metrika counter -->  
 
-        <script src="public/app.js"></script>
-    </body>
-</html>
+                  <div id="showPostsMenu" class="sweetcher">
+                    <button class="sweetcher_elem chosen" data-param="lostPat">Поиск питомца</button>
+                    <button class="sweetcher_elem" data-param="findPat">Поиск дома</button>
+                  </div>
+
+                  <!--LOST POSTS -->
+
+                  <div class="post_block" id="lostPosts">
+
+                    {% for key, post in posts %}
+                      <div class="post_element">
+                        <h4 class="post_header">{{post['id']}}.&nbsp;
+                          {{ post['header'] }}. &nbsp;<span class="post_city">{{post['city']}}</span>
+                          <span class="dataPost">{{date[key]['day']}}.{{date[key]['month']}}.{{date[key]['year']}}</span>
+                        </h4>
+                        <div class="post_wrapper">
+
+                          <a href="{{post['src']}}" target="_blank">
+                            <img src="{{post['src']}}" class="petPhoto" alt="Pet photo">
+                          </a>
+                          <p class="post_text">
+                            {{post['text']|nl2br}}
+                          </p>
+                          <p class="contact_me">
+                            Вы можете со мной связаться по:
+                            <b>{{post['contact']}}</b>
+                          </p>
+                        </div>
+                      </div>
+                      {%endfor%}
+                    </div>
+                    <!--/LOST POSTS -->
+
+                    <!--FIND POSTS-->
+                    <div class="post_block hidden" id="FindPosts">
+                      {% for key, post in postsFind %}
+                        <div class="post_element">
+                          <h4 class="post_header">{{post['id']}}.
+                            {{ post['header'] }}.
+                            <span class="post_city">{{post['city']}}</span>
+                            <span class="dataPost">{{dateFind[key]['day']}}.{{dateFind[key]['month']}}.{{dateFind[key]['year']}}</span>
+                          </h4>
+                          <div class="post_wrapper">
+
+                            <a href="{{post['src']}}" target="_blank">
+                              <img src="{{post['src']}}" class="petPhoto" alt="Pet photo">
+                            </a>
+                            <p class="post_text">
+                              {{post['text']|nl2br}}
+                            </p>
+                            <p class="contact_me">
+                              Вы можете со мной связаться по:
+
+                              <b>{{post['contact']}}</b>
+                            </p>
+                          </div>
+                        </div>
+                        {%endfor%}
+                      </div>
+                      <!--/FIND POSTS-->
+                    </div>
+              </main>
+              {% include 'footer.tmpl' %}
+            </div>
+{% include 'yandex.tmpl' %}
+
+            <script src="public/app.js"></script>
+          </body>
+        </html>

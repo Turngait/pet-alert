@@ -1,267 +1,139 @@
 <!DOCTYPE html>
 <html>
+  {% include 'head.tmpl' %}
+  <body>
+    {% include 'preloader.tmpl' %}
+    {% include 'header.tmpl' %}
+    <main>
+      <div class="main_wrapper">
+        <h2>Личный кабинет.</h2>
+        <br>
 
-<head>
-    <title>Pet-Alert</title>
-    <meta charset="UTF-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <div id="user_acc_handler" class="sweetcher">
+          <button class="sweetcher_elem chosen" data-param="posts">Ваши объявления</button>
+          <button class="sweetcher_elem" data-param="info">Личные данные</button>
+        </div>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" type="image/png" href="public/pic/favicon.png" />
+        <div class="add_form user_acc_form" id="add_post_desc">
+          <h4 class="form_header">Редактирование объявлений</h4>
+          <p class="form_info">Выберите тип объявления</p>
 
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
-        integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
-    <!-- Подключаем animate.css -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
-    <!-- Подключаем бутстраповские стили -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+          <div class="" id="user_desc">
 
-    <!-- Подключаем свои стили -->
-    <link rel="stylesheet" href="public/main.css">
-
-    <!-- Yandex.Metrika counter -->
-    <script type="text/javascript">
-        (function (m, e, t, r, i, k, a) {
-        m[i] = m[i] || function () { (m[i].a = m[i].a || []).push(arguments) };
-            m[i].l = 1 * new Date(); k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a)
-        })
-            (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-
-        ym(51632531, "init", {
-            id: 51632531,
-            clickmap: true,
-            trackLinks: true,
-            accurateTrackBounce: true
-        });
-    </script>
-    <noscript>
-        <div><img src="https://mc.yandex.ru/watch/51632531" style="position:absolute; left:-9999px;" alt="" /></div>
-    </noscript>
-    <!-- /Yandex.Metrika counter -->
-</head>
-
-<body>
-    <div class="container">
-        <header>
-            <!--preloader-->
-            <div class="row offset-right">
-                <div class="col-md-12">
-                    <div class="preloader">
-                        <h2>Я почти загрузился :)</h2>
-                        <div class="preload_container">
-                            <div class="pre_box"></div>
-                            <div class="pre_box"></div>
-                            <div class="pre_box"></div>
-                            <div class="pre_box"></div>
-                            <div class="pre_box"></div>
-                        </div>
-                    </div>
-                </div>
+            <div id="showPostsMenu" class="sweetcher">
+              <button class="sweetcher_elem chosen" data-param="lostPat">Поиск питомца</button>
+              <button class="sweetcher_elem" data-param="findPat">Пристройство питомца</button>
             </div>
-            <!--/preloader -->
-            <div class="row offset-right">
-                <div class="col-md-1"></div>
-                <div class="col-md-10">
-                    <div>
-                        <nav>
-                            {% if user_id > 0 %}
-                            <div class="login">
-                                <p>
-                                    <img src="public/pic/Logo-mini.png" class="logo_mini">Добро пожаловать,
-                                    {{user_name}}!
-                                    <a href="main_controller.php?user_acc=1">Личный кабинет</a>
-                                    <a href="main_controller.php?exit=1">Выйти</a>
-                                </p>
-                            </div>
-                            {%else%}
-                            <div class="login">
-                                <p><img src="public/pic/Logo-mini.png" class="logo_mini"><a href="#"
-                                        id="login">Войти</a> <a href="#" id="signup">Регистрация</a></p>
-                            </div>
-                            {%endif%}
-                            <div class="menu">
-                                <p><a href="main_controller.php?desc=1">Объявления</a> <a
-                                        href="main_controller.php?about=1">О проекте</a></p>
-                            </div>
-                        </nav>
-                    </div>
+
+            <div class="post_block hidden" id="findPosts">
+              {% for key, postFind in postsFind %}
+                <div class="post_element">
+                  <h4 class="user_acc_post_header">Объявление №{{postFind['id']}}. Дата объявления:
+                    {{dateFind[key]['day']}}.{{dateFind[key]['month']}}.{{dateFind[key]['year']}}.
+                  </h4>
+                  <div class="post_wrapper">
+                    <form action="main_controller.php?editFindPost=1" method="POST">
+                      <input type="hidden" name="post_id" value="{{postFind['id']}}">
+                      Имя питомца:
+                      <input class="inp inp_form inp_user_info" type="text" name="header" value="{{ postFind['header'] }}">
+                      Город:
+                      <input class="inp inp_form inp_user_info" type="text" name="city" value="{{postFind['city']}}">
+                      Способ связи:
+                      <input class="inp inp_form inp_user_info" type="text" name="user_mail" value="{{postFind['contact']}}">
+                      Описание:
+                      <textarea class="txtarea" name="main_text">{{postFind['text']}}</textarea>
+                      <button class="butn butn_inline" type="submit">Сохранить</button>
+                    </form>
+                    <form action="main_controller.php?deleteFindPost=1" method="POST" class="user_desc_del_form">
+                      <input type="hidden" name="post_id" value="{{postFind['id']}}">
+                      <button class="butn useracc_butn" type="submit">Удалить</button>
+                    </form>
+                  </div>
                 </div>
-                <div class="col-md-1"></div>
+                {%endfor%}
+              </div>
+
+
+              <div class="post_block" id="lostPosts">
+                {%if posts is empty%}
+                  Вы еще не разместили ни одного объявления.
+                  {%endif%}
+
+                  {% for key, post in posts %}
+                    <div class="post_element">
+                      <h4 class="user_acc_post_header">Объявление №{{post['id']}}. Дата объявления:
+                        {{date[key]['day']}}.{{date[key]['month']}}.{{date[key]['year']}}.</h4>
+                      <div class="post_wrapper">
+                        <form action="main_controller.php?editPost=1" method="POST">
+
+                          <input type="hidden" name="post_id" value="{{post['id']}}">
+                          Имя питомца:
+                          <input class="inp inp_form inp_user_info" type="text" name="header" value="{{ post['header'] }}">
+                          Город:
+                          <input class="inp inp_form inp_user_info" type="text" name="city" value="{{post['city']}}">
+                          Способ связи:
+                          <input class="inp inp_form inp_user_info" type="text" name="user_mail" value="{{post['contact']}}">
+                          Описание:
+                          <textarea class="txtarea" name="main_text">{{post['text']}}</textarea>
+
+
+                          <button type="submit" class="butn useracc_butn">Сохранить</button>
+
+                        </form>
+                        <form action="main_controller.php?deletePost=1" method="POST" class="user_desc_del_form">
+                          <input type="hidden" name="post_id" value="{{post['id']}}">
+                          <button type="submit" class="butn useracc_butn">Удалить</button>
+                        </form>
+                      </div>
+                    </div>
+                    {%endfor%}
+                  </div>
+                </div>
+
+                <!--/End of User Descs-->
+
+              </div>
+
+              <div class="add_form hidden" id="user_info_desc">
+                <h4 class="form_header">Редактирование личной информации</h4>
+                <div class="user_data_div" id="user_data">
+                  <form class="user_data_form" action="main_controller.php?chandeUserData=1" method="POST">
+                    <p class="form_info no_center">Изменить личные данные.</p>
+                    <input type="hidden" name="id" value="{{user_data[0]['id']}}">
+                    Ваше имя:
+
+                    <input class="inp inp_form inp_user_info" type="text" name="name" value="{{user_data[0]['name']}}">
+
+                    Ваш e-mail:
+
+                    <input class="inp inp_form inp_user_info" type="text" name="email" value="{{user_data[0]['email']}}">
+
+                    <button type="submit" class="butn">Сохранить</button>
+                  </form>
+
+
+                  <form class="user_data_form" action="main_controller.php?chandeUserPass=1" method="POST">
+                    <p class="form_info no_center">Сменить пароль.</p>
+                    <input type="hidden" name="id" value="{{user_data[0]['id']}}">
+                    Укажите старый пароль:
+                    <br>
+                    <input class="inp inp_form inp_user_info" type="password" name="old_pass">
+                    <br>
+                    Укажите новый пароль:
+                    <br>
+                    <input class="inp inp_form inp_user_info" type="password" name="new_pass">
+
+                    <button type="submit" class="butn">Сохранить</button>
+                  </form>
+                </div>
+              </div>
             </div>
-        </header>
-        <main>
-            <div class="row offset-right">
-                <div class="col-md-1"></div>
-                <div class="col-md-10">
-                        <div class="main_wrapper">
-                            <h2>Личный кабинет.</h2>
-                            <br>
+          </main>
+          {% include 'footer.tmpl' %}
 
-                        <div id="user_acc_handler" class="sweetcher">
-                            <button class="sweetcher_elem chosen" data-param="posts">Ваши объявления</button>
-                            <button class="sweetcher_elem" data-param="info">Личные данные</button>
-                        </div>
+          {% include 'yandex.tmpl' %}
 
-                        <div class="add_form user_acc_form" id="add_post_desc">
-                            <h4 class="form_header">Редактирование объявлений</h4>
-                            <p class="form_info">Выберите тип объявления</p>
-                            
-                                <div class="" id="user_desc">
+          <script src="public/app_user_acc.js"></script>
+        </body>
 
-                                    <div id="showPostsMenu" class="sweetcher">
-                                        <button class="sweetcher_elem chosen" data-param="lostPat">Поиск питомца</button>
-                                        <button class="sweetcher_elem" data-param="findPat">Пристройство питомца</button>
-                                    </div>
-
-                                    <div class="post_block hidden" id="findPosts">
-                                        {% for key, postFind in postsFind %}
-                                        <div class="post_element">
-                                            <h4 class="user_acc_post_header">Объявление №{{postFind['id']}}. Дата объявления:
-                                                {{dateFind[key]['day']}}.{{dateFind[key]['month']}}.{{dateFind[key]['year']}}.
-                                            </h4>
-                                            <div class="post_wrapper">
-                                                <form action="main_controller.php?editFindPost=1" method="POST">
-                                                    <input type="hidden" name="post_id" value="{{postFind['id']}}">
-                                                    Имя питомца:
-                                                    <input class="inp inp_form inp_user_info" type="text" name="header"
-                                                        value="{{ postFind['header'] }}">
-                                                    Город:
-                                                    <input class="inp inp_form inp_user_info" type="text" name="city"
-                                                        value="{{postFind['city']}}">
-                                                    Способ связи:
-                                                    <input class="inp inp_form inp_user_info" type="text" name="user_mail"
-                                                        value="{{postFind['contact']}}">
-                                                    Описание:
-                                                    <textarea class="txtarea"
-                                                        name="main_text">{{postFind['text']}}</textarea>
-                                                    <button class="butn butn_inline" type="submit">Сохранить</button>
-                                                </form>
-                                                <form action="main_controller.php?deleteFindPost=1"
-                                                    method="POST" class="user_desc_del_form">
-                                                    <input type="hidden" name="post_id" value="{{postFind['id']}}">
-                                                    <button class="butn useracc_butn" type="submit">Удалить</button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                        {%endfor%}
-                                    </div>
-
-
-                                    <div class="post_block" id="lostPosts">
-                                        {%if posts is empty%}
-                                        Вы еще не разместили ни одного объявления.
-                                        {%endif%}
-
-                                        {% for key, post in posts %}
-                                        <div class="post_element">
-                                            <h4 class="user_acc_post_header">Объявление №{{post['id']}}. Дата объявления:
-                                                {{date[key]['day']}}.{{date[key]['month']}}.{{date[key]['year']}}.</h4>
-                                            <div class="post_wrapper">
-                                                <form action="main_controller.php?editPost=1" method="POST">
-
-                                                    <input type="hidden" name="post_id" value="{{post['id']}}">
-                                                    Имя питомца:
-                                                    <input class="inp inp_form inp_user_info" type="text" name="header"
-                                                        value="{{ post['header'] }}">
-                                                    Город:
-                                                    <input class="inp inp_form inp_user_info" type="text" name="city"
-                                                        value="{{post['city']}}">
-                                                    Способ связи:
-                                                    <input class="inp inp_form inp_user_info" type="text" name="user_mail"
-                                                        value="{{post['contact']}}">
-                                                    Описание:
-                                                    <textarea class="txtarea" name="main_text">{{post['text']}}</textarea>
-
-
-                                                    <button type="submit" class="butn useracc_butn">Сохранить</button>
-
-                                                </form>
-                                                <form action="main_controller.php?deletePost=1"
-                                                    method="POST" class="user_desc_del_form">
-                                                    <input type="hidden" name="post_id" value="{{post['id']}}">
-                                                    <button type="submit" class="butn useracc_butn">Удалить</button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                        {%endfor%}
-                                    </div>
-                                </div>
-                            
-                            <!--/End of User Descs-->
-                            
-                        </div>
-
-                        <div class="add_form hidden" id="user_info_desc">
-                            <h4 class="form_header">Редактирование личной информации</h4>
-                            <div class="user_data_div" id="user_data">
-                                <form class="user_data_form" action="main_controller.php?chandeUserData=1" method="POST">
-                                    <p class="form_info no_center">Изменить личные данные.</p>
-                                    <input type="hidden" name="id" value="{{user_data[0]['id']}}">
-                                    Ваше имя:
-                                    
-                                    <input class="inp inp_form inp_user_info" type="text" name="name" value="{{user_data[0]['name']}}">
-                                    
-                                    Ваш e-mail:
-                                    
-                                    <input class="inp inp_form inp_user_info" type="text" name="email" value="{{user_data[0]['email']}}">
-                                    
-                                    <button type="submit" class="butn">Сохранить</button>
-                                </form>
-                            
-                                
-                                <form class="user_data_form" action="main_controller.php?chandeUserPass=1" method="POST">
-                                    <p class="form_info no_center">Сменить пароль.</p>
-                                    <input type="hidden" name="id" value="{{user_data[0]['id']}}">
-                                    Укажите старый пароль:
-                                    <br>
-                                    <input class="inp inp_form inp_user_info" type="password" name="old_pass">
-                                    <br>
-                                    Укажите новый пароль:
-                                    <br>
-                                    <input class="inp inp_form inp_user_info" type="password" name="new_pass">
-                                    
-                                    <button type="submit" class="butn">Сохранить</button>
-                                </form>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-                    <div class="col-md-1"></div>
-                </div>
-        </main>
-        <footer>
-            <div class="row offset-right">
-                <div class="col-md-1"></div>
-                <div class="col-md-10">
-
-                    <p class="copy">
-                        2019 © <a class="menu_link" href="mailto:info@pet-alert.ru"
-                            class="bottom_menu">info@pet-alert.ru</a><br>
-                        <a class="menu_link" href="main_controller.php?policy=1" target="_blank"
-                            class="bottom_menu">Политика обработки персональных данных пользователей</a>
-                    </p>
-                    <div class="socio_links">
-                        <a href="https://vk.com/pet_alert" class="smm_links" target="_blank"><img
-                                src="public/pic/Vk-icon.png" alt="VK link"></a>
-                        <a href="https://www.instagram.com/petalert_ru/" class="smm_links" target="_blank"><img
-                                src="public/pic/ins-icon.png" alt="Instagram link"></a>
-                        <a href="https://twitter.com/PetAlertRU" class="smm_links" target="_blank"><img
-                                src="public/pic/tweeter-icon.png" alt="tweeter link"></a>
-                        <a href="https://www.facebook.com/Pet-Alert-747397372264474/" class="smm_links"
-                            target="_blank"><img src="public/pic/fb-icon.png" alt="FB link"></a>
-                    </div>
-
-                    <div class="links">
-                        <a class="menu_link" href="main_controller.php?desc=1" class="bottom_menu">Объявления</a>
-                        <a class="menu_link" href="main_controller.php?about=1" class="bottom_menu">О проекте</a>
-                    </div>
-                </div>
-                <div class="col-md-1"></div>
-            </div>
-        </footer>
-    </div>
-    <script src="public/app_user_acc.js"></script>
-</body>
-
-</html>
+      </html>

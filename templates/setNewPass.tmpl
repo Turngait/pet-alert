@@ -1,45 +1,11 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Pet-Alert</title>
-        <meta charset="UTF-8">
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="shortcut icon" type="image/png" href="public/pic/favicon.png"/>
+  {% include 'head.tmpl' %}
 
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
-        <!-- Подключаем animate.css -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
-        <!-- Подключаем бутстраповские стили -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-        
-        <!-- Подключаем свои стили -->
-        <link rel="stylesheet" href="public/main.css">
-
-    </head>
     <body>
         <div class="container">
-            <header>
-                <div class="row offset-right">
-                    <div class="col-md-1"></div>
-                    <div class="col-md-10">
-                        <div>
-                            <nav>
-                                
-                                <div class="login">
-                                    <p><img src="public/pic/Logo-mini.png" class="logo_mini"></p>
-                                </div>
-                                
-                                <div class="menu">
-                                    <p><a href="main_controller.php?desc=1">Объявления</a> <a href="main_controller.php?about=1">О проекте</a></p>
-                                </div>
-                            </nav>
-                        </div>
-                    </div>
-                    <div class="col-md-1"></div>
-                </div>
-            </header>
+      {% include 'header.tmpl' %}
+
             <main>
                 <div class="row offset-right">
                     <div class="col-md-2"></div>
@@ -63,29 +29,8 @@
                     <div class="col-md-2"></div>
                 </div>
             </main>
-            <footer>
-                <div class="row offset-right">
-                    <div class="col-md-1"></div>
-                    <div class="col-md-10">
+              {% include 'footer.tmpl' %}
 
-                        <p class="copy">
-                            2018 © <a href="mailto:info@pet-alert.ru" class="bottom_menu">info@pet-alert.ru</a><br>
-                            <a href="main_controller.php?policy=1" target="_blank" class="bottom_menu">Политика обработки персональных данных пользователей</a>
-                        </p>
-                        
-                        <div class="links">
-                                <p>
-                                    <a href="main_controller.php?desc=1" class="bottom_menu">Объявления</a> <a href="main_controller.php?about=1" class="bottom_menu">О проекте</a>
-                                    <a href="https://vk.com/pet_alert" class="smm_links" target="_blank"><img src="public/pic/Vk-icon.png"></a>
-                                    <a href="https://www.instagram.com/petalert_ru/" class="smm_links" target="_blank"><img src="public/pic/ins-icon.png"></a>
-                                    <a href="https://twitter.com/PetAlertRU" class="smm_links" target="_blank"><img src="public/pic/tweeter-icon.png"></a>
-                                    <a href="https://www.facebook.com/Pet-Alert-747397372264474/" class="smm_links" target="_blank"><img src="public/pic/fb-icon.png"></a>
-                                </p>
-                        </div>
-                    </div>
-                    <div class="col-md-1"></div>
-                </div>
-            </footer>
         </div>
     </body>
 </html>

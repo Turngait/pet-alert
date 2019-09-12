@@ -1,8 +1,8 @@
 <?php
 
 class User {
-    private $id;
-    public $name;
+    protected $id;
+    protected $name;
 
     public function __construct ($id, $name) {
         $this->id = $id;
@@ -12,9 +12,9 @@ class User {
     public function reg() {
         include "config/pdo.php";
         $name =  $_POST['user_name'];
-        $login = $_POST[user_login];
-        $pass = md5($_POST[user_pass]);
-        $email = $_POST[user_mail];
+        $login = $_POST['user_login'];
+        $pass = md5($_POST['user_pass']);
+        $email = $_POST['user_mail'];
 
         $queryNU = "INSERT INTO `users` VALUES(NULL, '$name', '$email', '$login', '$pass', NULL, 0);";
         
@@ -34,6 +34,8 @@ class User {
             return $user[id];
         }
         if ($add_user = $db->exec($queryNU)) {
+            $this->createUserHash($login);
+
             $to = $email; 
 
             // тема письма
@@ -72,6 +74,20 @@ class User {
         else {
             return 0;
         }
+    }
+
+    public function createUserHash($login) {
+        include "config/pdo.php";
+        $queryNewUser = "SELECT `id` FROM `users` WHERE `login` = '$login';";
+        $get_user = $db -> prepare($queryNewUser);
+        $get_user -> execute();
+        $user = $get_user->fetch(); 
+        $user_id = $user['id'];
+        $hash_user = md5($login);
+
+        $queryAddHash = "INSERT INTO `hur` VALUES($user_id, '$hash_user');";
+        $add_hash = $db ->prepare($queryAddHash);
+        $add_hash->execute();
     }
 
     public function login($login, $pass) {

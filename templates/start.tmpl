@@ -7,70 +7,29 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="shortcut icon" type="image/png" href="public/pic/favicon.png"/>
 
-        <!-- Подключаем бутстраповские стили -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <!-- Подключаем свои стили -->
         <link rel="stylesheet" href="public/main-index.css">
-
     </head>
     <body>
-        <div class="container">
-            <header>
-                <div class="row offset-right">
-                    <div class="col-md-1"></div>
-                    <div class="col-md-10">
-                            <nav class="menu">
-                                    <a class="header_link" href="main_controller.php?desc=1">Объявления</a>
-                                     <a class="header_link" href="main_controller.php?about=1">О проекте</a>
-                            </nav>
-                    </div>
-                    <div class="col-md-1"></div>
-                </div>
-            </header>
-            <main>
-                <div class="row offset-right">
-                    <div class="col-md-1"></div>
-                    <div class="col-md-10">
-                        <img class="logo" src="public/pic/Logo.png" alt="logo">
-                    </div>
-                    <div class="col-md-1"></div>
-                </div>
-            </main>
-            <footer>
-                <div class="row offset-right">
-                    <div class="col-md-1"></div>
-                    <div class="col-md-10">
-                        <div class="navbar-fixed-bottom">
-                            <div class="copy">
-                            2019 © <a href="mailto:info@pet-alert.ru" class="bottom_menu">info@pet-alert.ru</a><br>
-                            <a href="main_controller.php?policy=1" target="_blank" class="bottom_menu">Политика обработки персональных данных пользователей</a>
-                            </div>
-                            <div class="links">
-                                <a href="https://vk.com/pet_alert" target="_blank"><img src="public/pic/Vk-icon.png" alt="vk link" class="socio_ico"></a>
-                                <a href="https://www.instagram.com/petalert_ru/" target="_blank"><img src="public/pic/ins-icon.png" class="socio_ico" alt="instagram link"></a>
-                                <a href="https://twitter.com/PetAlertRU" target="_blank"><img src="public/pic/tweeter-icon.png" class="socio_ico" alt="tweeter link"></a>
-                                <a href="https://www.facebook.com/Pet-Alert-747397372264474/" target="_blank"><img src="public/pic/fb-icon.png" class="socio_ico" alt="fb link"></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-1"></div>
-                </div>
-            </footer>
-        </div>
-                <!-- Yandex.Metrika counter -->
-<script type="text/javascript" >
-   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-   m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-
-   ym(51632531, "init", {
-        id:51632531,
-        clickmap:true,
-        trackLinks:true,
-        accurateTrackBounce:true
-   });
-</script>
-<noscript><div><img src="https://mc.yandex.ru/watch/51632531" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-<!-- /Yandex.Metrika counter -->
+        <nav class="menu">
+                <a class="header_link" href="main_controller.php?desc=1">Объявления</a>
+                <a class="header_link" href="main_controller.php?about=1">О проекте</a>
+        </nav>
+        <main class="main_box">
+            <img class="logo" src="public/pic/Logo.png" alt="logo">
+        </main>
+        <footer>
+            <div class="copy">
+                2019 © <a href="mailto:info@pet-alert.ru" class="bottom_menu">info@pet-alert.ru</a><br>
+                <a href="main_controller.php?policy=1" target="_blank" class="bottom_menu">Политика обработки персональных данных пользователей</a>
+            </div>
+            <div class="links">
+                <a href="https://vk.com/pet_alert" target="_blank"><img src="public/pic/Vk-icon.png" alt="vk link" class="socio_ico"></a>
+                <a href="https://www.instagram.com/petalert_ru/" target="_blank"><img src="public/pic/ins-icon.png" class="socio_ico" alt="instagram link"></a>
+                <a href="https://twitter.com/PetAlertRU" target="_blank"><img src="public/pic/tweeter-icon.png" class="socio_ico" alt="tweeter link"></a>
+                <a href="https://www.facebook.com/Pet-Alert-747397372264474/" target="_blank"><img src="public/pic/fb-icon.png" class="socio_ico" alt="fb link"></a>
+            </div>
+        </footer>
+{% include 'yandex.tmpl' %}
     </body>
 </html>

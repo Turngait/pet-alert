@@ -2,14 +2,15 @@
 session_start();
 include "modules/main.php";
 include "modules/user.class.php";
+require 'modules/page.class.php';
 
 $user = new User($_SESSION[id], $_SESSION[name]);
+$page = new Page($_SESSION[id], $_SESSION[name]);
 
 
 //Рендер страниц
 if(isset($_GET['desc'])) {
-    $html = showDesc();
-    echo $html;
+    $page->postsPage();
 }
 
 if(isset($_GET['new_post'])) {
@@ -236,5 +237,11 @@ if(isset($_GET['setNewPassEnd'])) {
         $html = renderInfo("Ошибка! Обратитесь к администратору сайта.", 'main_controller.php?desc=1');
         echo $html;
     }
+}
+
+
+if(isset($_GET['admin_intro'])) {
+    $html = renderAdmin();
+    echo $html;
 }
 ?>

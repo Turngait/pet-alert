@@ -66,7 +66,7 @@ function showReg() {
             return responce.text();
         })
         .then((answer) =>{
-            console.log(answer);
+            
             let check = Number(answer);
             if (check === 1) {
                 event.target.classList.add('wrong');

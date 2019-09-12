@@ -323,6 +323,34 @@ function renderLogin($info) {
     return ob_get_clean();
 }
 
+function renderAdmin() {
+    
+    //открываем буфферизацию
+    ob_start();
+    // Подгружаем и активируем автозагрузчик Twig-а
+    require_once 'Twig/Autoloader.php';
+    Twig_Autoloader::register();
+    try {
+    // папка шаблонов
+    $loader = new Twig_Loader_Filesystem('templates');
+    // Инициализируем Twig
+    $twig = new Twig_Environment($loader);
+    // Подгружаем шаблон
+    $template = $twig->loadTemplate('admin.tmpl');
+    // Передаем в шаблон переменные и значения
+    // Выводим сформированное содержание
+    echo $template->render(array(
+        'user_id' => $_SESSION['id'],
+        'user_name' =>$_SESSION['name']
+    ));
+    } catch (Exception $e) {
+    die ('ERROR: ' . $e->getMessage());
+    }
+
+    //возвращаем все что оказалось в буффере.
+    return ob_get_clean();
+}
+
 
 //Блок восстановления пароля юзера
 function retrivePass() {

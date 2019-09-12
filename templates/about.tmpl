@@ -1,56 +1,11 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Pet-Alert</title>
-        <meta charset="UTF-8">
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="shortcut icon" type="image/png" href="public/pic/favicon.png"/>
+  {% include 'head.tmpl' %}
 
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
-        <!-- Подключаем animate.css -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
-        <!-- Подключаем бутстраповские стили -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-        
-        <!-- Подключаем свои стили -->
-        <link rel="stylesheet" href="public/main.css">
-    </head>
     <body>
-        <div class="container">
-            <header>
-                <div class="row offset-right">
-                    <div class="col-md-1"></div>
-                    <div class="col-md-10">
-                        <div>
-                            <nav>
-                                {% if user_id > 0 %}
-                                <div class="login">
-                                    <p>
-                                        <img src="public/pic/Logo-mini.png" class="logo_mini">Добро пожаловать, {{user_name}}! 
-                                        <a href="main_controller.php?user_acc=1">Личный кабинет</a> 
-                                        <a href="main_controller.php?exit=1">Выйти</a>
-                                    </p>
-                                </div>
-                                {%else%}
-                                <div class="login">
-                                    <p><img src="public/pic/Logo-mini.png" class="logo_mini"><a href="#" id="login">Войти</a> <a href="#" id="signup">Регистрация</a></p>
-                                </div>
-                                {%endif%}
-                                <div class="menu">
-                                    <p><a href="main_controller.php?desc=1">Объявления</a> <a href="">О проекте</a></p>
-                                </div>
-                            </nav>
-                        </div>
-                    </div>
-                    <div class="col-md-1"></div>
-                </div>
-            </header>
-            <main>
-                <div class="row offset-right">
-                    <div class="col-md-2"></div>
-                    <div class="col-md-8">
+
+            {% include 'header.tmpl' %}
+            <main class="about_box">
                         <div class="auth hidden" id="auth">
                             <i  id="close" class="fas fa-times"></i>
                             <div id="wrapper">
@@ -99,35 +54,10 @@
                             </p>
                             
                         </div>
-                    </div>
-                    <div class="col-md-2"></div>
-                </div>
             </main>
-            <footer>
-                <div class="row offset-right">
-                    <div class="col-md-1"></div>
-                    <div class="col-md-10">
+              {% include 'footer.tmpl' %}
+{% include 'yandex.tmpl' %}
 
-                        <p class="copy">
-                            2019 © <a class="menu_link" href="mailto:info@pet-alert.ru" class="bottom_menu">info@pet-alert.ru</a><br>
-                            <a class="menu_link" href="main_controller.php?policy=1" target="_blank" class="bottom_menu">Политика обработки персональных данных пользователей</a>
-                        </p>
-                        <div class="socio_links">
-                                    <a href="https://vk.com/pet_alert" class="smm_links" target="_blank"><img src="public/pic/Vk-icon.png" alt="VK link"></a>
-                                    <a href="https://www.instagram.com/petalert_ru/" class="smm_links" target="_blank"><img src="public/pic/ins-icon.png" alt="Instagram link"></a>
-                                    <a href="https://twitter.com/PetAlertRU" class="smm_links" target="_blank"><img src="public/pic/tweeter-icon.png" alt="tweeter link"></a>
-                                    <a href="https://www.facebook.com/Pet-Alert-747397372264474/" class="smm_links" target="_blank"><img src="public/pic/fb-icon.png" alt="FB link"></a>
-                        </div>
-                        
-                        <div class="links">
-                                    <a class="menu_link" href="main_controller.php?desc=1" class="bottom_menu">Объявления</a> 
-                                    <a class="menu_link" href="main_controller.php?about=1" class="bottom_menu">О проекте</a>
-                        </div>
-                    </div>
-                    <div class="col-md-1"></div>
-                </div>
-            </footer>
-        </div>
         <script src="public/app_other.js"></script>
     </body>
 </html>

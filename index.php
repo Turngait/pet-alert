@@ -1,7 +1,7 @@
 <?php
 session_start();
-include "modules/main.php";
-$html = showMain();
-echo $html;
+require 'modules/page.class.php';
+$page = new Page();
+$page->startPage();
 
 ?>
