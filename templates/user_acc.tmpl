@@ -32,7 +32,9 @@
                     {{dateFind[key]['day']}}.{{dateFind[key]['month']}}.{{dateFind[key]['year']}}.
                   </h4>
                   <div class="post_wrapper">
-                    <form action="main_controller.php?editFindPost=1" method="POST">
+                    <form action="user.php?editPost=1" method="POST">
+                      <input type="hidden" name="type" value="find">
+
                       <input type="hidden" name="post_id" value="{{postFind['id']}}">
                       Имя питомца:
                       <input class="inp inp_form inp_user_info" type="text" name="header" value="{{ postFind['header'] }}">
@@ -44,7 +46,9 @@
                       <textarea class="txtarea" name="main_text">{{postFind['text']}}</textarea>
                       <button class="butn butn_inline" type="submit">Сохранить</button>
                     </form>
-                    <form action="main_controller.php?deleteFindPost=1" method="POST" class="user_desc_del_form">
+                    <form action="user.php?deletePost=1" method="POST" class="user_desc_del_form">
+                          <input type="hidden" name="type" value="find">
+
                       <input type="hidden" name="post_id" value="{{postFind['id']}}">
                       <button class="butn useracc_butn" type="submit">Удалить</button>
                     </form>
@@ -64,7 +68,8 @@
                       <h4 class="user_acc_post_header">Объявление №{{post['id']}}. Дата объявления:
                         {{date[key]['day']}}.{{date[key]['month']}}.{{date[key]['year']}}.</h4>
                       <div class="post_wrapper">
-                        <form action="main_controller.php?editPost=1" method="POST">
+                        <form action="user.php?editPost=1" method="POST">
+                          <input type="hidden" name="type" value="lost">
 
                           <input type="hidden" name="post_id" value="{{post['id']}}">
                           Имя питомца:
@@ -80,7 +85,8 @@
                           <button type="submit" class="butn useracc_butn">Сохранить</button>
 
                         </form>
-                        <form action="main_controller.php?deletePost=1" method="POST" class="user_desc_del_form">
+                        <form action="user.php?deletePost=1" method="POST" class="user_desc_del_form">
+                          <input type="hidden" name="type" value="lost">
                           <input type="hidden" name="post_id" value="{{post['id']}}">
                           <button type="submit" class="butn useracc_butn">Удалить</button>
                         </form>
@@ -97,9 +103,8 @@
               <div class="add_form hidden" id="user_info_desc">
                 <h4 class="form_header">Редактирование личной информации</h4>
                 <div class="user_data_div" id="user_data">
-                  <form class="user_data_form" action="main_controller.php?chandeUserData=1" method="POST">
+                  <form class="user_data_form" action="user.php?chandeUserData=1" method="POST">
                     <p class="form_info no_center">Изменить личные данные.</p>
-                    <input type="hidden" name="id" value="{{user_data[0]['id']}}">
                     Ваше имя:
 
                     <input class="inp inp_form inp_user_info" type="text" name="name" value="{{user_data[0]['name']}}">
@@ -112,9 +117,8 @@
                   </form>
 
 
-                  <form class="user_data_form" action="main_controller.php?chandeUserPass=1" method="POST">
+                  <form class="user_data_form" action="user.php?chandeUserPass=1" method="POST">
                     <p class="form_info no_center">Сменить пароль.</p>
-                    <input type="hidden" name="id" value="{{user_data[0]['id']}}">
                     Укажите старый пароль:
                     <br>
                     <input class="inp inp_form inp_user_info" type="password" name="old_pass">

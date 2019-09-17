@@ -17,7 +17,7 @@ function showReg() {
     authForm.classList.add('slideInDown');
 
 
-    html = '<form action="main_controller.php?reg=1" method="POST" class="auth_form">\
+    html = '<form action="user.php?reg=1" method="POST" class="auth_form">\
         <h4>Регистрация</h4>\
         <p>\
             <span id="showInfoReg"></span>\
@@ -25,8 +25,8 @@ function showReg() {
             <input id="email_user" class="inp" type="text" name="user_mail" placeholder="Введите ваш e-mail">\
             <input id="login_user" type="text" class="inp" name="user_login" placeholder="Введите логин">\
             <input id="password_user" type="text" class="inp" name="user_pass" placeholder="Введите пароль">\
-            Нажимая кнопку "Регистрация" Вы соглашаетесь с <a href="main_controller.php?about=1" target="_blank">"Правилами сайта"</a> \
-            и <a href="main_controller.php?policy=1" target="_blank">"Политикой обработки персональных данных"</a>.<br>\
+            Нажимая кнопку "Регистрация" Вы соглашаетесь с <a href="page.php?open=aboutPage" target="_blank">"Правилами сайта"</a> \
+            и <a href="page.php?open=privacyPage" target="_blank">"Политикой обработки персональных данных"</a>.<br>\
             <button id="button_submit" type="submit" class="butn popup_butn">Регистрация</button>\
         </p>\
         </form>';
@@ -145,7 +145,7 @@ function showLogin() {
     authForm.classList.add('animated');
     authForm.classList.add('slideInDown');
 
-    html = '<form action="main_controller.php?auth=1" method="POST" class="auth_form">\
+    html = '<form action="user.php?login=1" method="POST" class="auth_form">\
             <h4>Войти</h4>\
             <p>\
                 <input type="text" class="inp" name="login" placeholder="Введите Ваш логин">\

@@ -1,6 +1,7 @@
 <?php
 /*
     Модуль рендеринга
+    DEPRICATED MODULE
 */
 session_start();
 

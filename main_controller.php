@@ -1,4 +1,9 @@
 <?php
+
+/*
+DEPRICATED CONTROLLER
+*/
+
 session_start();
 include "modules/main.php";
 include "modules/user.class.php";
@@ -13,24 +18,16 @@ if(isset($_GET['desc'])) {
     $page->postsPage();
 }
 
-if(isset($_GET['new_post'])) {
-    $html = newPost();
-    echo $html;
-}
-
 if(isset($_GET['about'])) {
-    $html = showAbout();
-    echo $html;
+    $page->aboutPage();
 }
 
 if(isset($_GET['user_acc'])) {
-    $html = userAcc($_SESSION[id]);
-    echo $html;
+    $page->userAccaunt();
 }
 
 if(isset($_GET['policy'])) {
-    $html = showPolicy();
-    echo $html;
+    $page->privacyPage();
 }
 
 if(isset($_GET['get_info'])) {
