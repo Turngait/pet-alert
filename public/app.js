@@ -1,6 +1,6 @@
 console.log("Hello!");
 //Функции для страницы с объявлениями
-
+// DEPRICATED MODULE
 
 /*
 *
@@ -150,7 +150,7 @@ function showLogin() {
             <p>\
                 <input type="text" class="inp" name="login" placeholder="Введите Ваш логин">\
                 <input type="password" class="inp" name="pass" placeholder="Введите Ваш пароль">\
-                <a href="main_controller.php?retrivePass=1">Забыли пароль?</a>\
+                <a href="page.php?open=retrivePass">Забыли пароль?</a>\
                 <button type="submit" class="butn popup_butn">Войти</button>\
             </p>\
         </form>';
@@ -340,6 +340,24 @@ function getCities() {
     sortPost.addEventListener('change', filterCities);
 }
 
+function showAddPic(node, output){
+    document.getElementById(node).addEventListener('change', function (event) {
+        var reader = new FileReader();
+        
+        let file = event.target.files;
+        let f = file[0];
+
+        reader.onload = (function(theFile) {
+            return function(e) {
+                let html = '<img class="main_photo_manage" src="'+e.target.result+'">';
+                document.getElementById(output).innerHTML = html;
+            };
+        })(f);
+
+        reader.readAsDataURL(f);
+    });
+}
+
 
 /*
 *
@@ -349,47 +367,51 @@ function getCities() {
 // INIT
 function init() {
     //Функция работа с панелью объявления
-    var addDesc = document.getElementById('addDesc');
+    // var addDesc = document.getElementById('addDesc');
 
-    if(addDesc) {
-        addDesc.addEventListener('click', showAddPostHandler);
-        var addDescHandlerMenu = document.getElementById('add_desc_menu');
-        addDescHandlerMenu.addEventListener('click', addDescMenuHandler);
+    // if(addDesc) {
+    //     // addDesc.addEventListener('click', showAddPostHandler);
+    //     var addDescHandlerMenu = document.getElementById('add_desc_menu');
+    //     // addDescHandlerMenu.addEventListener('click', addDescMenuHandler);
         
-        //Функция переключения типов объявлений
-        var changePostsHandlerButtons = document.getElementById('showPostsMenu');
-        changePostsHandlerButtons.addEventListener('click', changePostsHandler);
-    }
+    //     //Функция переключения типов объявлений
+    //     var changePostsHandlerButtons = document.getElementById('showPostsMenu');
+    //     // changePostsHandlerButtons.addEventListener('click', changePostsHandler);
+
+    //     // showAddPic('main_photo_box_lost', 'desc_photo_lost');
+    //     // showAddPic('main_photo_box_find', 'desc_photo_find');
+    //     // showAddPic();
+    // }
    
 
     //Функции входа\регистрации
     var policy = document.getElementById('policy_div');
-    if(policy) {
-        setTimeout(function() {
-            policy.classList.remove('hidden');
-            policy.classList.add('vissible');
-        }, 1000);
-    }
+    // if(policy) {
+    //     setTimeout(function() {
+    //         policy.classList.remove('hidden');
+    //         policy.classList.add('vissible');
+    //     }, 1000);
+    // }
     var loginButton = document.getElementById('login');
     if (loginButton) {
-        loginButton.addEventListener('click', showLogin);
+        // loginButton.addEventListener('click', showLogin);
         var closeButton = document.getElementById('close');
-        closeButton.addEventListener('click', closeReg);
+        // closeButton.addEventListener('click', closeReg);
         
         var regButton = document.getElementById('signup');
-        regButton.addEventListener('click', showReg);
+        // regButton.addEventListener('click', showReg);
 
         var loginButton = document.getElementById('login1');
-        loginButton.addEventListener('click', showLogin);
+        // loginButton.addEventListener('click', showLogin);
 
         //Функция переключения типов объявлений
         var changePostsHandlerButtons = document.getElementById('showPostsMenu');
-        changePostsHandlerButtons.addEventListener('click', changePostsHandler); 
+        // changePostsHandlerButtons.addEventListener('click', changePostsHandler); 
     }
     //Фильтрация городов
-    getCities();
+    // getCities();
 
-    document.querySelector('.preloader').style.display= 'none';
+    // document.querySelector('.preloader').style.display= 'none';
 }
 
-window.onload=init;
+// window.onload=init;

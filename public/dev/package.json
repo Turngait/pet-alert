@@ -1,0 +1,33 @@
+{
+  "name": "pet-alert",
+  "version": "1.0.0",
+  "description": "Pet Alert Project.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack --mode development --watch",
+    "build": "webpack --mode production",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "pets"
+  ],
+  "author": "Turngait",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/cli": "7.6.2",
+    "@babel/core": "7.6.2",
+    "@babel/node": "7.6.2",
+    "@babel/preset-env": "7.6.2",
+    "@babel/preset-typescript": "7.6.0",
+    "babel-loader": "8.0.6",
+    "ts-loader": "^6.2.0",
+    "typescript": "^3.6.3",
+    "webpack": "4.41.0",
+    "webpack-cli": "3.3.9",
+    "webpack-dev-server": "^3.8.2"
+  },
+  "dependencies": {
+    "@babel/polyfill": "7.6.0",
+    "babel-preset-es2015": "^6.24.1"
+  }
+}
