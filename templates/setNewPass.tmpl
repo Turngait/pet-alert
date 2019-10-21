@@ -3,34 +3,30 @@
   {% include 'head.tmpl' %}
 
     <body>
-        <div class="container">
+        
       {% include 'header.tmpl' %}
 
             <main>
-                <div class="row offset-right">
-                    <div class="col-md-2"></div>
-                    <div class="col-md-8">
+                
                         <div class="main_wrapper">
                             <h2>Восстановление пароля.</h2>
                             <div class="add_form">
-                                <form action="main_controller.php?setNewPassEnd=1" method="POST">
+                                <form action="user.php?setNewPass=1" method="POST">
 
-                                    <input class="inp inp_main_form" type="text" name="checkSet" placeholder="Укажите проверочный код">
+                                    
                                 
-                                    <input type="hidden" name="checkNum" value="{{checkNum}}">
-                                    <input type="hidden" name="email" value="{{email}}">
-                                    <input class="inp inp_main_form" type="password" name="pass" placeholder="Укажите новый пароль">
+                                    <input type="hidden" name="token" value="{{token}}">
+                                
+                                    <input class="inp inp2" type="password" name="pass" placeholder="Укажите новый пароль">
                                     
                                     <button type="submit" class="butn popup_butn">Отправить</button>
                                 </form>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-2"></div>
-                </div>
+                    
             </main>
               {% include 'footer.tmpl' %}
 
-        </div>
+        
     </body>
 </html>

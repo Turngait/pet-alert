@@ -4,11 +4,13 @@ class Page {
 
   private $user_id;
   private $user_name;
+  private $db;
 
-  public function __construct($id = '', $name = '')
+  public function __construct($id = '', $name = '', $db = null)
   {
     $this->user_id = $id;
     $this->user_name = $name;
+    $this->db = $db; 
   }
 
   public function startPage() 
@@ -41,8 +43,6 @@ class Page {
 
   public function postsPage()
   {
-    include "config/pdo.php";
-
     //$_COOKIE['policy_check'] - кукисы для проверки, видел ли пользователь
     //предупреждение про исп кукисов на сайте. хранятся - 1 день
     if(isset($_COOKIE['policy_check'])) {
@@ -54,13 +54,13 @@ class Page {
     }
 
     $quary = "SELECT * FROM lost_post ORDER BY id DESC;";
-    $posts = $db -> prepare($quary);
+    $posts = $this->db->prepare($quary);
     $posts->execute();
 
     $arr = $posts->fetchAll();
 
     $quaryFindPosts = "SELECT * FROM find_post ORDER BY id DESC;";
-    $postsFind = $db -> prepare($quaryFindPosts);
+    $postsFind = $this->db-> prepare($quaryFindPosts);
     $postsFind->execute();
 
     $arrFind = $postsFind->fetchAll();
@@ -109,15 +109,16 @@ class Page {
 
   public function userAccaunt()
   {
-    include "config/pdo.php";
-
+    if(!isset($this->user_id)) {
+      header('Location: /');
+    }
     //Получаем посты и дату с объявлений о поиске
 
     $quary = "SELECT * FROM lost_post WHERE user_id = $this->user_id ORDER BY id DESC;";
     $quary_user_data = "SELECT * FROM users WHERE id = $this->user_id";
-    $posts = $db -> prepare($quary);
+    $posts = $this->db -> prepare($quary);
     $posts->execute();
-    $user_data = $db->prepare($quary_user_data);
+    $user_data = $this->db->prepare($quary_user_data);
     $user_data->execute();
 
     $arr = $posts->fetchAll();
@@ -132,7 +133,7 @@ class Page {
     //Получаем посты и дату с объявлений о пристройстве
 
     $quaryFind = "SELECT * FROM find_post WHERE user_id = $this->user_id ORDER BY id DESC;";
-    $postsFind = $db -> prepare($quaryFind);
+    $postsFind = $this->db -> prepare($quaryFind);
     $postsFind->execute();
 
     $arrFind = $postsFind->fetchAll();
@@ -265,7 +266,6 @@ class Page {
 
   public function privacyPage()
   {
-    
     //открываем буфферизацию
     ob_start();
     // Подгружаем и активируем автозагрузчик Twig-а
@@ -291,5 +291,62 @@ class Page {
 
     //возвращаем все что оказалось в буффере.
     echo ob_get_clean();
+  }
+
+  public function retrivePass($info = '')
+  {
+    //открываем буфферизацию
+    ob_start();
+    // Подгружаем и активируем автозагрузчик Twig-а
+    require_once 'Twig/Autoloader.php';
+    Twig_Autoloader::register();
+    try {
+    // папка шаблонов
+    $loader = new Twig_Loader_Filesystem('templates');
+    // Инициализируем Twig
+    $twig = new Twig_Environment($loader);
+    // Подгружаем шаблон
+    $template = $twig->loadTemplate('retrivePass.tmpl');
+    // Передаем в шаблон переменные и значения
+    // Выводим сформированное содержание
+    echo $template->render(array(
+      'info' => $info
+    ));
+    } catch (Exception $e) {
+    die ('ERROR: ' . $e->getMessage());
+    }
+
+    //возвращаем все что оказалось в буффере.
+    echo ob_get_clean();
+  }
+
+  public function setNewPass() 
+  {
+    $token = $_GET['token'];
+    $email = $_GET['email'];
+    //открываем буфферизацию
+    ob_start();
+    // Подгружаем и активируем автозагрузчик Twig-а
+    require_once 'Twig/Autoloader.php';
+    Twig_Autoloader::register();
+    try {
+    // папка шаблонов
+    $loader = new Twig_Loader_Filesystem('templates');
+    // Инициализируем Twig
+    $twig = new Twig_Environment($loader);
+    // Подгружаем шаблон
+    $template = $twig->loadTemplate('setNewPass.tmpl');
+    // Передаем в шаблон переменные и значения
+    // Выводим сформированное содержание
+    echo $template->render(array(
+        'token' => $token
+    ));
+    } catch (Exception $e) {
+    die ('ERROR: ' . $e->getMessage());
+    }
+
+    //возвращаем все что оказалось в буффере.
+    echo ob_get_clean();
+
   }
 }

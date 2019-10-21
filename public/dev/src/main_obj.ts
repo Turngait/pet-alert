@@ -15,6 +15,8 @@ export const pet_alert: any = {
 
   user_acc_page: {
     handlers: {
+      chengeTypeDescHandler: null,
+      chengeTypeUserInfoHandler: null
 
     }
   }

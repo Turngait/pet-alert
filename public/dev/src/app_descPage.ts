@@ -1,4 +1,5 @@
 import { pet_alert } from './main_obj';
+import './config/models';
 import './descPageModules/openSignIn';
 import './descPageModules/openSignUp';
 import './descPageModules/getNodes';
@@ -7,6 +8,7 @@ import './descPageModules/openDescHandler';
 import './descPageModules/changePostTypeHandlers';
 import './descPageModules/showAddPic';
 import './descPageModules/sortByCities';
+
 
 let { openSignIn, closeAuthForm, openSignUp, openAddDescHandler, changePostTypeHandler, showAddPic, sortByCities } = pet_alert.desc_page.handlers;
 

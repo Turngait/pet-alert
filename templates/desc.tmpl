@@ -2,7 +2,6 @@
 <html lang="ru">
   {% include 'head.tmpl' %}
   <body>
-      {% include 'preloader.tmpl' %}
       {% include 'header.tmpl' %}
       <main class="main_box">
             <div class="auth hidden" id="auth">
@@ -31,17 +30,21 @@
                       <div id="addDeskLost">
                         <form action="user.php?addPost=1" method="POST" enctype="multipart/form-data">
                           <input type="hidden" name="type" value="lost">
-                          <input class="inp inp_form" type="text" name="desc_name" placeholder="Укажите кто пропал, а так же имя.">
-                          <input class="inp inp_form right_inp" type="text" name="desc_city" placeholder="Укажите город.">
+                          <input class="inp inp_form" type="text" name="desc_name" placeholder="Укажите кто пропал, а так же имя." required>
+                          <input class="inp inp_form right_inp" type="text" name="desc_city" placeholder="Укажите город." required>
                           <br>
-                          <input class="inp inp_form" type="text" name="desc_mail" id="lost_contact" placeholder="Как с Вами связаться?  Телефон, e-mail, соц сети.">
+                          <input class="inp inp_form" type="text" name="desc_mail" id="lost_contact" placeholder="Как с Вами связаться?  Телефон, e-mail, соц сети." required>
                           <br>
                           Загрузите фотографию Вашего питомца. Загружайте фотографии в формате .jpg или .png.
                           <br>
                           <input type="hidden" name="addPost" value="1">
-                          <input type="file" class="add_file_inp" name="pet_photo" accept="image/jpeg, image/png">
+                          <span id="desc_photo_lost"></span>
+                          <label class="butn2" id="main_photo_box_lost">
+                            Добавить фотографию
+                            <input type="file" class="add_file_inp" id="input_file" name="pet_photo" accept="image/jpeg, image/png" required>
+                          </label>
                           <br>
-                          <textarea class="txtarea" name="desc_text" placeholder="Опишите Вашего питомца. Укажите его возраст, окрас, породу. Как он выглядел. Отличительные черты, приметы."></textarea>
+                          <textarea class="txtarea" name="desc_text" placeholder="Опишите Вашего питомца. Укажите его возраст, окрас, породу. Как он выглядел. Отличительные черты, приметы." required></textarea>
                           <div class="add_to_socio">
                             <input type="checkbox" name="add_socio">
                             Даю согласие на размещение моего объявления в соц-сетях.
@@ -66,7 +69,11 @@
                           Загрузите фотографию Вашего питомца. Загружайте фотографии в формате .jpg или .png.
                           <br>
                           <input type="hidden" name="addPost" value="1">
-                          <input type="file" name="pet_photo" accept="image/jpeg, image/png">
+                          <span id="desc_photo_find"></span>
+                          <label class="butn2" id="main_photo_box_find">
+                            Добавить фотографию
+                          <input id="input_file" type="file" name="pet_photo" accept="image/jpeg, image/png">
+                          </label>
                           <br>
                           <textarea class="txtarea" id="desc_text" name="desc_text" placeholder="Как он выглядит, порода, рост, вес, цвет шерсти, какие привычки, приучен ли к лодку, что ест, чем болеет и т.д."></textarea>
 
@@ -159,6 +166,7 @@
             </div>
 {% include 'yandex.tmpl' %}
 
-            <script src="public/app.js"></script>
+            
+            <script src="public/js/descPage.js"></script>
           </body>
         </html>

@@ -15,6 +15,10 @@ class Client extends User {
     $uploadInfo = $_FILES['pet_photo'];
     $newFilename.= $_FILES['pet_photo']['name'];
     $src='public/photo/'.$_FILES['pet_photo']['name'];
+    
+    if ($uploadInfo['type'] != 'image/png' && $uploadInfo['type'] != 'image/jpeg') {
+      return 3;
+    }
 
     //Перемещаем файл из временной папки в указанную
         if (!move_uploaded_file($uploadInfo['tmp_name'], $src)) {
@@ -27,14 +31,19 @@ class Client extends User {
             $desc_text = $data['desc_text'];
             $desc_mail = $data['desc_mail'];
 
+
+
             if($type === 'lost') {
-              $queryPost = "INSERT INTO `lost_post` VALUES(NULL, '$this->id', '$desc_name', '$src', '$desc_text', '$desc_city', '$desc_mail', NULL, 0);";
+              $queryPost = "INSERT INTO `lost_post` VALUES(NULL, :id, :desc_name, :src, :desc_text, :desc_city, :desc_mail, NULL, 0);";
             }
             else if ($type === 'find') {
-              $queryPost = "INSERT INTO `find_post` VALUES(NULL, '$this->id', '$src', '$desc_text', '$desc_name', 0, '$desc_city', '$desc_mail', NULL);";
+              $queryPost = "INSERT INTO `find_post` VALUES(NULL, :id, :src, :desc_text, :desc_name, 0, :desc_city, :desc_mail, NULL);";
             }
             
-            if ($add_post = $db->exec($queryPost)) {
+            $add_post = $db -> prepare($queryPost);
+            
+
+            if ($add_post->execute([':id'=>$this->id, ':desc_name'=>$desc_name, ':src'=>$src, ':desc_text'=>$desc_text, ':desc_city' => $desc_city, ':desc_mail' =>$desc_mail])) {
                 mail("ryzhov.is@mail.ru", "Новое объявление", "Добавлен новый пост! Добавление в соц сети: $add_to_socio . Наименование: $desc_name");
                 return true;
             }
@@ -56,14 +65,15 @@ class Client extends User {
     $post_id = $data['post_id'];
 
     if ($type === 'lost') {
-      $queryEditPost = "UPDATE `lost_post` SET `header` = '$desc_name', `text` = '$desc_text', `city` = '$desc_city', `contact`='$desc_mail'  WHERE `id` = '$post_id'";
+      $queryEditPost = "UPDATE `lost_post` SET `header` = :desc_name, `text` = :desc_text, `city` = :desc_city, `contact`=:desc_mail WHERE `id` = :id";
     }
     else if($type === 'find') {
-      $queryEditPost = "UPDATE `find_post` SET `header` = '$desc_name', `text` = '$desc_text', `city` = '$desc_city', `contact`='$desc_mail'  WHERE `id` = '$post_id'";
+      $queryEditPost = "UPDATE `find_post` SET `header` = :desc_name, `text` = :desc_text, `city` = :desc_city, `contact`=:desc_mail WHERE `id` = :id";
     }
 
+    $edit_post = $db->prepare($queryEditPost);
 
-    if ($edit_post = $db->exec($queryEditPost)) {
+    if ($edit_post->execute([':desc_name' => $desc_name, ':desc_text'=>$desc_text, ':desc_city'=>$desc_city, ':desc_mail'=>$desc_mail, ':id'=>$post_id])) {
       return true;
     }
     else {
@@ -96,9 +106,12 @@ class Client extends User {
     $new_name=$data['name'];
     $new_email = $data['email'];
 
-    $queryEditUserInfo = "UPDATE `users` SET `name` = '$new_name', `email` = '$new_email' WHERE `id` = '$this->id'";
-    if ($change_info = $db->exec($queryEditUserInfo)) {
-        $_SESSION[name] = $new_name;
+    $queryEditUserInfo = "UPDATE `users` SET `name` = :new_name, `email` = :new_email WHERE `id` = :id";
+    
+    $change_info = $db->prepare($queryEditUserInfo);
+
+    if ($change_info->execute([':new_name'=>$new_name, ':new_email' => $new_email, ':id'=>$this->id])) {
+        $_SESSION['name'] = $new_name;
         return true;
     }
     else {
@@ -110,15 +123,15 @@ class Client extends User {
   {
     include "config/pdo.php";
     $old_pass = md5($data['old_pass']);
-    $check = $db -> prepare("SELECT * FROM users WHERE pass='$old_pass';");
-    $check->execute();
+    $check = $db -> prepare("SELECT * FROM users WHERE pass=:old_pass;");
+    $check->execute([':old_pass' => $old_pass]);
     $user = $check->fetch();
 
     if(isset($user[pass])) {
         $new_pass = md5($data['new_pass']);
-        $query_new_pass = "UPDATE `users` SET `pass` = '$new_pass' WHERE `id` = '$this->id';";
-
-        if ($change_pass = $db->exec($query_new_pass)) {
+        $query_new_pass = "UPDATE `users` SET `pass` = :new_pass WHERE `id` = :id;";
+        $change_pass = $db -> prepare($query_new_pass);
+        if ($change_pass->execute([':new_pass'=>$new_pass, ':id'=>$this->id])) {
             return true;
         }
         else {

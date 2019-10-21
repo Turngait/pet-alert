@@ -9,15 +9,14 @@ class Guest {
     $login = $data['user_login'];
     $pass = md5($data['user_pass']);
     $email = $data['user_mail'];
-
-    $queryNU = "INSERT INTO `users` VALUES(NULL, '$name', '$email', '$login', '$pass', NULL, 0);";
     
     //Проверяем занят ли логин и мэил на стороне сервера
-    $check = $db -> prepare("SELECT * FROM users WHERE login='$login';");
-    $check_email = $db -> prepare("SELECT * FROM users WHERE email='$email';");
-    $check->execute();
+    $check = $db -> prepare("SELECT * FROM users WHERE login=:login;");
+    $check_email = $db -> prepare("SELECT * FROM users WHERE email=:email;");
+    $check->execute([':login' => $login]);
     $user = $check->fetch();
-    $check_email->execute();
+
+    $check_email->execute([':email'=>$email]);
     $user_email = $check_email->fetch();
     
     //Если что то в user[id] находится, то такой логин и мэил заняты
@@ -27,7 +26,12 @@ class Guest {
         }
         return $user[id];
     }
-    if ($add_user = $db->exec($queryNU)) {
+
+    $queryNU = "INSERT INTO `users` VALUES(NULL, :name, :email, :login, :pass, NULL, 0);";
+    $add_user = $db->prepare($queryNU);
+    
+    
+    if ($add_user -> execute([':name' => $name, ':email' => $email, ':login' => $login, ':pass' => $pass])) {
         $this->createUserHash($login);
 
         $to = $email; 
@@ -73,9 +77,9 @@ class Guest {
   public function createUserHash($login) 
   {
       include "config/pdo.php";
-      $queryNewUser = "SELECT `id` FROM `users` WHERE `login` = '$login';";
+      $queryNewUser = "SELECT `id` FROM `users` WHERE `login` = :login;";
       $get_user = $db -> prepare($queryNewUser);
-      $get_user -> execute();
+      $get_user -> execute([':login' => $login]);
       $user = $get_user->fetch(); 
       $user_id = $user['id'];
       $hash_user = md5($login);
@@ -89,19 +93,142 @@ class Guest {
   {
       include "config/pdo.php";
               
-      $check = $db -> prepare("SELECT * FROM users WHERE login='$login' and pass='$pass';");
-      $check->execute();
+      $check = $db -> prepare("SELECT * FROM users WHERE login=:login and pass=:pass;");
+      $check->execute([':login' => $login, ':pass' => $pass]);
       $user = $check->fetch();
       
       //Если что то в user[id] находится, то присваиваем сессии элементы пользователя
-      if (isset($user[id])) {
-          $_SESSION[id] = $user[id];
-          $_SESSION[name] = $user[name];
-          $_SESSION[status] = $user[status];
+      if (isset($user['id'])) {
+          $_SESSION['id'] = $user['id'];
+          $_SESSION['name'] = $user['name'];
+          $_SESSION['status'] = $user['status'];
           return true;
       }
       else {
           return false;
       }
   }
+
+
+  public function retrivePass($data) 
+  {
+    include "config/pdo.php";
+ 
+    $email=$data['email'];
+    $query_get_user = "SELECT * FROM users WHERE `email` = :email;";
+    $check = $db -> prepare($query_get_user);
+    $check->execute([':email' => $email]);
+    $get_user = $check->fetch();
+    
+    if($get_user['email']){
+
+        $id = $get_user['id'];
+
+        $query_token = "SELECT * FROM `hur` WHERE id_user=$id";
+        $check = $db->prepare($query_token);
+        $check->execute();
+        $token_arr = $check->fetch();
+        $token=$token_arr['hash'];
+        
+        $to = $get_user['email'];
+        $name = $get_user['name'];
+        
+        $link = 'pet-alert.ru/page.php?open=setNewPass&token='.$token;
+        
+        // тема письма
+        $subject = 'Восстановление пароля на сайте Pet-Alert.ru';
+
+        // текст письма
+        $message = '
+        <html>
+        <head>
+        <title>Восстановление пароля на сайте Pet-Alert.ru</title>
+        </head>
+        <body>
+        <p>
+        '.$name.',<br>
+        Вы только что запросили восстановление пароля на сайте Pet-Alert.ru.<br>
+        Что бы восстаоновить пароль пройдите по этой <a href='.$link.'>ссылке</a>.<br><br>
+        Если Вы не запрашивали восстановления пароля, то просто игнорируйте данное письмо.
+        </p>
+        </body>
+        </html>
+        ';
+
+        // Для отправки HTML-письма должен быть установлен заголовок Content-type
+        $headers  = 'MIME-Version: 1.0' . "\r\n";
+        $headers .= 'Content-type: text/html; charset=utf-8' . "\r\n";
+
+        // Дополнительные заголовки
+        $headers .= 'From: Pet Alert <info@pet-alert.ru>';
+
+        // Отправляем
+        mail($to, $subject, $message, $headers);
+      
+        return true;   
+    }
+    else {
+        return false;
+    }
+    }
+
+    public function setNewPass($data)
+    {
+        include "config/pdo.php";
+        
+        $pass = $data['pass'];
+        $new_pass = md5($data['pass']);
+        $token = $data['token'];
+
+        $query = "SELECT * FROM `hur` WHERE hash=:token";
+        $check = $db->prepare($query);
+        $check->execute([':token' => $token]);
+        $is_user = $check->fetch();
+
+        if($is_user['id_user']){
+            $id = $is_user['id_user'];
+            $query_set_pass = "UPDATE `users` SET `pass` = :new_pass WHERE `id` = :id;";
+            $change_pass = $db->prepare($query_set_pass);
+
+            if ($change_pass->execute([':new_pass'=> $new_pass, ':id' => $id])) {
+
+                // тема письма
+                $subject = 'Смена пароля на сайте Pet-Alert.ru';
+        
+                // текст письма
+                $message = '
+                <html>
+                <head>
+                <title>Смена пароля на сайте Pet-Alert.ru</title>
+                </head>
+                <body>
+                <p>
+                Вы только что изменили пароля на сайте Pet-Alert.ru.<br>
+                Ваш новый пароль '.$pass.' .<br><br>
+                Если Вы не запрашивали восстановления пароля, то свяжитесь с администрацией сайта.
+                </p>
+                </body>
+                </html>
+                ';
+        
+                // Для отправки HTML-письма должен быть установлен заголовок Content-type
+                $headers  = 'MIME-Version: 1.0' . "\r\n";
+                $headers .= 'Content-type: text/html; charset=utf-8' . "\r\n";
+        
+                // Дополнительные заголовки
+                $headers .= 'From: Pet Alert <info@pet-alert.ru>';
+        
+                // Отправляем
+                mail($email, $subject, $message, $headers);
+
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        else {
+            return false;
+        }
+    }
 }

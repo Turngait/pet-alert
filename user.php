@@ -98,3 +98,25 @@ if(isset($_GET['chandeUserPass'])) {
     $page->showInfo("Неверно ввели старый пароль.", 'page.php?open=userAccaunt');
   }
 }
+
+if(isset($_GET['retrivePass'])) {
+  $guest = new Guest();
+
+  if($guest->retrivePass($_POST)) {
+    $page->showInfo("Вам отправленно письмо с инсnрукцией на Ваш e-mail.", 'page.php?open=postsPage');
+  }
+  else {
+    $page->retrivePass('Вы ввели неверный e-mail');
+  }
+}
+
+if(isset($_GET['setNewPass'])) {
+  $guest = new Guest();
+
+  if($guest->setNewPass($_POST)) {
+    $page->showInfo("Пароль успешно изменен.", 'page.php?open=postsPage');
+  }
+  else {
+    $page->showInfo("Ошибка. Обратитесь к администратору сайта", 'page.php?open=postsPage');
+  }
+}

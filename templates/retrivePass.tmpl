@@ -1,31 +1,28 @@
 <!DOCTYPE html>
 <html>
-{% include 'head.tmpl' %}
+  {% include 'head.tmpl' %}
 
-    <body>
-        <div class="container">
-{% include 'header.tmpl' %}
+  <body>
 
-            <main>
-                <div class="row offset-right">
-                    <div class="col-md-2"></div>
-                    <div class="col-md-8">
-                        <div class="main_wrapper">
-                            <h2>Восстановление пароля.</h2>
-                            <div class="add_form">
-                                <form action="main_controller.php?getPassbyEmail=1" method="POST">
-                                    <input class="inp inp_main_form" type="text" name="email" placeholder="Укажите ваш e-mail">
-                                    
-                                    <button type="submit" class="butn popup_butn">Отправить</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-2"></div>
-                </div>
-            </main>
-              {% include 'footer.tmpl' %}
+    {% include 'header.tmpl' %}
 
+    <main>
+
+      <div class="main_wrapper">
+        <h2>Восстановление пароля.</h2>
+        <div class="add_form">
+          <form action="user.php?retrivePass=1" method="POST">
+            <span class="login_info">{{info}}</span>
+            <input class="inp inp2" type="text" name="email" placeholder="Укажите ваш e-mail">
+
+            <button type="submit" class="butn popup_butn">Отправить</button>
+          </form>
         </div>
-    </body>
+      </div>
+
+    </main>
+    {% include 'footer.tmpl' %}
+
+
+  </body>
 </html>

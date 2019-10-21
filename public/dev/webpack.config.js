@@ -4,7 +4,9 @@ module.exports = {
   mode: 'production',
 
   entry: {
-    descPage: './src/app_descPage.ts'
+    descPage: './src/app_descPage.ts',
+    userAcc: './src/app_userAcc.ts',
+    otherPage: './src/app_otherPage.ts'
   },
 
   output: {

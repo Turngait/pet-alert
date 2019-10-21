@@ -1,5 +1,6 @@
 import { pet_alert } from "../main_obj";
 
+
 (function(){
   function sortByCities(){
     let collectionPost = document.getElementsByClassName('post_city');
@@ -25,8 +26,8 @@ import { pet_alert } from "../main_obj";
     let chosenCity = event.target.value;
     let collectionPost = document.getElementsByClassName('post_city');
 
-    for (let key in collectionPost) {
-      
+    for (let key = 0; key < collectionPost.length; key++) {
+        
         if (chosenCity === 'Все города') {
           
             let nodeShow: any = collectionPost[key].parentNode.parentNode;
@@ -36,6 +37,7 @@ import { pet_alert } from "../main_obj";
         
         if(collectionPost[key].innerHTML !== chosenCity) {
             let nodeHide: any = collectionPost[key].parentNode.parentNode;
+            
             nodeHide.setAttribute('style', 'display:none;');
         }
         else {

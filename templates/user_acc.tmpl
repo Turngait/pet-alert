@@ -2,7 +2,7 @@
 <html>
   {% include 'head.tmpl' %}
   <body>
-    {% include 'preloader.tmpl' %}
+    {# {% include 'preloader.tmpl' %} #}
     {% include 'header.tmpl' %}
     <main>
       <div class="main_wrapper">
@@ -47,7 +47,7 @@
                       <button class="butn butn_inline" type="submit">Сохранить</button>
                     </form>
                     <form action="user.php?deletePost=1" method="POST" class="user_desc_del_form">
-                          <input type="hidden" name="type" value="find">
+                      <input type="hidden" name="type" value="find">
 
                       <input type="hidden" name="post_id" value="{{postFind['id']}}">
                       <button class="butn useracc_butn" type="submit">Удалить</button>
@@ -137,7 +137,8 @@
 
           {% include 'yandex.tmpl' %}
 
-          <script src="public/app_user_acc.js"></script>
+          
+          <script src="public/js/userAcc.js"></script>
         </body>
 
       </html>
