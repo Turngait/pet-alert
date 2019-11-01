@@ -1,7 +1,8 @@
-import { pet_alert } from "../main_obj"
+import { pet_alert } from "../main_obj";
+import {MyEvent, MyNode} from '../config/models';
 
 (function(){
-  function signUpOpen(event: any, node: any){
+  function signUpOpen(event: MyEvent, node: MyNode){
 
     node.classList.remove('hidden');
     node.classList.remove('slideOutUp');

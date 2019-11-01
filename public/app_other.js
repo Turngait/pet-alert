@@ -1,4 +1,5 @@
 console.log("Hello!");
+//DEPRECATED
 
 //Функции информационных страниц
 
@@ -175,4 +176,4 @@ function init() {
     }
 }
 
-window.onload=init;
+// window.onload=init;

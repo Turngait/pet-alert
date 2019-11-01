@@ -17,7 +17,6 @@ export const pet_alert: any = {
     handlers: {
       chengeTypeDescHandler: null,
       chengeTypeUserInfoHandler: null
-
     }
   }
 };

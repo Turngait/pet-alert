@@ -1,10 +1,13 @@
 <?php
 // require 'modules/user.class.php';
+require_once 'modules/db.trait.php';
 
 class Client extends User {
-  public function __construct ($id, $name)
+  use t_DB;
+  
+  public function __construct ($id, $name, $db=null)
   {
-    parent::__construct($id, $name);
+    parent::__construct($id, $name, $db);
   }
 
   public function addPost($data, $type)
@@ -31,8 +34,6 @@ class Client extends User {
             $desc_text = $data['desc_text'];
             $desc_mail = $data['desc_mail'];
 
-
-
             if($type === 'lost') {
               $queryPost = "INSERT INTO `lost_post` VALUES(NULL, :id, :desc_name, :src, :desc_text, :desc_city, :desc_mail, NULL, 0);";
             }
@@ -50,8 +51,105 @@ class Client extends User {
             else {
             return false;
             }
-            
         }
+  }
+
+  public function addArticle($data, $main_photo, $files)
+  {
+    $src='public/articles_photo/'.$main_photo['name'];
+    
+    if(count($files) > 4) {
+      return 'wrong ammount of files';
+    }
+
+    if ($main_photo['type'] != 'image/png' && $main_photo['type'] != 'image/jpeg') {
+      return 'wrong file type';
+    }
+
+    if(!move_uploaded_file($main_photo['tmp_name'], $src)){
+      return 'db problem';
+    }
+
+    $query = "INSERT INTO `blog_posts` VALUES(NULL, :heading, :txt, '$src', :id_user, :id_category, 0, 0, NULL);";
+    $add = $this->db->prepare($query);
+    $add->execute([':heading'=>$data['name'], ':txt'=>$data['text'], ':id_user'=>$this->id, ':id_category'=>$data['category']]);
+
+    $id_article = $this->db->lastInsertId();
+
+    foreach ($files as $file) {
+      if(!$file['name']) {
+        break;
+      }
+      $src = 'public/articles_photo/'.$file['name'];
+
+      if ($file['type'] != 'image/png' && $file['type'] != 'image/jpeg') {
+        return 'wrong file type';
+      }
+      
+      if(!move_uploaded_file($file['tmp_name'], $src)){
+        return 'db problem';
+      }
+
+      $query_add_photos = "INSERT INTO `blog_photos` VALUES(NULL, $id_article, '$src');";
+      $add_photos = $this->db->prepare($query_add_photos);
+      $add_photos->execute();
+    }
+
+    $tags = explode(',', $data['tags']);
+
+    foreach ($tags as $tag) {
+
+      $query_get_tag = "SELECT * FROM `tags` WHERE tag = :tag;";
+      $check_tag = $this->db->prepare($query_get_tag);
+      $check_tag->execute([':tag' => $tag]);
+      $get_tag = $check_tag->fetch();
+
+      if(isset($get_tag['id'])) {
+        $id_tag = $get_tag['id'];
+        $query_add_tags_blog = "INSERT INTO `blog_tags` VALUES($id_article, $id_tag);";
+  
+        $add_blog_tags = $this->db->prepare($query_add_tags_blog);
+
+        if(!$add_blog_tags->execute()) {
+          return 'db problem';
+        }
+      }
+      else {
+        $query_add_tags = "INSERT INTO `tags` VALUES(NULL, :tag);";
+
+        $add_tags = $this->db->prepare($query_add_tags);
+  
+        if($add_tags->execute([':tag' => $tag])) {
+          $id_tag = $this->db->lastInsertId();
+          
+          $query_add_tags_blog = "INSERT INTO `blog_tags` VALUES($id_article, $id_tag);";
+  
+          $add_blog_tags = $this->db->prepare($query_add_tags_blog);
+  
+          if(!$add_blog_tags->execute()) {
+            return 'db problem';
+          }
+        }
+      }
+
+    }
+
+    return true;
+  }
+
+  public function editArticle($data, $id)
+  {
+    $id = (int)$id;
+    newDump($data);
+
+    $query = "UPDATE `blog_posts` SET `heading` = :heading, `text` = :txt WHERE `id` = $id;";
+    $edit_post = $this->db->prepare($query);
+    if ($edit_post->execute([':heading' => $data["name"], ':txt' => $data["text"]])) {
+      return true;
+    }
+    else {
+      return false;
+    }
   }
 
   public function editPost($data, $type)

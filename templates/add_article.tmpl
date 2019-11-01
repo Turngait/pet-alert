@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ru">
+  {% include 'head.tmpl' %}
+  <body>
+      {% include 'header.tmpl' %}
+      <main class="main_box">
+            <div class="auth hidden" id="auth">
+              <i id="close" class="fas fa-times"></i>
+              <div id="wrapper"></div>
+            </div>
+
+            <div class="main_wrapper">
+              <form class="add_form" action="user.php?addArticle=1" method="POST" enctype="multipart/form-data">
+                <h4 class="form_header">Добавить статью</h4>
+                          
+                <input class="inp inp_form" type="text" name="name" placeholder="Заголовок статьи..." required>
+                          
+                <br>
+                <textarea class="txtarea" name="text" placeholder="Текст..." required></textarea>
+                          
+                <br>                          
+                Добавьте фотографию к Вашей статье. Загружайте фотографии в формате .jpg или .png.
+                <br>
+                <span id="desc_photo_lost"></span>
+                <label class="butn2" id="main_photo_box_lost">
+                  Добавить фотографию
+                  <input type="file" class="add_file_inp" id="input_file" name="photo" accept="image/jpeg, image/png">
+                </label>
+
+                <br>
+                Так же, Вы можете добавить дополнительные 4 фотографии к Вашей статье. Загружайте фотографии в формате .jpg или .png.
+                <br>
+                <input type="file" name="img[]" multiple>
+
+                <br>
+                Выберите категорию статьи.
+                <br>
+                <select name="category" class="slct">
+                {% for category in categories %}
+                  <option value="{{category.id}}">{{category.category}}</option>
+                {% endfor %}
+                </select>
+
+                <input class="inp inp_form" type="text" name="tags" placeholder="Теги через запятую..." required>
+
+                <div class="add_to_socio">
+                  <input type="checkbox" name="add_socio">
+                  Даю согласие на размещение моей статьи в соц-сетях.
+                </div>
+                Нажимая кнопку "Добавить" Вы соглашаетесь с
+                <a class="form_link" href="page.php?open=aboutPage" target="_blank">"Правилами сайта"</a>
+                и
+                <a class="form_link" href="page.php?open=privacyPage" target="_blank">"Политикой обработки персональных данных"</a>.
+                <br>
+
+                          
+                <button type="submit" class="butn popup_butn" id="lost_submit">Добавить</button>
+                </form>
+              </div>
+
+      </main>
+      {% include 'footer.tmpl' %}
+      {% include 'yandex.tmpl' %}
+  <script src="public/js/addArticlePage.js"></script>
+  </body>
+</html>

@@ -190,7 +190,7 @@ a:hover {
     text-decoration: underline;
 }
 .menu_link {
-    text-shadow: 2px 2px 2px #222;
+    text-shadow: 1px 1px 3px #000;
     color:#fff;
     text-decoration: none;
     padding: 5px 3px;
@@ -219,7 +219,7 @@ a:focus {
 /*Классы хедера*/
 .header_box {
     background: #11442a;
-    padding: 10px 70px;
+    padding: 10px 100px;
     width: 100%;
     height: 80px;
     color:#fff;
@@ -238,6 +238,11 @@ a:focus {
 
 .logo_mini {
     width: 60px;
+    transition-duration: 0.5s;
+}
+
+.logo_mini:hover {
+    filter: drop-shadow(0 0 5px #fff);
 }
 
 /*Классы main*/
@@ -272,7 +277,7 @@ li a:hover {
 }
 
 .main_wrapper {
-    width: 100%;
+    width: 90%;
     margin:auto;
     padding: 30px 70px;
     min-height: 570px;
@@ -299,64 +304,20 @@ li a:hover {
     outline: none;
 }
 
-.sweetcher {
-    display: flex;
-    margin: 20px 0;
-    padding:0;
-    clear: both;
+.main_photo_manage {
+    max-width: 300px;
+    margin-bottom: 10px;
 }
 
-.sweetcher_elem {
-    flex-grow: 1;
-    border:1px solid rgb(255, 255, 255);
-    background: #11442a;
-    color: #fff;
-    font-size: 16px;
-    text-align: center;
-    padding:0;
-    box-sizing: border-box;
-    box-shadow: 0 1px 2px #eee inset;
-    cursor: pointer;
-}
-
-.sweetcher_elem:nth-child(1) {
-    border-top-left-radius: 3px;
-    border-bottom-left-radius: 3px;
-    padding:5px;
-    width: 70px;
-}
-
-.sweetcher_elem:nth-child(2) {
-    border-top-right-radius: 3px;
-    border-bottom-right-radius: 3px;
-    padding:5px;
-    width: 70px;
-}
-
-.sweetcher_elem:hover {
-    box-shadow: none;
-}
-
-.sweetcher_elem:active {
-    box-shadow: 0 3px 5px #222 inset;
-}
-.sweetcher_elem:focus {
-    outline: none;
-}
-
-.sweetcher .chosen{
-    background: #307250;
-    color:#fff;
-    padding:0;
-}
 .post_block {
     margin: 20px auto;
 }
 .post_element {
-    border:1px solid transparent;
+    border:none;
     border-radius: 3px;
     background: #fff;
     color:#222;
+    margin: auto;
     margin-bottom: 30px;
 }
 .post_element:last-child {
@@ -369,8 +330,9 @@ li a:hover {
     color:#fff;
     padding: 15px 30px;
     margin:auto;
-    font-weight: bold;
+    font-weight: 600;
     border-radius: 3px 3px 0 0;
+    text-shadow: 1px 1px 2px #333;
 }
 .post_wrapper {
     padding: 15px 30px;
@@ -497,14 +459,22 @@ li a:hover {
 
 .links {
     color:#fff;
-    flex: 1;
-    text-align: right;
+    flex: 0 1 40%;
+    justify-content: flex-end;
+    display: flex;
+    align-items: center;
 }
 .socio_links {
     flex: 1;
+    display: flex;
+    justify-content: space-between;
 }
 .socio_links img {
-    margin-right: 30px;
+    transition-duration: 0.5s;
+}
+
+.socio_links img:hover {
+    filter: drop-shadow(0px 0px 8px #fff);
 }
 
 .auth {
@@ -526,61 +496,7 @@ li a:hover {
     color:#fff;
 }
 
-.inp {
-    display: block;
-    margin: 0 auto 20px;
-    padding:5px 8px;
-    border-radius: 2px;
-    border: none;
-    background: #fff;
-    color: #535353;
-    box-sizing: border-box;
-    font-size:14px;
-}
 
-.inp2 {
-    border: 1px solid #333;
-    margin-top:30px;
-    width: 46%;
-}
-
-.inp:hover {
-    box-shadow: 0px 0.5px 5px #333 inset;
-}
-
-.inp:focus {
-    box-shadow: 0 0 5px #fff;
-    outline: none;
-}
-.inp_main_form {
-    border: 1px solid #fff;
-    margin-top:30px;
-    width: 46%;
-}
-.inp_main_form:focus {
-    border: 1px solid #aaa;
-    box-shadow: none;
-}
-.inp_form {
-    display: inline-block;
-    border: 1px solid #fff;
-    margin-top:30px;
-    width: 49%;
-    box-shadow: 0px 0.5px 2px #333 inset;
-}
-.inp_form:focus {
-    border: 1px solid #aaa;
-    box-shadow: none;
-}
-
-.inp_user_info {
-    margin: 10px 0 15px;
-    display: block;
-    width:100%;
-}
-.right_inp {
-    float:right;
-}
 
 .main_form {
     text-align: center;
@@ -594,53 +510,7 @@ li a:hover {
     color:#535353;
 }
 
-.butn {
-    min-width: 150px;
-    display: block;
-    background: #247b4f;
-    color:#fff;
-    box-shadow: 0 1px 1px #fff inset;
-    padding:4px 8px;
-    border-radius: 2px;
-    border: none;
-    cursor: pointer;
-}
 
-.butn:hover {
-    border-color:#fff;
-    box-shadow: 0 1px 1px #333 inset;
-}
-
-.butn2 {
-    min-width: 150px;
-    display: block;
-    background: #11442a;
-    color:#fff;
-    border: none;
-    box-shadow: 0 1px 2px #fff inset;
-    padding:4px 8px;
-    border-radius: 3px;
-    cursor: pointer;
-}
-.butn2:hover {
-    border-color:#fff;
-    box-shadow: 0 1px 1px #333 inset;
-}
-.butn2:focus {
-    outline: none;
-}
-
-.popup_butn {
-    margin: 20px auto 0;
-}
-
-.butn_inline {
-    display:inline-block;
-}
-
-.useracc_butn {
-    margin: 10px auto 0 0;
-}
 
 .auth h4 {
     margin-bottom: 30px;
@@ -684,7 +554,7 @@ li a:hover {
     padding: 20px;
     background: #fff;
     color: #535353;
-    border-radius: 10px;
+    border-radius: 5px;
 }
 
 .form_info {
@@ -700,27 +570,17 @@ li a:hover {
     margin-bottom: 60px;
 }
 
-.add_file_inp {
+#input_file {
+    display: none;
     padding: 0;
 }
+
 .add_form input[type="checkbox"] {
     margin:auto;
     width: auto;
     height: auto;
 }
 
-.txtarea {
-    display: block;
-    border: 1px rgb(80, 80, 80) solid;
-    outline: none;
-    width: 100%;
-    height: 300px;
-    margin: auto;
-    margin-bottom: 10px;
-    padding-left:5px;
-    border-radius: 2px;
-    color: #535353;
-}
 .add_to_socio {
     width: 50%;
     margin:20px auto 20px;
@@ -801,7 +661,7 @@ li a:hover {
 }
 .user_desc_del_form {
     position: relative;
-    margin: -40px auto 0 200px;
+    margin: -38px auto 0 200px;
 }
 .user_acc_form {
     width:100%;
@@ -830,6 +690,34 @@ li a:hover {
     font-size: 18px;
 }
 
+/*ARTICALS CLASSES*/
+.post_wrapper__main_photo {
+    float: left;
+    width: 150px;
+    min-width: 100px;
+    margin-right: 20px;
+}
+
+.post_element__other_photos {
+    width: 150px;
+    min-width: 100px;
+    margin-right: 20px;
+}
+
+.post_element__tags,
+.post_element__learn_more {
+    color: #11442a;
+    text-decoration: underline;
+}
+.post_element__tags:hover,
+.post_element__learn_more:hover {
+    color:#11442a;
+}
+
+.post_element__text {
+    height: 100px;
+    overflow: hidden;
+}
 /* SUPPORT CLASSES */
 .no_center {
     text-align: left;

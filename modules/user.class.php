@@ -3,11 +3,16 @@
 class User {
     protected $id;
     protected $name;
+    protected $db;
 
-    public function __construct ($id, $name) {
+    public function __construct ($id, $name, $db = null) 
+    {
         $this->id = $id;
         $this->name = $name;
+        $this->db = $db;
     }
+    
+    //Depricatod methods. Do not use it
     
     public function reg() {
         include "config/pdo.php";

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru">
+  {% include 'head.tmpl' %}
+  <body>
+      {% include 'header.tmpl' %}
+      <main class="main_box">
+            <div class="auth hidden" id="auth">
+              <i id="close" class="fas fa-times"></i>
+              <div id="wrapper"></div>
+            </div>
+
+            <div class="main_wrapper">
+              <form class="add_form" action="user.php?editArticle={{article['id']}}" method="POST" enctype="multipart/form-data">
+                <h4 class="form_header">Редактировать статью № {{article['id']}} от {{date['day']}}.{{date['month']}}.{{date['year']}}</h4>
+                          
+                <input class="inp inp_form" type="text" value='{{ article['heading'] }}' name="name" placeholder="Заголовок статьи..." required>
+                          
+                <br>
+                <textarea class="txtarea" name="text" placeholder="Текст..." required>{{article['text']}}</textarea>
+
+                {# <br>
+                Выберите категорию статьи.
+                <br>
+                <select name="category" class="slct">
+                {% for category in categories %}
+                  <option value="{{category.id}}">{{category.category}}</option>
+                {% endfor %}
+                </select>
+
+                <input class="inp inp_form" type="text" name="tags" placeholder="Теги через запятую..." required>
+
+                <div class="add_to_socio">
+                  <input type="checkbox" name="add_socio">
+                  Даю согласие на размещение моей статьи в соц-сетях.
+                </div> #}
+                Нажимая кнопку "Сохранить" Вы соглашаетесь с
+                <a class="form_link" href="page.php?open=aboutPage" target="_blank">"Правилами сайта"</a>
+                и
+                <a class="form_link" href="page.php?open=privacyPage" target="_blank">"Политикой обработки персональных данных"</a>.
+                <br>
+                <button type="submit" class="butn popup_butn" id="lost_submit">Сохранить</button>
+                </form>
+              </div>
+
+      </main>
+      {% include 'footer.tmpl' %}
+      {% include 'yandex.tmpl' %}
+  <script src="public/js/descPage.js"></script>
+  </body>
+</html>

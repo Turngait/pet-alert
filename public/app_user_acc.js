@@ -1,4 +1,5 @@
 //Функции личного кабинета юзера.
+//DEPRICATED
 
 //Функция переключения отрисовки типов постов
 function changePostsHandler(event) {
@@ -50,12 +51,12 @@ function changeMenuHandler(event) {
 function init () {
         //Функции личного кабинета юзера
         var changePostsHandlerButtons = document.getElementById('showPostsMenu');
-        changePostsHandlerButtons.addEventListener('click', changePostsHandler);
+        // changePostsHandlerButtons.addEventListener('click', changePostsHandler);
 
         var userAccHandler = document.getElementById('user_acc_handler');
-        userAccHandler.addEventListener('click', changeMenuHandler)
+        // userAccHandler.addEventListener('click', changeMenuHandler)
 
-        document.querySelector('.preloader').style.display= 'none';
+        // document.querySelector('.preloader').style.display= 'none';
 }
 
-window.onload=init;
+// window.onload=init;

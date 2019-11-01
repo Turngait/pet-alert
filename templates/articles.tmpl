@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ru">
+  {% include 'head.tmpl' %}
+  <body>
+      {% include 'header.tmpl' %}
+      <main class="main_box">
+            <div class="auth hidden" id="auth">
+              <i id="close" class="fas fa-times"></i>
+              <div id="wrapper"></div>
+            </div>
+        <div class="main_wrapper">
+          {% if user_id is empty %}
+            {% if policy_check == 0 %}
+              {% include 'cookiesInfo.tmpl' %}
+            {% endif %}
+          {% endif %}
+
+          {% if user_id > 0 %}
+            <p>
+              {# <select id="sortPost"></select> #}
+              <a href="page.php?open=addArticle" class="butn2">Добавить статью</a>
+            </p>
+          {% else %}
+            <p>
+              Что бы добавить стьатью -
+              <a href="#" id="login1">войдите</a>.
+              {# <select id="sortPost"></select> #}
+            </p>
+          {% endif %}
+
+          <div class="post_block" id="lostPosts">  
+          {% for key, article in articles %} 
+            <div class="post_element">
+              
+              <h4 class="post_header">{{article['id']}}.&nbsp;
+                {{ article['heading'] }}. &nbsp; 
+                {% for category in categories %}
+                  {% if category['id'] == article['id_category']%}
+                    {{ category['category'] }}
+                  {% endif %}
+                {% endfor %}
+
+                <span class="dataPost">
+                {% if user_id == article['id_user'] %}
+                  <a href="/page.php?open=editArticle&id={{article['id']}}"><i class="fas fa-pen" title="Редактировать статью"></i></a>
+                {% endif %}
+                {{date[key]['day']}}.{{date[key]['month']}}.{{date[key]['year']}}
+                </span>
+              </h4>
+              <div class="post_wrapper">
+                <a href="{{article['main_photo']}}" target="_blank">
+                  <img src="{{article['main_photo']}}" class="post_wrapper__main_photo" alt="Pet photo">
+                </a>
+                <p class="post_text post_element__text">
+                  {{article['text']|nl2br}}
+                </p>
+
+                <a class="post_element__learn_more" href="/page.php?open=getArticle&id={{article['id']}}">Подробнее...</a>
+
+                <p>
+                  Теги:
+                  {% for b_t in blog_tags %}
+                    {% if b_t['article_id'] == article['id']%}
+                      {% for tag in tags %}
+                        {% if tag['id'] == b_t['id_tag']%}
+                          <a class="post_element__tags" href="/page.php?open=getByTags&tag={{tag['id']}}">{{tag['tag']}}</a>
+                        {% endif %}
+                      {% endfor %}
+                    {% endif %}
+                  {% endfor %}
+                </p>
+
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+
+        </div>
+      </main>
+      {% include 'footer.tmpl' %}
+      </div>
+    {% include 'yandex.tmpl' %}      
+  
+  <script src="public/js/articlesPage.js"></script>
+  </body>
+</html>

@@ -1,23 +1,25 @@
 <?php
+require_once 'modules/db.trait.php';
 
 class Guest {
+  protected $db;
+  use t_DB;
+
+  public function __construct($db=null)
+  {
+    $this->db = $db;
+  }
+
   public function reg($data) 
   {
-    include "config/pdo.php";
-    
     $name =  $data['user_name'];
     $login = $data['user_login'];
     $pass = md5($data['user_pass']);
     $email = $data['user_mail'];
     
     //Проверяем занят ли логин и мэил на стороне сервера
-    $check = $db -> prepare("SELECT * FROM users WHERE login=:login;");
-    $check_email = $db -> prepare("SELECT * FROM users WHERE email=:email;");
-    $check->execute([':login' => $login]);
-    $user = $check->fetch();
-
-    $check_email->execute([':email'=>$email]);
-    $user_email = $check_email->fetch();
+    $user = $this->checkLogin($login);
+    $user_email = $this->checkEmail($email);
     
     //Если что то в user[id] находится, то такой логин и мэил заняты
     if (isset($user[id])) {
@@ -28,8 +30,7 @@ class Guest {
     }
 
     $queryNU = "INSERT INTO `users` VALUES(NULL, :name, :email, :login, :pass, NULL, 0);";
-    $add_user = $db->prepare($queryNU);
-    
+    $add_user = $this->db->prepare($queryNU);
     
     if ($add_user -> execute([':name' => $name, ':email' => $email, ':login' => $login, ':pass' => $pass])) {
         $this->createUserHash($login);
@@ -76,24 +77,21 @@ class Guest {
 
   public function createUserHash($login) 
   {
-      include "config/pdo.php";
       $queryNewUser = "SELECT `id` FROM `users` WHERE `login` = :login;";
-      $get_user = $db -> prepare($queryNewUser);
+      $get_user = $this->db -> prepare($queryNewUser);
       $get_user -> execute([':login' => $login]);
       $user = $get_user->fetch(); 
       $user_id = $user['id'];
       $hash_user = md5($login);
 
       $queryAddHash = "INSERT INTO `hur` VALUES($user_id, '$hash_user');";
-      $add_hash = $db ->prepare($queryAddHash);
+      $add_hash = $this->db ->prepare($queryAddHash);
       $add_hash->execute();
   }
 
   public function login($login, $pass) 
   {
-      include "config/pdo.php";
-              
-      $check = $db -> prepare("SELECT * FROM users WHERE login=:login and pass=:pass;");
+      $check = $this->db -> prepare("SELECT * FROM users WHERE login=:login and pass=:pass;");
       $check->execute([':login' => $login, ':pass' => $pass]);
       $user = $check->fetch();
       
@@ -109,14 +107,31 @@ class Guest {
       }
   }
 
+  public function checkLogin($login)
+  {
+    $check = $this->db -> prepare("SELECT * FROM users WHERE login=:login;");
+    $check->execute([':login' => $login]);
+    $user = $check->fetch();
+
+    return $user;
+  }
+
+  public function checkEmail($email)
+  {
+    $check_email = $this->db -> prepare("SELECT * FROM users WHERE email=:email;");
+
+    $check_email->execute([':email'=>$email]);
+    $user_email = $check_email->fetch();
+
+    return $user_email;
+  }
+
 
   public function retrivePass($data) 
   {
-    include "config/pdo.php";
- 
     $email=$data['email'];
     $query_get_user = "SELECT * FROM users WHERE `email` = :email;";
-    $check = $db -> prepare($query_get_user);
+    $check = $this->db -> prepare($query_get_user);
     $check->execute([':email' => $email]);
     $get_user = $check->fetch();
     
@@ -125,7 +140,7 @@ class Guest {
         $id = $get_user['id'];
 
         $query_token = "SELECT * FROM `hur` WHERE id_user=$id";
-        $check = $db->prepare($query_token);
+        $check = $this->db->prepare($query_token);
         $check->execute();
         $token_arr = $check->fetch();
         $token=$token_arr['hash'];
@@ -174,21 +189,19 @@ class Guest {
 
     public function setNewPass($data)
     {
-        include "config/pdo.php";
-        
         $pass = $data['pass'];
         $new_pass = md5($data['pass']);
         $token = $data['token'];
 
         $query = "SELECT * FROM `hur` WHERE hash=:token";
-        $check = $db->prepare($query);
+        $check = $this->db->prepare($query);
         $check->execute([':token' => $token]);
         $is_user = $check->fetch();
 
         if($is_user['id_user']){
             $id = $is_user['id_user'];
             $query_set_pass = "UPDATE `users` SET `pass` = :new_pass WHERE `id` = :id;";
-            $change_pass = $db->prepare($query_set_pass);
+            $change_pass = $this->db->prepare($query_set_pass);
 
             if ($change_pass->execute([':new_pass'=> $new_pass, ':id' => $id])) {
 

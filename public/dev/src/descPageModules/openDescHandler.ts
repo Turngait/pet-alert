@@ -1,4 +1,5 @@
 import { pet_alert } from "../main_obj";
+import {MyEvent} from '../config/models';
 
 (function(){
   function openAddDescHandler(){
@@ -45,7 +46,7 @@ import { pet_alert } from "../main_obj";
     });
   }
 
-  function addDescMenuHandler(event: any) {
+  function addDescMenuHandler(event: any): void {
     var targetParam =event.target.dataset.param;
     var target = event.target;
     var lostDesc = document.getElementById('addDeskLost');

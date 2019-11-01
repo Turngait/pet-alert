@@ -6,7 +6,9 @@ module.exports = {
   entry: {
     descPage: './src/app_descPage.ts',
     userAcc: './src/app_userAcc.ts',
-    otherPage: './src/app_otherPage.ts'
+    otherPage: './src/app_otherPage.ts',
+    articlesPage: './src/app_articles.ts',
+    addArticlePage: './src/app_addArticle.ts'
   },
 
   output: {

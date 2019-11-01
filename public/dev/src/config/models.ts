@@ -5,7 +5,19 @@ export type MyEvent = EventTarget & {
       param?: string
     },
     classList?: {
-      add?: Function
+      add?: Function,
+      remove?: Function
     }
   }
+};
+
+export type MyNode = Node & {
+  classList?: {
+    remove?: Function,
+    add?: Function
+  },
+  style?: {
+    display?: string
+  },
+  setAttribute?: Function
 };

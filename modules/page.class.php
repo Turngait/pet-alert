@@ -1,7 +1,7 @@
 <?php
+require_once 'modules/db.trait.php';
 
 class Page {
-
   private $user_id;
   private $user_name;
   private $db;
@@ -13,7 +13,9 @@ class Page {
     $this->db = $db; 
   }
 
-  public function startPage() 
+  use t_DB;
+
+  protected function render($filename = 'start.tmpl', $dates = [])
   {
     //открываем буфферизацию
     ob_start();
@@ -26,12 +28,73 @@ class Page {
     // Инициализируем Twig
     $twig = new Twig_Environment($loader);
     // Подгружаем шаблон
-    $template = $twig->loadTemplate('start.tmpl');
+    $template = $twig->loadTemplate($filename);
+    // Передаем в шаблон переменные и значения
+    // Выводим сформированное содержание
+    echo $template->render($dates);
+    } catch (Exception $e) {
+    die ('ERROR: ' . $e->getMessage());
+    }
+
+    //возвращаем все что оказалось в буффере.
+    echo ob_get_clean();
+  }
+
+  public function startPage() 
+  {
+    $data = [
+      'user_id' => $this->user_id,
+      'user_name' =>$this->user_name
+    ];
+
+    $this->render('start.tmpl', $data);
+  }
+
+  public function articlesPage()
+  {
+    if(isset($_COOKIE['policy_check'])) {
+      $policy_check = 1;
+    }
+    else {
+      setcookie('policy_check', 'checked', time()+3600*24);
+      $policy_check = 0;
+    }
+
+    $articles = $this->getSimpleInfoOrderByInt($this->db, 'blog_posts', 'id');
+    $tags = $this->getSimpleInfo($this->db, 'tags');
+    $blog_tags = $this->getSimpleInfo($this->db, 'blog_tags');
+    $categories = $this->getSimpleInfo($this->db, 'category');
+
+    $date = [];
+    foreach ($articles as $post) {
+        $date_new = date_parse($post['created_at']);
+        array_push($date, $date_new);
+    }
+
+    //открываем буфферизацию
+    ob_start();
+    // Подгружаем и активируем автозагрузчик Twig-а
+    require_once 'Twig/Autoloader.php';
+    Twig_Autoloader::register();
+    try {
+    // папка шаблонов
+    $loader = new Twig_Loader_Filesystem('templates');
+    // Инициализируем Twig
+    $twig = new Twig_Environment($loader);
+    // Подгружаем шаблон
+    $template = $twig->loadTemplate('articles.tmpl');
     // Передаем в шаблон переменные и значения
     // Выводим сформированное содержание
     echo $template->render(array(
-        'user_id' => $this->user_id,
-        'user_name' =>$this->user_name
+        'user_id' => $_SESSION['id'],
+        'user_name' =>$_SESSION['name'],
+        'user_status' => $_SESSION['status'],
+        'articles' => $articles,
+        'date' => $date,
+        'tags'=>$tags,
+        'blog_tags' => $blog_tags,
+        'categories' => $categories,
+        'policy_check' => $policy_check
     ));
     } catch (Exception $e) {
     die ('ERROR: ' . $e->getMessage());
@@ -39,6 +102,191 @@ class Page {
 
     //возвращаем все что оказалось в буффере.
     echo ob_get_clean();
+  }
+
+  public function getArticle()
+  {
+    if(!isset($_GET['id'])){
+      header('Location: /page.php?open=articlesPage');
+    }
+
+    if(isset($_COOKIE['policy_check'])) {
+      $policy_check = 1;
+    }
+    else {
+      setcookie('policy_check', 'checked', time()+3600*24);
+      $policy_check = 0;
+    }
+
+    $article_id = $_GET['id'];
+
+    $article = $this->getWhereIntInfo($this->db, 'blog_posts', 'id', $article_id);
+    $tags = $this->getSimpleInfo($this->db, 'tags');
+    $blog_tags = $this->getSimpleInfo($this->db, 'blog_tags');
+    $categories = $this->getSimpleInfo($this->db, 'category');
+    $photos = $this->getWhereIntInfo($this->db, 'blog_photos', 'id_article', $article_id, true);
+    $data = date_parse($article['created_at']);
+    
+    //открываем буфферизацию
+    ob_start();
+    // Подгружаем и активируем автозагрузчик Twig-а
+    require_once 'Twig/Autoloader.php';
+    Twig_Autoloader::register();
+    try {
+    // папка шаблонов
+    $loader = new Twig_Loader_Filesystem('templates');
+    // Инициализируем Twig
+    $twig = new Twig_Environment($loader);
+    // Подгружаем шаблон
+    $template = $twig->loadTemplate('article_page.tmpl');
+    // Передаем в шаблон переменные и значения
+    // Выводим сформированное содержание
+    echo $template->render(array(
+        'user_id' => $_SESSION['id'],
+        'user_name' =>$_SESSION['name'],
+        'user_status' => $_SESSION['status'],
+        'article' => $article,
+        'date' => $data,
+        'tags'=>$tags,
+        'blog_tags' => $blog_tags,
+        'categories' => $categories,
+        'photos' => $photos,
+        'policy_check' => $policy_check
+    ));
+    } catch (Exception $e) {
+    die ('ERROR: ' . $e->getMessage());
+    }
+
+    //возвращаем все что оказалось в буффере.
+    echo ob_get_clean();
+  }
+
+  public function addArticle()
+  {
+    $query_get_category = "SELECT * FROM `category`;";
+    $get = $this->db->prepare($query_get_category);
+    $get->execute();
+    $categories = $get->fetchAll();
+
+    //открываем буфферизацию
+    ob_start();
+    // Подгружаем и активируем автозагрузчик Twig-а
+    require_once 'Twig/Autoloader.php';
+    Twig_Autoloader::register();
+    try {
+    // папка шаблонов
+    $loader = new Twig_Loader_Filesystem('templates');
+    // Инициализируем Twig
+    $twig = new Twig_Environment($loader);
+    // Подгружаем шаблон
+    $template = $twig->loadTemplate('add_article.tmpl');
+    // Передаем в шаблон переменные и значения
+    // Выводим сформированное содержание
+    echo $template->render(array(
+        'user_id' => $_SESSION['id'],
+        'user_name' =>$_SESSION['name'],
+        'user_status' => $_SESSION['status'],
+        'categories' => $categories,
+        'policy_check' => $policy_check
+    ));
+    } catch (Exception $e) {
+    die ('ERROR: ' . $e->getMessage());
+    }
+
+    //возвращаем все что оказалось в буффере.
+    echo ob_get_clean();
+  }
+
+  public function editArticle()
+  {
+    if(!isset($_GET['id'])){
+      header('Location: /page.php?open=articlesPage');
+    }
+
+    $article_id = $_GET['id'];
+
+    $article = $this->getWhereIntInfo($this->db, 'blog_posts', 'id', $article_id);
+    $tags = $this->getSimpleInfo($this->db, 'tags');
+    $blog_tags = $this->getSimpleInfo($this->db, 'blog_tags');
+    $categories = $this->getSimpleInfo($this->db, 'category');
+    $photos = $this->getWhereIntInfo($this->db, 'blog_photos', 'id_article', $article_id, true);
+    $data = date_parse($article['created_at']);
+
+    //открываем буфферизацию
+    ob_start();
+    // Подгружаем и активируем автозагрузчик Twig-а
+    require_once 'Twig/Autoloader.php';
+    Twig_Autoloader::register();
+    try {
+    // папка шаблонов
+    $loader = new Twig_Loader_Filesystem('templates');
+    // Инициализируем Twig
+    $twig = new Twig_Environment($loader);
+    // Подгружаем шаблон
+    $template = $twig->loadTemplate('edit_article.tmpl');
+    // Передаем в шаблон переменные и значения
+    // Выводим сформированное содержание
+    echo $template->render(array(
+        'user_id' => $_SESSION['id'],
+        'user_name' =>$_SESSION['name'],
+        'user_status' => $_SESSION['status'],
+        'article' => $article,
+        'date' => $data,
+        'tags'=>$tags,
+        'blog_tags' => $blog_tags,
+        'categories' => $categories,
+        'photos' => $photos,
+        'policy_check' => $policy_check
+    ));
+    } catch (Exception $e) {
+    die ('ERROR: ' . $e->getMessage());
+    }
+
+    //возвращаем все что оказалось в буффере.
+    echo ob_get_clean();
+  }
+
+  public function getByTags()
+  {
+    if(!isset($_GET['tag'])){
+      header('Location: /page.php?open=articlesPage');
+    }
+    $id_tag = $_GET['tag'];
+    $articles_id = $this->getWhereIntInfo($this->db, 'blog_tags', 'id_tag', $id_tag, true);
+    $articles = [];
+
+    foreach ($articles_id as $key => $value) {
+      $get_article = $this->getWhereIntInfo($this->db, 'blog_posts', 'id', $value['article_id']);
+      if(!$get_article) {
+        continue;
+      }
+      $articles[] = $get_article;
+    }
+
+    $articles = array_reverse($articles);
+
+    $tags = $this->getSimpleInfo($this->db, 'tags');
+    $blog_tags = $this->getSimpleInfo($this->db, 'blog_tags');
+    $categories = $this->getSimpleInfo($this->db, 'category');
+
+    $date = [];
+    foreach ($articles as $post) {
+        $date_new = date_parse($post['created_at']);
+        array_push($date, $date_new);
+    }
+
+    $dates = [
+      'user_id' => $_SESSION['id'],
+      'user_name' =>$_SESSION['name'],
+      'user_status' => $_SESSION['status'],
+      'articles' => $articles,
+      'date' => $date,
+      'tags'=>$tags,
+      'blog_tags' => $blog_tags,
+      'categories' => $categories
+
+    ];
+    $this->render('articles.tmpl', $dates);
   }
 
   public function postsPage()
@@ -75,6 +323,7 @@ class Page {
         $date_new = date_parse($post['created_at']);
         array_push($dateFind, $date_new);
     }
+
     //открываем буфферизацию
     ob_start();
     // Подгружаем и активируем автозагрузчик Twig-а

@@ -1,7 +1,9 @@
 import { pet_alert } from "../main_obj";
+import {MyEvent} from '../config/models';
+
 
 (function(){
-  function changePostTypeHandler(event: any){
+  function changePostTypeHandler(event: MyEvent): void{
     const param = event.target.dataset.param;
     const target = event.target;
     const lostDesc = document.getElementById('lostPosts');

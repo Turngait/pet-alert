@@ -1,5 +1,5 @@
 import { pet_alert } from "../main_obj";
-
+import {MyNode} from '../config/models';
 
 (function(){
   function sortByCities(){
@@ -30,18 +30,18 @@ import { pet_alert } from "../main_obj";
         
         if (chosenCity === 'Все города') {
           
-            let nodeShow: any = collectionPost[key].parentNode.parentNode;
+            let nodeShow: MyNode = collectionPost[key].parentNode.parentNode;
             nodeShow.style.display = 'block';
             continue;
         } 
         
         if(collectionPost[key].innerHTML !== chosenCity) {
-            let nodeHide: any = collectionPost[key].parentNode.parentNode;
+            let nodeHide: MyNode = collectionPost[key].parentNode.parentNode;
             
             nodeHide.setAttribute('style', 'display:none;');
         }
         else {
-            let nodeShow: any = collectionPost[key].parentNode.parentNode;
+            let nodeShow: MyNode = collectionPost[key].parentNode.parentNode;
             nodeShow.style.display = 'block';
         }
     }

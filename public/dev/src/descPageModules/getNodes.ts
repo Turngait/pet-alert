@@ -1,7 +1,7 @@
 import { pet_alert } from "../main_obj"
 
 (function(){
-  function getNodes(){
+  function getNodes(): object{
     const nodes = {
       signInBtn: document.getElementById('login'),
       signInBtn2: document.getElementById('login1'),
