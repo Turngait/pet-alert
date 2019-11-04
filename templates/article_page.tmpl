@@ -31,7 +31,7 @@
           <div class="post_block" id="lostPosts">  
           
             <div class="post_element">
-              <h4 class="post_header">{{article['id']}}.&nbsp;
+              <h4 class="post_header">
                 {{ article['heading'] }}. &nbsp; 
                 {% for category in categories %}
                   {% if category['id'] == article['id_category']%}
@@ -41,6 +41,11 @@
                 <span class="dataPost">
                 {% if user_id == article['id_user'] %}
                   <a href="/page.php?open=editArticle&id={{article['id']}}"><i class="fas fa-pen" title="Редактировать статью"></i></a>
+                  &nbsp;
+                  <a class="icon_link" href="/user.php?delArticle={{article['id']}}">
+                    <i class="fas fa-times" title="Удалить статью"></i>
+                  </a>
+                  &nbsp;
                 {% endif %}
                  {{date['day']}}.{{date['month']}}.{{date['year']}}
                 </span>

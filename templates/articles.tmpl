@@ -32,21 +32,31 @@
           {% for key, article in articles %} 
             <div class="post_element">
               
-              <h4 class="post_header">{{article['id']}}.&nbsp;
-                {{ article['heading'] }}. &nbsp; 
-                {% for category in categories %}
-                  {% if category['id'] == article['id_category']%}
-                    {{ category['category'] }}
-                  {% endif %}
-                {% endfor %}
+              <h4 class="post_header">
+                <a class="post_element__header_link" href="/page.php?open=getArticle&id={{article['id']}}">
+                  {{ article['heading'] }}. &nbsp; 
+                  {% for category in categories %}
+                    {% if category['id'] == article['id_category']%}
+                      {{ category['category'] }}
+                    {% endif %}
+                  {% endfor %}
+                </a>
 
                 <span class="dataPost">
                 {% if user_id == article['id_user'] %}
-                  <a href="/page.php?open=editArticle&id={{article['id']}}"><i class="fas fa-pen" title="Редактировать статью"></i></a>
+                  <a class="icon_link" href="/page.php?open=editArticle&id={{article['id']}}">
+                    <i class="fas fa-pen" title="Редактировать статью"></i>
+                  </a>
+                  &nbsp;
+                  <a class="icon_link" href="/user.php?delArticle={{article['id']}}">
+                    <i class="fas fa-times" title="Удалить статью"></i>
+                  </a>
+                  &nbsp;
                 {% endif %}
                 {{date[key]['day']}}.{{date[key]['month']}}.{{date[key]['year']}}
                 </span>
               </h4>
+
               <div class="post_wrapper">
                 <a href="{{article['main_photo']}}" target="_blank">
                   <img src="{{article['main_photo']}}" class="post_wrapper__main_photo" alt="Pet photo">
@@ -57,7 +67,7 @@
 
                 <a class="post_element__learn_more" href="/page.php?open=getArticle&id={{article['id']}}">Подробнее...</a>
 
-                <p>
+                <p class="post_element__tags_box">
                   Теги:
                   {% for b_t in blog_tags %}
                     {% if b_t['article_id'] == article['id']%}

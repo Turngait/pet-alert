@@ -152,6 +152,28 @@ class Client extends User {
     }
   }
 
+  public function delArticle($id)
+  {
+    if(!$this->id > 0) {
+      return false;
+    }
+    $id = (int)$id;
+
+    $query = "DELETE FROM `blog_posts` WHERE id = $id;";
+    $query_del_photos = "DELETE FROM `blog_photos` WHERE `id_article` = $id;";
+    $query_del_tags = "DELETE FROM `blog_tags` WHERE `article_id` = $id;";
+
+    if($this->db->exec($query)){
+      if($this->db->exec($query_del_photos)){
+        if($this->db->exec($query_del_tags)) {
+          return true;
+        }
+      }
+    }
+
+    return false;
+  }
+
   public function editPost($data, $type)
   {
     include "config/pdo.php";

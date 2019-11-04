@@ -1,3 +1,8 @@
+@font-face {
+    font-family: 'Merriweather-Regular';
+    src: url("fonts/Merriweather/Merriweather-Regular.ttf");
+}
+
 html{
     height: 100%;
     width: 100%;
@@ -23,16 +28,20 @@ body {
 }
 
 .header_link {
+    font-family: 'Merriweather-Regular';
+    font-size: 16px;
+    font-weight: 600;
     color:#fff;
     text-decoration: none;
     text-shadow: 0 1px 4px #000;
     margin-right: 0;
     margin-left: 10px;
-    font-size: 18px;
+    transition-duration: 0.3s;
 }
 .header_link:hover {
     color:#fff;
-    text-decoration: underline;
+    text-decoration: none;
+    text-shadow: 0 0 5px #fff;;
 }
 
 .header_link:focus {

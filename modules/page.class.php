@@ -15,7 +15,7 @@ class Page {
 
   use t_DB;
 
-  protected function render($filename = 'start.tmpl', $dates = [])
+  protected function render($filename = 'start.tmpl', $data = [])
   {
     //открываем буфферизацию
     ob_start();
@@ -31,7 +31,7 @@ class Page {
     $template = $twig->loadTemplate($filename);
     // Передаем в шаблон переменные и значения
     // Выводим сформированное содержание
-    echo $template->render($dates);
+    echo $template->render($data);
     } catch (Exception $e) {
     die ('ERROR: ' . $e->getMessage());
     }
@@ -71,37 +71,19 @@ class Page {
         array_push($date, $date_new);
     }
 
-    //открываем буфферизацию
-    ob_start();
-    // Подгружаем и активируем автозагрузчик Twig-а
-    require_once 'Twig/Autoloader.php';
-    Twig_Autoloader::register();
-    try {
-    // папка шаблонов
-    $loader = new Twig_Loader_Filesystem('templates');
-    // Инициализируем Twig
-    $twig = new Twig_Environment($loader);
-    // Подгружаем шаблон
-    $template = $twig->loadTemplate('articles.tmpl');
-    // Передаем в шаблон переменные и значения
-    // Выводим сформированное содержание
-    echo $template->render(array(
-        'user_id' => $_SESSION['id'],
-        'user_name' =>$_SESSION['name'],
-        'user_status' => $_SESSION['status'],
-        'articles' => $articles,
-        'date' => $date,
-        'tags'=>$tags,
-        'blog_tags' => $blog_tags,
-        'categories' => $categories,
-        'policy_check' => $policy_check
-    ));
-    } catch (Exception $e) {
-    die ('ERROR: ' . $e->getMessage());
-    }
+    $data_arr = [
+      'user_id' => $_SESSION['id'],
+      'user_name' =>$_SESSION['name'],
+      'user_status' => $_SESSION['status'],
+      'articles' => $articles,
+      'date' => $date,
+      'tags'=>$tags,
+      'blog_tags' => $blog_tags,
+      'categories' => $categories,
+      'policy_check' => $policy_check
+    ];
 
-    //возвращаем все что оказалось в буффере.
-    echo ob_get_clean();
+    $this->render('articles.tmpl', $data_arr);
   }
 
   public function getArticle()
@@ -126,39 +108,21 @@ class Page {
     $categories = $this->getSimpleInfo($this->db, 'category');
     $photos = $this->getWhereIntInfo($this->db, 'blog_photos', 'id_article', $article_id, true);
     $data = date_parse($article['created_at']);
-    
-    //открываем буфферизацию
-    ob_start();
-    // Подгружаем и активируем автозагрузчик Twig-а
-    require_once 'Twig/Autoloader.php';
-    Twig_Autoloader::register();
-    try {
-    // папка шаблонов
-    $loader = new Twig_Loader_Filesystem('templates');
-    // Инициализируем Twig
-    $twig = new Twig_Environment($loader);
-    // Подгружаем шаблон
-    $template = $twig->loadTemplate('article_page.tmpl');
-    // Передаем в шаблон переменные и значения
-    // Выводим сформированное содержание
-    echo $template->render(array(
-        'user_id' => $_SESSION['id'],
-        'user_name' =>$_SESSION['name'],
-        'user_status' => $_SESSION['status'],
-        'article' => $article,
-        'date' => $data,
-        'tags'=>$tags,
-        'blog_tags' => $blog_tags,
-        'categories' => $categories,
-        'photos' => $photos,
-        'policy_check' => $policy_check
-    ));
-    } catch (Exception $e) {
-    die ('ERROR: ' . $e->getMessage());
-    }
 
-    //возвращаем все что оказалось в буффере.
-    echo ob_get_clean();
+    $data_arr = [
+      'user_id' => $_SESSION['id'],
+      'user_name' =>$_SESSION['name'],
+      'user_status' => $_SESSION['status'],
+      'article' => $article,
+      'date' => $data,
+      'tags'=>$tags,
+      'blog_tags' => $blog_tags,
+      'categories' => $categories,
+      'photos' => $photos,
+      'policy_check' => $policy_check
+    ];
+
+    $this->render('article_page.tmpl', $data_arr);
   }
 
   public function addArticle()
@@ -168,33 +132,15 @@ class Page {
     $get->execute();
     $categories = $get->fetchAll();
 
-    //открываем буфферизацию
-    ob_start();
-    // Подгружаем и активируем автозагрузчик Twig-а
-    require_once 'Twig/Autoloader.php';
-    Twig_Autoloader::register();
-    try {
-    // папка шаблонов
-    $loader = new Twig_Loader_Filesystem('templates');
-    // Инициализируем Twig
-    $twig = new Twig_Environment($loader);
-    // Подгружаем шаблон
-    $template = $twig->loadTemplate('add_article.tmpl');
-    // Передаем в шаблон переменные и значения
-    // Выводим сформированное содержание
-    echo $template->render(array(
-        'user_id' => $_SESSION['id'],
-        'user_name' =>$_SESSION['name'],
-        'user_status' => $_SESSION['status'],
-        'categories' => $categories,
-        'policy_check' => $policy_check
-    ));
-    } catch (Exception $e) {
-    die ('ERROR: ' . $e->getMessage());
-    }
+    $data_arr = [
+      'user_id' => $_SESSION['id'],
+      'user_name' =>$_SESSION['name'],
+      'user_status' => $_SESSION['status'],
+      'categories' => $categories,
+      'policy_check' => $policy_check
+    ];
 
-    //возвращаем все что оказалось в буффере.
-    echo ob_get_clean();
+    $this->render('add_article.tmpl', $data_arr);
   }
 
   public function editArticle()
@@ -210,40 +156,22 @@ class Page {
     $blog_tags = $this->getSimpleInfo($this->db, 'blog_tags');
     $categories = $this->getSimpleInfo($this->db, 'category');
     $photos = $this->getWhereIntInfo($this->db, 'blog_photos', 'id_article', $article_id, true);
-    $data = date_parse($article['created_at']);
+    $date = date_parse($article['created_at']);
 
-    //открываем буфферизацию
-    ob_start();
-    // Подгружаем и активируем автозагрузчик Twig-а
-    require_once 'Twig/Autoloader.php';
-    Twig_Autoloader::register();
-    try {
-    // папка шаблонов
-    $loader = new Twig_Loader_Filesystem('templates');
-    // Инициализируем Twig
-    $twig = new Twig_Environment($loader);
-    // Подгружаем шаблон
-    $template = $twig->loadTemplate('edit_article.tmpl');
-    // Передаем в шаблон переменные и значения
-    // Выводим сформированное содержание
-    echo $template->render(array(
-        'user_id' => $_SESSION['id'],
-        'user_name' =>$_SESSION['name'],
-        'user_status' => $_SESSION['status'],
-        'article' => $article,
-        'date' => $data,
-        'tags'=>$tags,
-        'blog_tags' => $blog_tags,
-        'categories' => $categories,
-        'photos' => $photos,
-        'policy_check' => $policy_check
-    ));
-    } catch (Exception $e) {
-    die ('ERROR: ' . $e->getMessage());
-    }
+    $data_arr = [
+      'user_id' => $_SESSION['id'],
+      'user_name' =>$_SESSION['name'],
+      'user_status' => $_SESSION['status'],
+      'article' => $article,
+      'date' => $date,
+      'tags'=>$tags,
+      'blog_tags' => $blog_tags,
+      'categories' => $categories,
+      'photos' => $photos,
+      'policy_check' => $policy_check
+    ];
 
-    //возвращаем все что оказалось в буффере.
-    echo ob_get_clean();
+    $this->render('edit_article.tmpl', $data_arr);
   }
 
   public function getByTags()
@@ -324,36 +252,18 @@ class Page {
         array_push($dateFind, $date_new);
     }
 
-    //открываем буфферизацию
-    ob_start();
-    // Подгружаем и активируем автозагрузчик Twig-а
-    require_once 'Twig/Autoloader.php';
-    Twig_Autoloader::register();
-    try {
-    // папка шаблонов
-    $loader = new Twig_Loader_Filesystem('templates');
-    // Инициализируем Twig
-    $twig = new Twig_Environment($loader);
-    // Подгружаем шаблон
-    $template = $twig->loadTemplate('desc.tmpl');
-    // Передаем в шаблон переменные и значения
-    // Выводим сформированное содержание
-    echo $template->render(array(
-        'user_id' => $_SESSION['id'],
-        'user_name' =>$_SESSION['name'],
-        'user_status' => $_SESSION['status'],
-        'posts' => $arr,
-        'date' => $date,
-        'postsFind' => $arrFind,
-        'dateFind' => $dateFind,
-        'policy_check' => $policy_check
-    ));
-    } catch (Exception $e) {
-    die ('ERROR: ' . $e->getMessage());
-    }
+    $data_arr = [
+      'user_id' => $_SESSION['id'],
+      'user_name' =>$_SESSION['name'],
+      'user_status' => $_SESSION['status'],
+      'posts' => $arr,
+      'date' => $date,
+      'postsFind' => $arrFind,
+      'dateFind' => $dateFind,
+      'policy_check' => $policy_check
+    ];
 
-    //возвращаем все что оказалось в буффере.
-    echo ob_get_clean();
+    $this->render('desc.tmpl', $data_arr);
   }
 
   public function userAccaunt()
@@ -393,209 +303,79 @@ class Page {
         array_push($dateFind, $date_newFind);
     }
 
-    //открываем буфферизацию
-    ob_start();
-    // Подгружаем и активируем автозагрузчик Twig-а
-    require_once 'Twig/Autoloader.php';
-    Twig_Autoloader::register();
-    try {
-    // папка шаблонов
-    $loader = new Twig_Loader_Filesystem('templates');
-    // Инициализируем Twig
-    $twig = new Twig_Environment($loader);
-    // Подгружаем шаблон
-    $template = $twig->loadTemplate('user_acc.tmpl');
-    // Передаем в шаблон переменные и значения
-    // Выводим сформированное содержание
-    echo $template->render(array(
-        'user_id' => $this->user_id,
-        'user_name' =>$this->user_name,
-        'posts' => $arr,
-        'date' => $date,
-        'dateFind' => $dateFind,
-        'postsFind' => $arrFind,
-        'user_data' => $arr_user_data
-    ));
-    } catch (Exception $e) {
-    die ('ERROR: ' . $e->getMessage());
-    }
+    $data_arr = [
+      'user_id' => $this->user_id,
+      'user_name' =>$this->user_name,
+      'posts' => $arr,
+      'date' => $date,
+      'dateFind' => $dateFind,
+      'postsFind' => $arrFind,
+      'user_data' => $arr_user_data
+    ];
 
-    //возвращаем все что оказалось в буффере.
-    echo ob_get_clean();
+    $this->render('user_acc.tmpl', $data_arr);
   }
 
   public function loginPage($info)
   {
-    //открываем буфферизацию
-    ob_start();
-    // Подгружаем и активируем автозагрузчик Twig-а
-    require_once 'Twig/Autoloader.php';
-    Twig_Autoloader::register();
-    try {
-    // папка шаблонов
-    $loader = new Twig_Loader_Filesystem('templates');
-    // Инициализируем Twig
-    $twig = new Twig_Environment($loader);
-    // Подгружаем шаблон
-    $template = $twig->loadTemplate('login.tmpl');
-    // Передаем в шаблон переменные и значения
-    // Выводим сформированное содержание
-    echo $template->render(array(
-        'user_id' => $this->user_id,
-        'user_name' =>$this->user_name,
-        'info' => $info
-    ));
-    } catch (Exception $e) {
-    die ('ERROR: ' . $e->getMessage());
-    }
+    $data_arr= [
+      'user_id' => $this->user_id,
+      'user_name' =>$this->user_name,
+      'info' => $info
+    ];
 
-    //возвращаем все что оказалось в буффере.
-    echo ob_get_clean();
+    $this->render('login.tmpl', $data_arr);
   }
 
   public function showInfo($info, $link)
   {
-    //открываем буфферизацию
-    ob_start();
-    // Подгружаем и активируем автозагрузчик Twig-а
-    require_once 'Twig/Autoloader.php';
-    Twig_Autoloader::register();
-    try {
-    // папка шаблонов
-    $loader = new Twig_Loader_Filesystem('templates');
-    // Инициализируем Twig
-    $twig = new Twig_Environment($loader);
-    // Подгружаем шаблон
-    $template = $twig->loadTemplate('get_info.tmpl');
-    // Передаем в шаблон переменные и значения
-    // Выводим сформированное содержание
-    echo $template->render(array(
-        'user_id' => $this->user_id,
-        'user_name' =>$this->user_name,
-        'info' => $info,
-        'link' => $link
+    $data_arr = [
+      'user_id' => $this->user_id,
+      'user_name' =>$this->user_name,
+      'info' => $info,
+      'link' => $link
+    ];
 
-    ));
-    } catch (Exception $e) {
-    die ('ERROR: ' . $e->getMessage());
-    }
-
-    //возвращаем все что оказалось в буффере.
-    echo ob_get_clean();
+    $this->render('get_info.tmpl', $data_arr);
   }
 
   public function aboutPage()
   {
-    //открываем буфферизацию
-    ob_start();
-    // Подгружаем и активируем автозагрузчик Twig-а
-    require_once 'Twig/Autoloader.php';
-    Twig_Autoloader::register();
-    try {
-    // папка шаблонов
-    $loader = new Twig_Loader_Filesystem('templates');
-    // Инициализируем Twig
-    $twig = new Twig_Environment($loader);
-    // Подгружаем шаблон
-    $template = $twig->loadTemplate('about.tmpl');
-    // Передаем в шаблон переменные и значения
-    // Выводим сформированное содержание
-    echo $template->render(array(
-        'user_id' => $this->user_id,
-        'user_name' =>$this->user_name
+    $data_arr = [
+      'user_id' => $this->user_id,
+      'user_name' =>$this->user_name
+    ];
 
-    ));
-    } catch (Exception $e) {
-    die ('ERROR: ' . $e->getMessage());
-    }
-
-    //возвращаем все что оказалось в буффере.
-    echo ob_get_clean();
+    $this->render('about.tmpl', $data_arr);
   }
 
   public function privacyPage()
   {
-    //открываем буфферизацию
-    ob_start();
-    // Подгружаем и активируем автозагрузчик Twig-а
-    require_once 'Twig/Autoloader.php';
-    Twig_Autoloader::register();
-    try {
-    // папка шаблонов
-    $loader = new Twig_Loader_Filesystem('templates');
-    // Инициализируем Twig
-    $twig = new Twig_Environment($loader);
-    // Подгружаем шаблон
-    $template = $twig->loadTemplate('policy.tmpl');
-    // Передаем в шаблон переменные и значения
-    // Выводим сформированное содержание
-    echo $template->render(array(
-        'user_id' => $this->user_id,
-        'user_name' =>$this->user_name
+    $data_arr = [
+      'user_id' => $this->user_id,
+      'user_name' =>$this->user_name
+    ];
 
-    ));
-    } catch (Exception $e) {
-    die ('ERROR: ' . $e->getMessage());
-    }
-
-    //возвращаем все что оказалось в буффере.
-    echo ob_get_clean();
+    $this->render('policy.tmpl', $data_arr);
   }
 
   public function retrivePass($info = '')
   {
-    //открываем буфферизацию
-    ob_start();
-    // Подгружаем и активируем автозагрузчик Twig-а
-    require_once 'Twig/Autoloader.php';
-    Twig_Autoloader::register();
-    try {
-    // папка шаблонов
-    $loader = new Twig_Loader_Filesystem('templates');
-    // Инициализируем Twig
-    $twig = new Twig_Environment($loader);
-    // Подгружаем шаблон
-    $template = $twig->loadTemplate('retrivePass.tmpl');
-    // Передаем в шаблон переменные и значения
-    // Выводим сформированное содержание
-    echo $template->render(array(
+    $data_arr = [
       'info' => $info
-    ));
-    } catch (Exception $e) {
-    die ('ERROR: ' . $e->getMessage());
-    }
+    ];
 
-    //возвращаем все что оказалось в буффере.
-    echo ob_get_clean();
+    $this->render('retrivePass.tmpl', $data_arr);
   }
 
   public function setNewPass() 
   {
     $token = $_GET['token'];
     $email = $_GET['email'];
-    //открываем буфферизацию
-    ob_start();
-    // Подгружаем и активируем автозагрузчик Twig-а
-    require_once 'Twig/Autoloader.php';
-    Twig_Autoloader::register();
-    try {
-    // папка шаблонов
-    $loader = new Twig_Loader_Filesystem('templates');
-    // Инициализируем Twig
-    $twig = new Twig_Environment($loader);
-    // Подгружаем шаблон
-    $template = $twig->loadTemplate('setNewPass.tmpl');
-    // Передаем в шаблон переменные и значения
-    // Выводим сформированное содержание
-    echo $template->render(array(
-        'token' => $token
-    ));
-    } catch (Exception $e) {
-    die ('ERROR: ' . $e->getMessage());
-    }
 
-    //возвращаем все что оказалось в буффере.
-    echo ob_get_clean();
-
+    $data_arr = [
+      'token' => $token
+    ];
+    $this->render('setNewPass.tmpl', $data_arr);
   }
 }

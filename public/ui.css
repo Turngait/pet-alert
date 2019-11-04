@@ -7,6 +7,22 @@
   outline: none;
 }
 
+#sortPost {
+  font-family: 'Merriweather-Regular';
+  display: block;
+  float: right;
+  width: 300px;
+  border: 1px solid #11442a;
+  border-radius: 5px;
+  padding: 3px 5px;
+  margin-top:5px;
+  color: #181818;
+}
+
+#sortPost:focus {
+  outline: none;
+}
+
 .sweetcher {
   display: flex;
   margin: 20px auto;

@@ -10,6 +10,7 @@ include "config/pdo.php";
 
 $page = new Page($_SESSION['id'], $_SESSION['name']);
 
+//LOGIN AND REG
 if(isset($_GET['reg'])) {
   $user = new Guest($db);
 
@@ -45,7 +46,7 @@ if(isset($_GET['exit'])) {
   $user->exitUser();
 }
 
-
+//POSTS
 if(isset($_GET['addPost'])) {
   $client = new Client($_SESSION['id'], $_SESSION['name'], $db);
   $answer = $client->addPost($_POST, $_POST['type']);
@@ -75,7 +76,18 @@ if(isset($_GET['editPost'])) {
   }
 }
 
+if(isset($_GET['deletePost'])) {
+  $client = new Client($_SESSION['id'], $_SESSION['name'], $db);
+  if($client->deletePost($_POST, $_POST['type'])) {
+    header('Location: /page.php?open=userAccaunt');
+  }
+  else {
+    $page->showInfo("Ошибка удалении записи! Обратитесь к администратору!", 'page.php?open=userAccaunt');
+  }
+}
 
+
+//ARTICLES
 if(isset($_GET['addArticle'])) {
   $client = new Client($_SESSION['id'], $_SESSION['name'], $db);
   $files = reArrayFiles($_FILES['img']);
@@ -108,18 +120,20 @@ if (isset($_GET['editArticle'])){
   }
 }
 
-
-if(isset($_GET['deletePost'])) {
+if (isset($_GET['delArticle'])) {
   $client = new Client($_SESSION['id'], $_SESSION['name'], $db);
-  if($client->deletePost($_POST, $_POST['type'])) {
-    header('Location: /page.php?open=userAccaunt');
+  $answer = $client->delArticle($_GET['delArticle']);
+
+  if($answer) {
+    header('Location: /page.php?open=articlesPage');
   }
   else {
-    $page->showInfo("Ошибка удалении записи! Обратитесь к администратору!", 'page.php?open=userAccaunt');
+    $page->showInfo("Ошибка удаления записи! Обратитесь к администратору!", 'page.php?open=postsPage');
   }
 }
 
 
+//USER DATA
 if (isset($_GET['chandeUserData'])) {
   $client = new Client($_SESSION['id'], $_SESSION['name'], $db);
   if($client->changeUserData($_POST)) {
@@ -129,7 +143,6 @@ if (isset($_GET['chandeUserData'])) {
     $page->showInfo("Ошибка редактирования! Обратитесь к администратору!", 'page.php?open=userAccaunt');
   }
 }
-
 
 if(isset($_GET['chandeUserPass'])) {
   $client = new Client($_SESSION['id'], $_SESSION['name'], $db);
