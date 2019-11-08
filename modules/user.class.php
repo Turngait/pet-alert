@@ -126,10 +126,10 @@ class User {
 
     public function checkLogin($login) {
         include "../config/pdo.php";
-        $queryCheckLogin = "SELECT * FROM `users` WHERE `login` = '$login';";
+        $queryCheckLogin = "SELECT * FROM `users` WHERE `login` = :lgin;";
 
         $check = $db -> prepare($queryCheckLogin);
-        $check->execute();
+        $check->execute([':lgin' => $login]);
         $user = $check->fetch();
         if(isset($user[id])) {
             return true;
@@ -141,10 +141,10 @@ class User {
 
     public function checkEmail($email) {
         include "../config/pdo.php";
-        $queryCheckEmail = "SELECT * FROM `users` WHERE `email` = '$email';";
+        $queryCheckEmail = "SELECT * FROM `users` WHERE `email` = :eml;";
 
         $check = $db -> prepare($queryCheckEmail);
-        $check->execute();
+        $check->execute([':eml' => $email]);
         $user = $check->fetch();
         if(isset($user[id])) {
             return true;

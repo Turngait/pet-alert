@@ -5,6 +5,8 @@ function newDump($arr)
   echo '<pre style="border:1px solid #333; padding: 10px; background: #333; color:#fff;">';
   var_dump($arr);
   echo '</pre>';
+
+  die('NewDump function working!');
 }
 
 function reArrayFiles(&$file_post) {

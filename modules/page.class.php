@@ -149,7 +149,7 @@ class Page {
       header('Location: /page.php?open=articlesPage');
     }
 
-    $article_id = $_GET['id'];
+    $article_id = (int)$_GET['id'];
 
     $article = $this->getWhereIntInfo($this->db, 'blog_posts', 'id', $article_id);
     $tags = $this->getSimpleInfo($this->db, 'tags');

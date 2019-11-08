@@ -14,10 +14,9 @@ class Client extends User {
   {
     include "config/pdo.php";
 
-    $newFilename = $_SERVER['DOCUMENT_ROOT']. '/public/photo/';
     $uploadInfo = $_FILES['pet_photo'];
-    $newFilename.= $_FILES['pet_photo']['name'];
-    $src='public/photo/'.$_FILES['pet_photo']['name'];
+    $hash_name = md5(date('m/d/Y h:i:s a', time()));
+    $src='public/photo/'.$hash_name.$_FILES['pet_photo']['name'];
     
     if ($uploadInfo['type'] != 'image/png' && $uploadInfo['type'] != 'image/jpeg') {
       return 3;
@@ -56,7 +55,8 @@ class Client extends User {
 
   public function addArticle($data, $main_photo, $files)
   {
-    $src='public/articles_photo/'.$main_photo['name'];
+    $hash_name = md5(date('m/d/Y h:i:s a', time()));
+    $src='public/articles_photo/'.$hash_name.$main_photo['name'];
     
     if(count($files) > 4) {
       return 'wrong ammount of files';
@@ -80,7 +80,9 @@ class Client extends User {
       if(!$file['name']) {
         break;
       }
-      $src = 'public/articles_photo/'.$file['name'];
+      $hash_name_additional = md5(date('m/d/Y h:i:s a', time()).$file['name']);
+
+      $src = 'public/articles_photo/'.$hash_name_additional.$file['name'];
 
       if ($file['type'] != 'image/png' && $file['type'] != 'image/jpeg') {
         return 'wrong file type';
@@ -140,7 +142,12 @@ class Client extends User {
   public function editArticle($data, $id)
   {
     $id = (int)$id;
-    newDump($data);
+
+    $check_auth = $this->getWhereIntInfo($this->db, 'blog_posts', 'id', $id);
+
+    if($this->id !== $check_auth['id_user']) {
+      die('Очень зря.');
+    }
 
     $query = "UPDATE `blog_posts` SET `heading` = :heading, `text` = :txt WHERE `id` = $id;";
     $edit_post = $this->db->prepare($query);
@@ -154,10 +161,13 @@ class Client extends User {
 
   public function delArticle($id)
   {
-    if(!$this->id > 0) {
-      return false;
-    }
     $id = (int)$id;
+
+    $check_auth = $this->getWhereIntInfo($this->db, 'blog_posts', 'id', $id);
+
+    if($this->id !== $check_auth['id_user']) {
+      die('Очень зря.');
+    }
 
     $query = "DELETE FROM `blog_posts` WHERE id = $id;";
     $query_del_photos = "DELETE FROM `blog_photos` WHERE `id_article` = $id;";
