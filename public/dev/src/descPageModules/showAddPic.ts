@@ -1,6 +1,5 @@
 import { pet_alert } from "../main_obj";
 
-(function(){
   function showAddPic(node: string, output: string){
     document.getElementById(node).addEventListener('change', function (event: any) {
         var reader = new FileReader();
@@ -20,4 +19,3 @@ import { pet_alert } from "../main_obj";
   }
 
   pet_alert.desc_page.handlers.showAddPic = showAddPic;
-})()

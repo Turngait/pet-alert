@@ -1,8 +1,6 @@
 import { pet_alert } from "../main_obj";
 import {MyEvent} from '../config/models';
 
-
-(function(){
   function changePostTypeHandler(event: MyEvent): void{
     const param = event.target.dataset.param;
     const target = event.target;
@@ -27,4 +25,3 @@ import {MyEvent} from '../config/models';
   }
 
   pet_alert.desc_page.handlers.changePostTypeHandler = changePostTypeHandler;
-})()

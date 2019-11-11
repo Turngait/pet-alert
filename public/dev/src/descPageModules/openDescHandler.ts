@@ -1,7 +1,5 @@
 import { pet_alert } from "../main_obj";
-import {MyEvent} from '../config/models';
 
-(function(){
   function openAddDescHandler(){
     var addPost = document.getElementById('add_post_desc');
     addPost.classList.remove('hidden');
@@ -70,4 +68,3 @@ import {MyEvent} from '../config/models';
 }
 
   pet_alert.desc_page.handlers.openAddDescHandler = openAddDescHandler;
-})()

@@ -1,7 +1,6 @@
 import { pet_alert } from "../main_obj";
 import {MyNode} from '../config/models';
 
-(function(){
   function sortByCities(){
     let collectionPost = document.getElementsByClassName('post_city');
     let citysPost = new Set;
@@ -49,4 +48,3 @@ import {MyNode} from '../config/models';
   }
 
   pet_alert.desc_page.handlers.sortByCities = sortByCities;
-})()

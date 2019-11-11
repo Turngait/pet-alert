@@ -1,7 +1,6 @@
 import { pet_alert } from "../main_obj";
 import {MyEvent, MyNode} from '../config/models';
 
-(function(){
   function signUpOpen(event: MyEvent, node: MyNode){
 
     node.classList.remove('hidden');
@@ -14,10 +13,10 @@ import {MyEvent, MyNode} from '../config/models';
         <h4>Регистрация</h4>\
         <p>\
             <span id="showInfoReg"></span>\
-            <input type="text" name="user_name" class="inp" placeholder="Введите Ваше имя">\
-            <input id="email_user" class="inp" type="text" name="user_mail" placeholder="Введите ваш e-mail">\
-            <input id="login_user" type="text" class="inp" name="user_login" placeholder="Введите логин">\
-            <input id="password_user" type="text" class="inp" name="user_pass" placeholder="Введите пароль">\
+            <input type="text" name="user_name" class="inp inp_auth" placeholder="Введите Ваше имя">\
+            <input id="email_user" class="inp inp_auth" type="text" name="user_mail" placeholder="Введите ваш e-mail">\
+            <input id="login_user" type="text" class="inp inp_auth" name="user_login" placeholder="Введите логин">\
+            <input id="password_user" type="text" class="inp inp_auth" name="user_pass" placeholder="Введите пароль">\
             Нажимая кнопку "Регистрация" Вы соглашаетесь с <a href="page.php?open=aboutPage" target="_blank">"Правилами сайта"</a> \
             и <a href="page.php?open=privacyPage" target="_blank">"Политикой обработки персональных данных"</a>.<br>\
             <button id="button_submit" type="submit" class="butn popup_butn">Регистрация</button>\
@@ -130,4 +129,3 @@ import {MyEvent, MyNode} from '../config/models';
   }
 
   pet_alert.desc_page.handlers.openSignUp = signUpOpen;
-})()

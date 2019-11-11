@@ -1,6 +1,5 @@
 import { pet_alert } from "../main_obj"
 
-(function(){
   function getNodes(): object{
     const nodes = {
       signInBtn: document.getElementById('login'),
@@ -16,5 +15,3 @@ import { pet_alert } from "../main_obj"
   }
 
   pet_alert.nodes = getNodes();
-
-})()
