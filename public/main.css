@@ -198,9 +198,9 @@ li a:hover {
 }
 
 .post_text {
-    margin-top:-20px;
+    margin-top:-22px;
     font-size:16px;
-    line-height: 20px;
+    line-height: 24px;
     position: relative;
 }
 .contact_me {
@@ -255,6 +255,9 @@ li a:hover {
     position: fixed;
     width: 100%;
     background: #11442a;
+    background-image: url('pic/animal_pattern.png');
+    background-size: 20%;
+    background-repeat: repeat;
     z-index: 100;
     color:#eee;
     padding: 10px;
@@ -276,7 +279,6 @@ li a:hover {
     width: 100%;
     margin:0;
     color:#fff;
-
     display: flex;
     justify-content: space-between;
 }
@@ -346,17 +348,44 @@ li a:hover {
     position:absolute;
     width: 400px;
     background: #11442a;
+    background-image: url('pic/animal_pattern.png');
+    background-size: 40%;
+    background-repeat: repeat;
     right: 0;
     top: 70px;
     text-align: center;
     padding: 30px;
-    color: #fff;
+    color: #333;
     z-index: 10;
     box-sizing: border-box;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+.auth_form {
+    color: #fff;
+    text-shadow: 0 2px 4px #333;
 }
 .auth a,
 .auth a:hover {
     color:#fff;
+}
+
+.auth h4 {
+    margin-bottom: 30px;
+    font-size: 22px;
+    text-shadow: 0 1px 3px #000;
+}
+
+#close2, #close {
+    float: right;
+    font-size: 22px;
+    cursor: pointer;
+    transition: all .4s ease-out;
+    color: #fff;
+}
+
+#close2:hover, #close:hover {
+    transform: scale(1.2, 1.2);
 }
 
 .main_form {
@@ -373,21 +402,7 @@ li a:hover {
 
 
 
-.auth h4 {
-    margin-bottom: 30px;
-    font-size: 22px;
-}
 
-#close2, #close {
-    float: right;
-    font-size: 18px;
-    cursor: pointer;
-    transition: all .4s ease-out;
-}
-
-#close2:hover, #close:hover {
-    transform: scale(1.2, 1.2);
-}
 
 .typeDesc {
     margin-top: 20px;
@@ -751,14 +766,15 @@ li a:hover {
         width: 100%;
         margin: 10px 0;
     }
+    .footer_box {
+        flex-direction: column;
+    }
+    .links {
+        justify-content: center;
+        margin-top: 10px;
+    }
 }
 @media all and (min-width: 0) and (max-width: 800px) {
-    nav {
-        display: flex;
-        justify-content: center;
-        flex-flow: column;
-
-    }
     .login,
     .menu {
         float: none;
@@ -767,16 +783,16 @@ li a:hover {
     .login {
         text-align: center;
     }
-
-    .greetings {
-        clear: both;
-    }
-    .user_data_box {
-        grid-template-columns: 1fr;
+    .header_box {
+        flex-direction: column;
+        height: auto;
+        padding: 5px;
     }
 }
+
 @media all and (min-width: 0) and (max-width: 730px)  {
-    .petPhoto {
+    .petPhoto,
+    .post_wrapper__main_photo {
         display: block;
         float: none;
         margin:auto;
@@ -803,19 +819,20 @@ li a:hover {
         margin-bottom: 20px;
     }
 }
+@media all and (min-width: 0) and (max-width: 700px) {
+    .dataPost {
+        float: none;
+    }
+}
 @media all and (max-width: 610px) {
     .footer_box {
         flex-direction: column;
-        padding: 5px;
     }
     .links,
     .copy,
     .socio_links {
         text-align: center;
         margin-top:10px;
-    }
-    .copy {
-        flex: 0 0 100%;
     }
     .menu_link {
         margin-right: 0;
@@ -833,8 +850,13 @@ li a:hover {
     }
 }
 @media all and (min-width: 0) and (max-width: 550px) {
+    .post_header {
+        text-align: center;
+    }
     .dataPost {
         float:none;
+        display: block;
+        margin-top: 10px;
     }
 }
 @media all and (min-width: 0) and (max-width: 500px) {
@@ -849,8 +871,6 @@ li a:hover {
         float: none;
         display: block;
         margin: auto;
-        width: 0%;
-        font-size: 10px;
         flex: 0 0 20%;
     }
     .links {
@@ -874,11 +894,6 @@ li a:hover {
 }
 
 @media all and (min-width: 0) and (max-width: 480px) {
-    .header_box {
-        flex-direction: column;
-        height: auto;
-        padding: 5px;
-    }
     .menu {
         text-align: center;
     }
@@ -904,6 +919,9 @@ li a:hover {
     .socio_links img {
         margin-right: 0;
     }
+    .footer_box {
+        padding: 15px;
+    }
 
 }
 @media all and (min-width: 0) and (max-width: 370px) {
@@ -915,5 +933,8 @@ li a:hover {
     }
     #sortPost {
         width: 99%;
+    }
+    .links {
+        flex-wrap: wrap;
     }
 }

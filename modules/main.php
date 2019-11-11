@@ -1,7 +1,7 @@
 <?php
 /*
     Модуль рендеринга
-    DEPRICATED MODULE
+    DEPRICATED MODEL
 */
 session_start();
 

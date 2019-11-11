@@ -100,7 +100,7 @@ class Page {
       $policy_check = 0;
     }
 
-    $article_id = $_GET['id'];
+    $article_id = (int)$_GET['id'];
 
     $article = $this->getWhereIntInfo($this->db, 'blog_posts', 'id', $article_id);
     $tags = $this->getSimpleInfo($this->db, 'tags');
@@ -108,6 +108,13 @@ class Page {
     $categories = $this->getSimpleInfo($this->db, 'category');
     $photos = $this->getWhereIntInfo($this->db, 'blog_photos', 'id_article', $article_id, true);
     $data = date_parse($article['created_at']);
+
+    //Increase view count
+    $article_views = $article['views'] + 1;
+    $add_views = $this->db->prepare("UPDATE `blog_posts` SET `views`=$article_views WHERE `id` = $article_id;");
+    if ($add_views->execute()) {
+      $article['views'] = $article_views;
+    }
 
     $data_arr = [
       'user_id' => $_SESSION['id'],
