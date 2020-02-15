@@ -1,6 +1,6 @@
 {
   "name": "pet-alert",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "description": "Pet Alert Project.",
   "main": "index.js",
   "scripts": {
